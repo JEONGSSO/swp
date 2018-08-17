@@ -2,9 +2,10 @@ package com.js.swp;
 
 import javax.inject.Inject;
 
-import org.apache.log4j.Logger;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -12,44 +13,55 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.js.swp.domain.Board;
 import com.js.swp.persistence.BoardDAO;
 
-	@RunWith(SpringJUnit4ClassRunner.class)
-	@ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
-	
-	public class BoardDAOTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/root-context.xml" })
+public class BoardDAOTest {
 
 	@Inject
 	private BoardDAO dao;
-	
+
+	private static Integer maxbno = 0;
+	private static boolean didupdate = false;
+
 	private static final Logger logger = (Logger) LoggerFactory.getLogger(BoardDAOTest.class);
 	
+	@Before		//Test Ï†ÑÏóê Ïã§Ìñâ
+	public void getMax() throws Exception {
+			if(maxbno == 0) {
+				maxbno = dao.getMaxbno();
+				logger.info("Before maxbno={}", maxbno);
+			}
+	}
 	@Test
 	public void testCreate() throws Exception {
 		Board board = new Board();
-		board.setTitle("ªı∑ŒøÓ ±€¿ª ≥÷Ω¿¥œ¥Ÿ.");
-		board.setContent("ªı∑ŒøÓ ±€¿ª ≥÷Ω¿¥œ¥Ÿ.");
+		board.setTitle("Ï†úÎ™©");
+		board.setContent("ÏÉùÏÑ±");
 		board.setWriter("user00.");
 		dao.create(board);
 	}
-	
+
 	@Test
 	public void testRead() throws Exception {
-		Board first = (dao.read(1));
-		logger.info(first!=null ? first.toString() : "Board is empty");
+		Board first = (dao.read(maxbno));
+		logger.info(first != null ? first.toString() : "Board is empty");
 	}
-	
+
 	@Test
 	public void testUpdate() throws Exception {
 		Board board = new Board();
-		board.setBno(1);
-		board.setTitle("ºˆ¡§.");
-		board.setContent("ºˆ¡§ ≈◊Ωº∆Æ.");
+		board.setBno(maxbno);
+		board.setTitle("Ï†úÎ™© ÏóÖÎç∞Ïù¥Ìä∏");
+		board.setContent("ÏóÖÎç∞Ïù¥Ìä∏");
 		dao.update(board);
+		didupdate = true;
 	}
-	
+
 	@Test
-	public void testDelete() throws Exception{
-		
-		dao.delete(1);
+	public void testDelete() throws Exception {
+		if(didupdate = true) {
+			dao.delete(maxbno);
+			didupdate = false;
+		}
 	}
-	
 }

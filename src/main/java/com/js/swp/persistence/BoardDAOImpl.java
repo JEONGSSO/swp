@@ -40,4 +40,9 @@ package com.js.swp.persistence;
 		{
 			return session.selectList(namespace+".listAll");
 		}
+
+		@Override
+		public Integer getMaxbno() {
+			return session.selectOne(namespace + ".getMaxbno");
+		}
 }
