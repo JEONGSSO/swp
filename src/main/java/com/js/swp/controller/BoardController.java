@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.js.swp.domain.Board;
@@ -32,16 +33,42 @@ public class BoardController {
 	public String registerPOST(Board board, RedirectAttributes rttr) throws Exception {
 		logger.info("register post");
 		logger.info(board.toString());
-		
 		service.regist(board);
 //		model.addAttribute("result", "success");
+		
 //		return "/board/success";
 		rttr.addFlashAttribute("msg", "success");
 		return "redirect:/board/listAll";
 	}
+	
 		@RequestMapping(value = "/listAll", method = RequestMethod.GET)
 		public void listAll(Model model) throws Exception {
 			logger.info("list get");
 			model.addAttribute("list", service.listAll());
 		}
+		
+		@RequestMapping(value = "/read", method = RequestMethod.GET)
+		public void read(@RequestParam("bno")int bno, Model model) throws Exception {
+			model.addAttribute(service.read(bno));
+		}
+		
+		@RequestMapping(value = "/update", method = RequestMethod.GET)
+		public void updateGet(@RequestParam("bno")int bno, Model model) throws Exception {
+			logger.info("UpdateGet");
+			model.addAttribute(service.read(bno));
+	}
+		@RequestMapping(value = "/update", method = RequestMethod.POST)
+		public String updatePOST(Board board, Model model, RedirectAttributes rttr) throws Exception {
+			service.modify(board);		//DB에 수정하는 구문
+			rttr.addFlashAttribute("msg", "ok");	//msg에 ok를 심음	
+			return "redirect:/board/read?bno="+ board.getBno();	//지금 수정한 bno로 이동한다. 메시지 var "msg" 는 read.jsp에다가 써야한다
+		}
+		
+		@RequestMapping(value = "/remove", method = RequestMethod.GET)
+		public String remove(Board board, RedirectAttributes rttr) throws Exception {
+			service.remove(bno);		//DB에 수정하는 구문
+			rttr.addFlashAttribute("msg", "remove-ok");	//msg에 ok를 심음	
+			return "redirect:/board/listAll";	//지금 수정한 bno로 이동한다. 메시지 var "msg" 는 read.jsp에다가 써야한다
+		}
 }
+
