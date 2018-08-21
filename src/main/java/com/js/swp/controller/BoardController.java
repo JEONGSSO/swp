@@ -65,7 +65,7 @@ public class BoardController {
 		}
 		
 		@RequestMapping(value = "/remove", method = RequestMethod.GET)
-		public String remove(Board board, RedirectAttributes rttr) throws Exception {
+		public String remove(@RequestParam("bno")int bno, RedirectAttributes rttr) throws Exception {
 			service.remove(bno);		//DB에 수정하는 구문
 			rttr.addFlashAttribute("msg", "remove-ok");	//msg에 ok를 심음	
 			return "redirect:/board/listAll";	//지금 수정한 bno로 이동한다. 메시지 var "msg" 는 read.jsp에다가 써야한다
