@@ -26,7 +26,7 @@ public class BoardServiceTest extends BoardServiceImpl {
 			
 	@Test
 	public void testRead() throws Exception {
-		fail("no implemented");
+//		fail("no implemented");
 		Board board = service.read(2);
 		logger.debug(board.toString());
 		assertEquals("제목", board.getTitle());
