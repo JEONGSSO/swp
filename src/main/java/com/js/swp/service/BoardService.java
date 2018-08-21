@@ -5,13 +5,13 @@ import com.js.swp.domain.Board;
 
 public interface BoardService {
 	
-	public void regist(Board board) throws Exception;	// 레지스트 메소드 필욧
+	void regist(Board board) throws Exception;	// 레지스트 메소드 필욧
 	
-	public Board read(Integer bno) throws Exception;	// 읽기 정수형 BNO
+	Board read(Integer bno) throws Exception;	// 읽기 정수형 BNO
 	
-	public void modify(Board board) throws Exception;	//수정 보드가 딸려(?)나감
+	void modify(Board board) throws Exception;	//수정 보드가 딸려(?)나감
 	
-	public void remove(Integer bno) throws Exception;	//지우기 정수형 bno
+	void remove(Integer bno) throws Exception;	//지우기 정수형 bno
 	
-	public List<Board> listAll() throws Exception;	//listAll메소드 List는 <Board>를 담고있다.
+	List<Board> listAll() throws Exception;	//listAll메소드 List는 <Board>를 담고있다.
 }
