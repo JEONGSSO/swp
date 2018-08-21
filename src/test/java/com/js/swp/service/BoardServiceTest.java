@@ -28,6 +28,6 @@ public class BoardServiceTest extends BoardServiceImpl {
 	public void testRead() throws Exception {
 		Board board = service.read(2);
 		logger.debug(board.toString());
-		assertEquals("d", board.getTitle());
+		assertEquals("새로운 글을 넣습니다.", board.getTitle());
 	}
 }
