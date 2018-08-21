@@ -6,11 +6,11 @@ import com.js.swp.domain.Board;
 
 public interface BoardDAO {
 	
-public void create(Board board) throws Exception;
-public Board read(Integer bno) throws Exception;
-public void update(Board board) throws Exception;
-public void delete(Integer bno) throws Exception;
-public List<Board> listAll() throws Exception;
-public Integer getMaxbno();
+void create(Board board) throws Exception;
+Board read(Integer bno) throws Exception;
+void update(Board board) throws Exception;
+void delete(Integer bno) throws Exception;
+List<Board> listAll() throws Exception;
+Integer getMaxbno();
 
 }
