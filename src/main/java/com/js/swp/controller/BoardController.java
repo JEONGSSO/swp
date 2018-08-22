@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.js.swp.domain.Board;
+import com.js.swp.domain.Criteria;
 import com.js.swp.service.BoardService;
 
 @Controller
@@ -69,6 +70,12 @@ public class BoardController {
 			service.remove(bno);		//@RequestParam을 사용해 bno를 받아온다
 			rttr.addFlashAttribute("msg", "remove-ok");	//msg에 remove-ok를 심음	
 			return "redirect:/board/listAll";	//삭제 후 보드 리스트로 이동
+		}
+		
+		@RequestMapping(value = "/listCri", method = RequestMethod.GET)
+		public void listAll(Criteria criteria, Model model) throws Exception {
+			logger.info("list Cri");
+			model.addAttribute("list", service.listCriteria(criteria));
 		}
 }
 

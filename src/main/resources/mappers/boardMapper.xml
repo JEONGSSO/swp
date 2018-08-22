@@ -27,6 +27,10 @@
 	<delete id="delete">
 		delete from tb1_board where bno = #{bno}
 	</delete>
+	
+		<select id="getMaxbno" resultType = "Integer">
+		select max(bno) from tb1_board
+	</select>
 
 	<select id="listAll" resultType="com.js.swp.domain.Board">
 		<![CDATA[
@@ -37,9 +41,27 @@
 		order by bno desc, regdate desc
 		]]>
 	</select>
-	<select id="getMaxbno" resultType = "Integer">
-		select max(bno) from tb1_board
+
+	<select id="listPage" resultType="com.js.swp.domain.Board">
+		<![CDATA[
+		select
+		bno, title, content, writer, regdate, viewcnt
+		from tb1_board
+		where bno > 0
+		order by bno desc, regdate desc
+		limit #{page}, 10
+		]]>
 	</select>
-
-
+	
+		<select id="listCriteria" resultType="com.js.swp.domain.Board">
+		<![CDATA[
+		select
+		bno, title, content, writer, regdate, viewcnt
+		from tb1_board
+		where bno > 0
+		order by bno desc, regdate desc
+		limit #{pageStart}, #{perPageNum}
+		]]>
+	</select>
+	
 </mapper>

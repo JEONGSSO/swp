@@ -2,6 +2,7 @@ package com.js.swp.service;
 
 import java.util.List;
 import com.js.swp.domain.Board;
+import com.js.swp.domain.Criteria;
 
 public interface BoardService {
 	
@@ -14,4 +15,6 @@ public interface BoardService {
 	void remove(Integer bno) throws Exception;	//지우기 정수형 bno
 	
 	List<Board> listAll() throws Exception;	//listAll메소드 List는 <Board>를 담고있다.
+	
+	List<Board> listCriteria(Criteria criteria) throws Exception;
 }

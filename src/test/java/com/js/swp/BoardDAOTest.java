@@ -1,5 +1,7 @@
 package com.js.swp;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.Before;
@@ -11,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.js.swp.domain.Board;
+import com.js.swp.domain.Criteria;
 import com.js.swp.persistence.BoardDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -63,5 +66,27 @@ public class BoardDAOTest {
 			dao.delete(maxbno);
 			didupdate = false;
 		}
-	}
+	}	
+		@Test
+		public void testListPage()throws Exception{
+			int page = 3;
+			
+			List<Board> list = dao.listPage(page);
+			
+			for(Board board : list) {
+				logger.info(board.getBno() + " : "+ board.getTitle());
+			}
+		}
+		@Test
+			public void testListCriteria() throws Exception{
+			Criteria criteria = new Criteria();
+			criteria.setPage(1);
+			criteria.setPerPageNum(10);
+			
+			List <Board> list = dao.listCriteria(criteria);
+			
+			for(Board board : list) {
+				logger.info(board.getBno() + " : " + board.getTitle());
+			}
+		}
 }

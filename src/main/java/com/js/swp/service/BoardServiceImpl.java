@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.js.swp.domain.Board;
+import com.js.swp.domain.Criteria;
 import com.js.swp.persistence.BoardDAO;
 
 @Service
@@ -39,5 +40,10 @@ public class BoardServiceImpl  implements BoardService{
 	@Override
 	public List<Board> listAll() throws Exception {
 		return dao.listAll();
+	}
+	
+	@Override
+		public List<Board> listCriteria(Criteria criteria) throws Exception{
+		return dao.listCriteria(criteria);
 	}
 }

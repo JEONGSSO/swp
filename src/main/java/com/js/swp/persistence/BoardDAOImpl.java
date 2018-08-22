@@ -5,6 +5,7 @@ package com.js.swp.persistence;
 	import org.apache.ibatis.session.SqlSession;
 	import org.springframework.stereotype.Repository;
 	import com.js.swp.domain.Board;
+import com.js.swp.domain.Criteria;
 	
 	@Repository
 	public class BoardDAOImpl implements BoardDAO
@@ -39,6 +40,20 @@ package com.js.swp.persistence;
 		public List <Board> listAll() throws Exception
 		{
 			return session.selectList(namespace+".listAll");
+		}
+		
+		@Override
+		public List<Board>listPage(int page) throws Exception {
+			if (page <= 0) {
+				page = 1;
+			}
+			page = (page - 1) * 10;
+			return session.selectList(namespace+".listPage", page);
+		}
+		
+		@Override
+		public List<Board>listCriteria(Criteria criteria) throws Exception {
+			return session.selectList(namespace+".listCriteria", criteria);
 		}
 
 		@Override
