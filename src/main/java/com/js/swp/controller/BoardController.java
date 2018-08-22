@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
+import com.js.swp.domain.PageMaker;
 import com.js.swp.service.BoardService;
 
 @Controller
@@ -77,5 +78,18 @@ public class BoardController {
 			logger.info("list Cri");
 			model.addAttribute("list", service.listCriteria(criteria));
 		}
+		
+		@RequestMapping(value = "/listPage", method = RequestMethod.GET)
+		public void listPage(Criteria criteria, Model model) throws Exception {
+			logger.info(criteria.toString());
+			
+			model.addAttribute("list", service.listCriteria(criteria));
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCriteria(criteria);
+			pageMaker.setTotalCount(131);
+			
+			model.addAttribute("pageMaker" , pageMaker);
+		}
+		
 }
 
