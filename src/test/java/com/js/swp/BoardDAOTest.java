@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
@@ -35,6 +37,44 @@ public class BoardDAOTest {
 				logger.info("Before maxbno={}", maxbno);
 			}
 	}
+			
+	@Test
+	public void testURI() throws Exception {
+		int bno = 12;
+		int perpagenum = 20;
+		UriComponents uriComponents=
+			UriComponentsBuilder.newInstance()
+				.path("/board/read")
+				.queryParam("bno", bno)
+				.queryParam("perPageNum", perpagenum)
+				.build();
+		
+		logger.info("/board/read?bno=12&perPageNum=20");
+		logger.info(uriComponents.toString());
+	}
+	
+	@Test
+	public void testURI2() throws Exception {
+		int bno = 12;
+		int perpagenum = 20;
+		UriComponents uriComponents=
+				UriComponentsBuilder.newInstance()
+				.path("/{module}/{page}")
+				.queryParam("bno", bno)
+				.queryParam("perPageNum", perpagenum)
+				.build()
+				.expand("board", "read")
+				.encode();
+		
+		logger.info("/board/read?bno=12&perPageNum=20");
+		logger.info(uriComponents.toString());
+	}
+			
+	private UriComponents expand(String string, String string2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Test
 	public void testCreate() throws Exception {
 		Board board = new Board();

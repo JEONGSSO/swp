@@ -53,14 +53,25 @@
 		]]>
 	</select>
 	
-		<select id="listCriteria" resultType="com.js.swp.domain.Board">
+	<select id="listCriteria" resultType="com.js.swp.domain.Board">
+	<![CDATA[
+	select
+		bno, title, content, writer, regdate, viewcnt
+	from tb1_board
+		where bno > 0
+	order by bno desc, regdate desc
+		limit #{pageStart}, #{perPageNum}
+	]]>
+		
+	</select>
+		<select id="countPaging" resultType="int">
 		<![CDATA[
 		select
-		bno, title, content, writer, regdate, viewcnt
+		count(bno)
 		from tb1_board
-		where bno > 0
-		order by bno desc, regdate desc
-		limit #{pageStart}, #{perPageNum}
+			tb1_board
+		where
+			bno > 0
 		]]>
 	</select>
 	

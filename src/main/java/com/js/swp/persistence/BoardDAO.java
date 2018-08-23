@@ -15,4 +15,5 @@ List<Board> listAll() throws Exception;
 Integer getMaxbno();
 List<Board> listPage(int page) throws Exception;
 List<Board> listCriteria(Criteria criteria) throws Exception;
+int countPaging(Criteria criteria) throws Exception;
 }

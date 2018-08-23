@@ -17,4 +17,6 @@ public interface BoardService {
 	List<Board> listAll() throws Exception;	//listAll메소드 List는 <Board>를 담고있다.
 	
 	List<Board> listCriteria(Criteria criteria) throws Exception;
+	
+	int listCountCriteria(Criteria criteria) throws Exception;
 }

@@ -60,4 +60,9 @@ import com.js.swp.domain.Criteria;
 		public Integer getMaxbno() {
 			return session.selectOne(namespace + ".getMaxbno");
 		}
+
+		@Override
+		public int countPaging(Criteria criteria) throws Exception {
+			return session.selectOne(namespace+".countPaging", criteria);
+		}
 }

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,13 +81,15 @@ public class BoardController {
 		}
 		
 		@RequestMapping(value = "/listPage", method = RequestMethod.GET)
-		public void listPage(Criteria criteria, Model model) throws Exception {
+		public void listPage(@ModelAttribute("Criteria")Criteria criteria, Model model) throws Exception {
 			logger.info(criteria.toString());
 			
 			model.addAttribute("list", service.listCriteria(criteria));
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCriteria(criteria);
 			pageMaker.setTotalCount(131);
+			
+			pageMaker.setTotalCount(service.listCountCriteria(criteria));
 			
 			model.addAttribute("pageMaker" , pageMaker);
 		}

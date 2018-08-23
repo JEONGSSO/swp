@@ -1,5 +1,8 @@
 package com.js.swp.domain;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class PageMaker {
 	private int displayPageNum = 10;
 	
@@ -15,6 +18,10 @@ public class PageMaker {
 		this.criteria = criteria;
 	}
 	
+	public Criteria getCriteria() {
+		return criteria;
+	}
+
 	public void setTotalCount(int totalCount) {
 		this.totalCount = totalCount;
 	
@@ -35,7 +42,19 @@ private void calcData() {
 	prev = startPage == 1 ? false : true;
 	
 	next = endPage * criteria.getPerPageNum() >=totalCount ? false : true;
+	
+	System.out.println("::>" + startPage + "," + endPage);
 	}
+
+public String makeQuery(int page) {	//286
+	UriComponents uriComponents = 
+				UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perPageNum", criteria.getPerPageNum())
+				.build();
+	
+	return uriComponents.toUriString();
+}
 
 public boolean isPrev() {
 	return prev;
@@ -51,6 +70,22 @@ public boolean isNext() {
 
 public void setNext(boolean next) {
 	this.next = next;
+}
+
+public int getStartPage() {
+	return startPage;
+}
+
+public void setStartPage(int startPage) {
+	this.startPage = startPage;
+}
+
+public int getEndPage() {
+	return endPage;
+}
+
+public void setEndPage(int endPage) {
+	this.endPage = endPage;
 }
 
 
