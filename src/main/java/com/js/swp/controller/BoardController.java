@@ -1,7 +1,6 @@
 package com.js.swp.controller;
 
 import javax.inject.Inject;
-import javax.xml.ws.soap.Addressing;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +38,10 @@ public class BoardController {
 		logger.info(board.toString());
 		service.regist(board);
 //		model.addAttribute("result", "success");
-		
 //		return "/board/success";
 		rttr.addFlashAttribute("msg", "success");
-		return "redirect:/board/listAll";
+		return "redirect:/board/listPage"; 
+//		<!-- 글쓰기하고 취소하면 1페이지로 간다. -->
 	}
 	
 		@RequestMapping(value = "/listAll", method = RequestMethod.GET)

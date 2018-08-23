@@ -23,11 +23,10 @@
 					</div>	<!-- body box 끝  -->
 					
 					<div class="box-footer">
-						<button type="submit" class="btn btn-primary">Submit</button>
+						<button type="submit" class="btn btn-primary">작성</button>
+						<a  href="/board/listPage${criteria.makeQuery()}" class="btn btn-default">취소</a>
 					</div>
 					
 			</form>
-			
-			
 			
 <%@include file="../include/footer.jsp" %>

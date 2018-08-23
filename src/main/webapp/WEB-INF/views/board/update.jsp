@@ -19,7 +19,7 @@
 		
 		<div class="box-footer">
 			<button type="submit" class="btn btn-primary">수정</button>	<!--sumbit은 form의 action을 탄다-->
-			<a  href="/board/read${criteria.makeQuery()}&bno=${board.bno}" class="btn btn-default">취소</a>	<!-- 수정하면 1페이지로 -->
+			<a  href="/board/read${criteria.makeQuery()}&bno=${board.bno}" class="btn btn-default">취소</a>
 		</div>
 	</form>
 </div>
