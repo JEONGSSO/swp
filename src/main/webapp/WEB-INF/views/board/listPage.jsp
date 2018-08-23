@@ -8,20 +8,20 @@
     
     <table class="table table-bordered">
     <tr>
-	    <th style="width: 10px">BNO</th>
-	    <th>TITLE</th>
-	    <th>WRITER</th>
-	    <th>REGDATE</th>
-	    <th style="width: 40px">VIEWCNT</th>
+	    <th style="width: 10px">번호</th>
+	    <th>제목</th>
+	    <th>작성자</th>
+	    <th>작성 날짜</th>
+	    <th>조회수</th>
     </tr>
     
   <c:forEach items="${list}"  var="board">
 	  <tr>
-	    	<td>${board.bno}</td>
-	    	<td><a href="/board/read?bno=${board.bno}"> ${board.title}</a></td>
+	    	<td>${ board.bno }</td>
+	    	<td><a href="/board/read${pageMaker.makeQuery(pageMaker.criteria.page)}&bno=${board.bno}"> ${board.title}</a></td>
 	    	<td>${board.writer}</td>
 	    	<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value ="${board.regdate}" /></td>
-	    	<td>${board.viewcnt }</td>
+	    	<td><span class ="badge bg-red">${ board.viewcnt }</span></td>
 	    </tr>
     </c:forEach>
     
@@ -45,7 +45,6 @@
 			<c:if test="${ pageMaker.next && pageMaker.endPage > 0}" >
 				<li><a href="listPage${pageMaker.makeQuery(pageMaker.endPage +1)}">&raquo;</a></li>
 			</c:if>
-			
 	</ul>
 </div>    
 <%@include file="../include/footer.jsp" %>

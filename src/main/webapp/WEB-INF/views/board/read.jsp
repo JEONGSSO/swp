@@ -8,7 +8,7 @@
     		
     		$("#button-remove-read").on("click",function(){
     			if(confirm("삭제 하시겠습니까?"))	{
-    					self.location.href = "/board/remove?bno=${board.bno}"
+    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}"
     				}
     		});
     	
@@ -17,7 +17,7 @@
     		});
     		
     		$(".btn-primary").on("click",function(){
-    			self.location = "/board/listAll";
+    			self.location = "/board/listPage";
     		});
     });
     
@@ -59,7 +59,7 @@
 <div class="box-footer">
 	<button id ="button-remove-read" class ="btn btn-denger">삭제</button>
 	<a href="/board/update?bno=${board.bno}"  class="btn btn-warning">수정</a>
-	<a href="/board/listAll" class="btn btn-primary">목록</a>
+	<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
 </div>
 	
 <%@include file="../include/footer.jsp" %>

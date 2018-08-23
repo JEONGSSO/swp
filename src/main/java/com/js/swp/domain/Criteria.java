@@ -1,5 +1,8 @@
 package com.js.swp.domain;
 
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class Criteria {
 	private int page;
 	private int perpageNum;
@@ -40,5 +43,15 @@ public class Criteria {
 	@Override
 	public String toString() {
 		return "Criteria [page=" + page +"," + "perPageNum=" + perpageNum+"]";
+	}
+	
+	public String makeQuery() {	
+		UriComponents uriComponents = 
+					UriComponentsBuilder.newInstance()
+					.queryParam("page", this.page)
+					.queryParam("perPageNum", this.getPerPageNum())
+					.build();
+		
+		return uriComponents.toUriString();
 	}
 }

@@ -70,10 +70,6 @@ public class BoardDAOTest {
 		logger.info(uriComponents.toString());
 	}
 			
-	private UriComponents expand(String string, String string2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Test
 	public void testCreate() throws Exception {
