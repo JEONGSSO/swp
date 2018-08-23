@@ -34,7 +34,6 @@
 	</div>
 </c:if>
 
-    
     <table class="table table-bordered">
     <tr>
 	    <th style="width: 10px">번호</th>
@@ -55,6 +54,15 @@
     </c:forEach>
     
 </table>
+		
+<div class="row text-center">
+			<form class ="form-inline">
+			<input type="text" id="keyword"  name ="keyword" value="${ pageMaker.criteria.keyword}"
+						placeholder ="검색어 입력" class ="form-control"/>
+						<button class ="btn btn-primary">검색</button>
+			</form>
+</div>
+
 <div class ="text-center">
 	<ul class = "pagination">
 	
@@ -74,7 +82,9 @@
 			<c:if test="${ pageMaker.next && pageMaker.endPage > 0}" >
 				<li><a href="listPage${pageMaker.makeQuery(pageMaker.endPage +1)}">&raquo;</a></li>
 			</c:if>
+			
+				<a href="/board/register" class="btn btn-primary"  id ="writer">글쓰기</a>
 	</ul>
-</div>    
-<a href="/board/register" class="btn btn-primary" id ="writer">글쓰기</a>
+</div>  
+
 <%@include file="../include/footer.jsp" %>

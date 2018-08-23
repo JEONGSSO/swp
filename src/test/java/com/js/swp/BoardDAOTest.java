@@ -52,24 +52,6 @@ public class BoardDAOTest {
 		logger.info("/board/read?bno=12&perPageNum=20");
 		logger.info(uriComponents.toString());
 	}
-	
-	@Test
-	public void testURI2() throws Exception {
-		int bno = 12;
-		int perpagenum = 20;
-		UriComponents uriComponents=
-				UriComponentsBuilder.newInstance()
-				.path("/{module}/{page}")
-				.queryParam("bno", bno)
-				.queryParam("perPageNum", perpagenum)
-				.build()
-				.expand("board", "read")
-				.encode();
-		
-		logger.info("/board/read?bno=12&perPageNum=20");
-		logger.info(uriComponents.toString());
-	}
-			
 
 	@Test
 	public void testCreate() throws Exception {
