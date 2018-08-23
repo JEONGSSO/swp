@@ -58,7 +58,7 @@
 
 <div class="box-footer">
 	<button id ="button-remove-read" class ="btn btn-denger">삭제</button>
-	<a href="/board/update?bno=${board.bno}"  class="btn btn-warning">수정</a>
+	<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"  class="btn btn-warning">수정</a>
 	<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
 </div>
 	

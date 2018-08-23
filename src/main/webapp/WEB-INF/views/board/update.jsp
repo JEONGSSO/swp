@@ -4,7 +4,7 @@
 <%@include file="../include/header.jsp" %>
 
 <div class="box-body">
-	<form role="form" action="/board/update" method="post">
+	<form role="form" action="/board/update${criteria.makeQuery()}" method="post">
 		<input type="hidden" name ="bno" value = "${board.bno}"/>
 		<div class="form-group">
 				<label for="title1">제목</label>
@@ -18,8 +18,8 @@
 		</div>
 		
 		<div class="box-footer">
-			<button type="submit" class="btn btn-primary">Submit</button>	<!--sumbit은 form의 action을 탄다-->
-			<a  href="/board/read?bno=${board.bno}=" class="btn btn-default">Cancel</a>
+			<button type="submit" class="btn btn-primary">수정</button>	<!--sumbit은 form의 action을 탄다-->
+			<a  href="/board/read${criteria.makeQuery()}&bno=${board.bno}" class="btn btn-default">취소</a>	<!-- 수정하면 1페이지로 -->
 		</div>
 	</form>
 </div>

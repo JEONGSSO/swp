@@ -1,6 +1,7 @@
 package com.js.swp.controller;
 
 import javax.inject.Inject;
+import javax.xml.ws.soap.Addressing;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,14 +59,18 @@ public class BoardController {
 		}
 		
 		@RequestMapping(value = "/update", method = RequestMethod.GET)
-		public void updateGet(@RequestParam("bno")int bno, Model model) throws Exception {
+		public void updateGet(@RequestParam("bno")int bno,
+				@ModelAttribute("criteria")Criteria criteria, Model model) throws Exception {
 			logger.info("UpdateGet");
-			model.addAttribute(service.read(bno));
+			Board board = service.read(bno);
+			model.addAttribute(board);
 	}
 		@RequestMapping(value = "/update", method = RequestMethod.POST)
-		public String updatePOST(Board board, Model model, RedirectAttributes rttr) throws Exception {
+		public String updatePOST(Board board, Criteria criteria, Model model, RedirectAttributes rttr) throws Exception {
 			service.modify(board);		//DB에 수정하는 구문
-			rttr.addFlashAttribute("msg", "ok");	//msg에 ok를 심음	
+			rttr.addFlashAttribute("msg", "ok");	//msg에 ok를 심음
+			rttr.addAttribute("page", criteria.getPage());
+			rttr.addAttribute("perPageNum", criteria.getPerPageNum());
 			return "redirect:/board/read?bno="+ board.getBno();	//지금 수정한 bno로 이동한다. 메시지 var "msg" 는 read.jsp에다가 써야한다
 		}
 		

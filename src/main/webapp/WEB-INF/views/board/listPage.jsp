@@ -6,6 +6,35 @@
     <%@ page session="false" %>
        <%@ include file="../include/header.jsp" %>
     
+    <c:set var="resultMsg" value =""/>
+<c:choose>
+	<c:when test ="${msg eq 'success'}">
+		<c:set var="resultMsg" value = "등록완료."/>
+		<div class="alert alert-success" role="alert">...</div>
+	</c:when>
+	
+	<c:when test ="${msg eq 'remove-ok'}">
+		<c:set var="resultMsg" value = "삭제완료."/>
+		<div class="alert alert-info" role="alert">...</div>
+	</c:when>
+	
+</c:choose>
+
+	<c:if test="${null ne msg }">
+	<div class="alert alert-success alert-dismissible">
+		<button type="button" class = "close" data-dismiss="alert" aria-label ="Close"><span aria-hidden></span></button>
+		<strong>${resultMsg}</strong>
+	</div>
+</c:if>
+
+<c:if test="${null ne msg }">
+	<div class="alert alert-info alert-dismissible">
+		<button type="button" class = "close" data-dismiss="alert" aria-label ="Close"><span aria-hidden></span></button>
+		<strong>${resultMsg}</strong>
+	</div>
+</c:if>
+
+    
     <table class="table table-bordered">
     <tr>
 	    <th style="width: 10px">번호</th>
@@ -47,4 +76,5 @@
 			</c:if>
 	</ul>
 </div>    
+<a href="/board/register" class="btn btn-primary" id ="writer">글쓰기</a>
 <%@include file="../include/footer.jsp" %>
