@@ -14,7 +14,7 @@ public class BoardUriTest {
 			int bno = 207;
 			int perpagenum = 20;
 			UriComponents uriComponents = null;
-			for (int i = 0; i < 200222; i++) {
+			for (int i = 0; i < 2002; i++) {
 				uriComponents =	UriComponentsBuilder.newInstance()
 					.path("/{module}/{page}")
 					.queryParam("bno", bno)
