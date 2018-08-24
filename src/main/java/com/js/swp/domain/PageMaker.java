@@ -1,6 +1,5 @@
 package com.js.swp.domain;
 
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 public class PageMaker {
@@ -46,49 +45,54 @@ private void calcData() {
 	System.out.println("::>" + startPage + "," + endPage);
 	}
 
-public String makeQuery(int page) {	//286
-	UriComponents uriComponents = 
-				UriComponentsBuilder.newInstance()
-				.queryParam("page", page)
-				.queryParam("perPageNum", criteria.getPerPageNum())
-				.queryParam("searchType", criteria.getSearchType())
-				.queryParam("keyword", criteria.getKeyword())
-				.build();
+	public String makeQuery(int page) {		//메소드 오버로딩 변수 하나면 일로옴
+		
+		return makeQuery(page, true);
+	}
 	
-	return uriComponents.toUriString();
-}
+	public String makeQuery(int page, boolean needsearch) {	//286
+		UriComponentsBuilder uriComponentsBuild = 
+					UriComponentsBuilder.newInstance()
+					  .queryParam("page", page)
+					  .queryParam("perPageNum", this.criteria.getPerPageNum());
+					
+					if(!needsearch) {
+						uriComponentsBuild
+						  .queryParam("searchType", this.criteria.getSearchType())
+						  .queryParam("keyword", this.criteria.getKeyword());
+					}
+					return uriComponentsBuild.build().encode().toString();
+	}
 
-public boolean isPrev() {
-	return prev;
-}
-
-public void setPrev(boolean prev) {
-	this.prev = prev;
-}
-
-public boolean isNext() {
-	return next;
-}
-
-public void setNext(boolean next) {
-	this.next = next;
-}
-
-public int getStartPage() {
-	return startPage;
-}
-
-public void setStartPage(int startPage) {
-	this.startPage = startPage;
-}
-
-public int getEndPage() {
-	return endPage;
-}
-
-public void setEndPage(int endPage) {
-	this.endPage = endPage;
-}
-
-
+	public boolean isPrev() {
+		return prev;
+	}
+	
+	public void setPrev(boolean prev) {
+		this.prev = prev;
+	}
+	
+	public boolean isNext() {
+		return next;
+	}
+	
+	public void setNext(boolean next) {
+		this.next = next;
+	}
+	
+	public int getStartPage() {
+		return startPage;
+	}
+	
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+	
+	public int getEndPage() {
+		return endPage;
+	}
+	
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
 }

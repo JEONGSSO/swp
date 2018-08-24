@@ -12,15 +12,14 @@
 	</insert>
 
 	<select id="read" resultType="com.js.swp.domain.Board">
-		select bno, title, content, writer,
-		regdate, viewcnt
+		select bno, title, content, writer, regdate, viewcnt
 		from tb1_board
 		where bno = #{bno}
 	</select>
 
 	<update id="update">
-		update tb1_board set title =#{title}, content
-		=#{content}
+		update tb1_board set title =#{title},
+		content =# {content}
 		where bno = #{bno}
 	</update>
 
@@ -35,7 +34,7 @@
 	<select id="listAll" resultType="com.js.swp.domain.Board">
 		<![CDATA[
 		select
-		bno, title, content, writer, regdate, viewcnt
+			bno, title, content, writer, regdate, viewcnt
 		from tb1_board
 		where bno > 0
 		order by bno desc, regdate desc
@@ -43,31 +42,56 @@
 	</select>
 
 	<select id="listPage" resultType="com.js.swp.domain.Board">
-		<![CDATA[
-		select
-		bno, title, content, writer, regdate, viewcnt
-		from tb1_board
-		where bno > 0
-		order by bno desc, regdate desc
-		limit #{page}, 10
-		]]>
+			select
+				bno, title, content, writer, regdate, viewcnt
+			from tb1_board
+			where bno > 0
+				order by bno desc, regdate desc
+				limit #{page}, 10
 	</select>
 	
+	<sql id="search">
+				<if test = "searchType != null">
+						<if test = "searchType == 't'.toString()">
+							and title like CONCAT('%', #{keyword}, '%')
+						</if>
+					
+						<if test = "searchType == 'c'.toString()">
+							and content like CONCAT('%', #{keyword}, '%')
+						</if>
+					
+						<if test = "searchType == 'w'.toString()">
+							and writer like CONCAT('%', #{keyword}, '%')
+						</if>
+					
+						<if test = "searchType == 'tc'.toString()">
+								and( title like CONCAT('%', #{keyword}, '%')
+								or writer like CONCAT('%', #{keyword}, '%'))
+						</if>
+					
+						<if test = "searchType == 'a'.toString()">
+								and( title like CONCAT('%', #{keyword}, '%')
+								or title like CONCAT('%', #{keyword}, '%')
+								or content like CONCAT('%', #{keyword}, '%')
+								or writer like CONCAT('%', #{keyword}, '%'))
+						</if>
+				</if>
+		</sql>
+	
 	<select id="listCriteria" resultType="com.js.swp.domain.Board">
-	<![CDATA[
-	select
-		bno, title, content, writer, regdate, viewcnt
-	from tb1_board
-		where bno > 0
-	order by bno desc, regdate desc
-		limit #{pageStart}, #{perPageNum}
-	]]>
-		
+		select
+			bno, title, content, writer, regdate, viewcnt
+		from tb1_board
+			where bno > 0
+		<include refid="search"></include>
+		order by bno desc, regdate desc
+			limit #{pageStart}, #{perPageNum}
 	</select>
-		<select id="countPaging" resultType="int">
+	
+	<select id="countPaging" resultType="int">
 		<![CDATA[
 		select
-		count(bno)
+			count(bno)
 		from tb1_board
 			tb1_board
 		where
