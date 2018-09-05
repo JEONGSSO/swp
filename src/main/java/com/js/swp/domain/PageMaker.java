@@ -12,7 +12,12 @@ public class PageMaker {
 	private boolean next;
 	
 	private Criteria criteria;
-	
+	public PageMaker() {
+		
+	}
+	public PageMaker(Criteria criteria) {
+		this.criteria  = criteria;
+	}
 	public  void setCriteria(Criteria criteria) {
 		this.criteria = criteria;
 	}

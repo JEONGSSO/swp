@@ -1,0 +1,21 @@
+.point{
+	cursor : pointer;
+}#modDiv{
+    width: 300px;
+   height: 100px;
+   position: absolute;
+   background: gray;
+   text-align: center;
+   padding: 15px 10px 10px 10px;
+   top: 50%;
+   left: 50%;
+   margin-top: -50px;
+   margin-left: -150px;
+   z-index : 1000;
+}
+.modal-title{
+    margin-bottom: 10px;
+}
+.point{
+    cursor : pointer;
+}
