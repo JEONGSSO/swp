@@ -20,22 +20,23 @@ sendAjax(REGIST_URL, (isSuccess, res) => {  //url, is
     } , 'POST', jsonData);
 }
 
-let workingReplyText =" ",
-    $workingReply = null;
-let workingRno = 0;
-function editReply(){
+let workingReplyText =" ",	//현재 리플의 텍스트.
+    $workingReply = null;	//현재 리플은 비어있다
+let workingRno = 0;	//현재 떠있는 리플 번호.
+
+function editReply(){	//jsp에서 onclick 이름과 같다.
 
     let editedReplytext = $('#replytext').val();
-    if (editedReplytext === workingReplytext) {
+    //수정된 텍스트																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																			ㅈ는 제이쿼리 리플 텍스트 값을 val로 가져온다.
+    if (editedReplytext === workingReplyText) {
+    	//수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단.
         alert("내용 수정 안됨");
         return;
     }
-}
-
-    let jsonData = { replytext : editReply }
+    let jsonData = { replytext : editReply }	//제이슨 데이타 replytext는 editReply를 담는다.
     
     sendAjax("/replies/"+workingRno, (isSuccess, res) => {  
-        if(isSuccess){              //
+        if(isSuccess){              
             alert(workingRno + "수정완료");
             listAll();  //댓글 목록
             $workingReply.find('span').text(editedReplytext);
@@ -44,7 +45,7 @@ function editReply(){
             console.debug("update error>>",res);
         }
     }, 'PATCH', jsonData);
-
+}
 
 
 function removeReply(){
@@ -114,9 +115,9 @@ function getValidData($replyer, $replytext){
 
 function sendAjax(url, fn,  method, jsonData){
     let options = {
-                        method: method,
+                        method: method,	//메소드 get post put 등
                         url: url,
-                        contentType: "application/json"
+                        contentType: "application/json"	//타입은 제이슨으로 받겠다.
                    };
     //jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
     if(jsonData){
@@ -167,16 +168,16 @@ function movCenterModDiv(){
 //         workingRno = rno;   //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게
 // }
 
-function modClicked(btn){
+function modClicked(btn){	//버튼을 클릭하면 
     let $btn = $(btn),
-    $reply = $btn.parent(),
-    rno = $reply.data('rno');
+    $reply = $btn.parent(),	//$reply에 btn의 부모 참조? 사용?
+    rno = $reply.data('rno');	//rno는 
     replytext = truncSpace($reply.find('span').text());
     $('#replycontext').val(replytext);
     $('#modDiv').show('slow');
     workingRno = rno;
     workingReplyText = replytext;
-    $workingReply = $reply;
+    $workingReply = $reply;	//
 }
 
 var truncSpace = function(str){
