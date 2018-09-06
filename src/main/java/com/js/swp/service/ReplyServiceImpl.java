@@ -16,8 +16,8 @@ public class ReplyServiceImpl implements ReplyService{
 	ReplyDAO replyDAO;
 	
 	@Override
-	public void register(ReplyVO reply) throws Exception {	//addreply
-		replyDAO.create(reply);	
+	public void register(ReplyVO reply) throws Exception {			//addreply
+		replyDAO.create(reply);										//서비스에서 준 값을 dao에 넘긴다.
 		
 	}
 
@@ -39,7 +39,7 @@ public class ReplyServiceImpl implements ReplyService{
 
 	@Override
 	public int getTotalCount(Integer bno) throws Exception {
-		return replyDAO.getToalCount(bno);
+		return replyDAO.getToalCount(bno);		// DAO에 getTotalCount 실행해 리턴해온 값을 서비스에 리턴해준다.
 	}
 	
 }
