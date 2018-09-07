@@ -194,7 +194,7 @@ function hideBtn(){
    // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다
 
        if (editedReplytext !== workingReplyText) {	    
-           $('#btnModReply').hide()        //@@@Todo
+           $('#btnModReply').hide()        //@@@@@@@Todo 과제 댓글 페이지 유지하기
            //수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단해 버튼 사라짐.
        }
        else
@@ -205,7 +205,7 @@ function printPage(pm){		//0907 오후 수업	pm은 페이지 메이커에서 �
     
     console.log(pm);
     let str = "",
-    	tmpPage = 0;
+    	tmpPage = 0;	//임시 변수
     let currentPage = pm.criteria.page;
     
     if(pm.prev) 
@@ -216,7 +216,7 @@ function printPage(pm){		//0907 오후 수업	pm은 페이지 메이커에서 �
        
     for(let i = pm.startPage; i <= pm.endPage; i++)
     	 str += `<li><a href="#" onclick = "listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page = "${i}">${i}</a></li>`;
-
+    	//class="${currentPage === i ? "active" : ""}" currentPage가 i 랑 같으면 클래스가 "active" 아니면 "null" "?"삼항 연산자
     if(pm.next) 
     	{
 	    	tmpPage = pm.startPage + 1;

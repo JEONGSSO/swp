@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <ul class="pagination">
+    <ul class="pagination">		<!-- 0907 페이지 껍데기만 보내고 나머지는 js가 만들어준다. -->  
     </ul>
     
 <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
