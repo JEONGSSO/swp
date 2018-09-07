@@ -32,3 +32,8 @@ li{
     display: inline;
     margin: 0 10;
 }
+
+.active{
+    border: 1px solid black;
+    padding: 1px;
+}

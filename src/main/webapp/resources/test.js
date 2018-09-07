@@ -77,7 +77,7 @@ function listPage(page){
     page = page || 1;
     listUrl = "/replies/all/" + BNO + "/" + page;
     
-    sendAjax(listUrl, (isSuccess, res)=>{
+    sendAjax(listUrl, function(isSuccess, res){	//res
         if(isSuccess){
             let data = res.list,
                 pageMaker = res.pageMaker;
@@ -96,7 +96,8 @@ function listPage(page){
             printPage(pageMaker);
         }
         
-    });
+    }//fn여기까지
+    );
 }
 
 function getValidData($replyer, $replytext) {
@@ -127,7 +128,7 @@ function getValidData($replyer, $replytext) {
 
 function sendAjax(url, fn, method, jsonData) {
     let options = {
-        method: method, //메소드 get post put 등
+        method: method || 'GET', //메소드 get post put 등
         url: url,
         contentType: "application/json" //타입은 제이슨으로 받겠다.
     };
@@ -137,7 +138,8 @@ function sendAjax(url, fn, method, jsonData) {
         console.log(options);
     }
 
-    $.ajax(options).always((responseText, statusText, ajaxResult) => {
+    $.ajax(options).always((responseText, statusText, ajaxResult) => {		 // 다른곳 res = responseTextmap.put("list", list);		map.put("pageMaker", pagemaker); 담아온다
+
         let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
         fn(isSuccess, responseText);
         if (!isSuccess) {
@@ -199,20 +201,31 @@ function hideBtn(){
            $('#btnModReply').show()
    }
 
-function printPage(pm){
+function printPage(pm){		//0907 오후 수업	pm은 페이지 메이커에서 받아받아온거 매개변수
     
     console.log(pm);
-    let str = "";
-    if(pm.prev) 
-        str = `<li><a href="#" data-page = "${pm.startPage - 1}">&lt;&lt;</a></li>`;
+    let str = "",
+    	tmpPage = 0;
+    let currentPage = pm.criteria.page;
     
+    if(pm.prev) 
+    	{
+    		tmpPage = pm.startPage - 1;
+    	 	str = `<li><a href="#" onclick = "listPage(tmpPage)" data-page = "${tmpPage}">&lt;&lt;</a></li>`;
+    	}
+       
     for(let i = pm.startPage; i <= pm.endPage; i++)
-        str += `<li><a href="#" class="$currentPage === i ? "active" : "" data-page = "${i}">"${i}"</a></li>`;
+    	 str += `<li><a href="#" onclick = "listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page = "${i}">${i}</a></li>`;
 
     if(pm.next) 
-        str += `<li><a href="#" data-page = "${pm.startPage + 1}">&lt;&lt;</a></li>`;
-}
+    	{
+	    	tmpPage = pm.startPage + 1;
+	        str += `<li><a href="#" onclick = "listPage(tmpPage) data-page = "${tmpPage}">&gt;&gt;</a></li>`;
+    	}
+    	
 
+    	$('ul.pagination').html(str);	//ul안에 pagination찾음
+}
 
 var truncSpace = function (str) {
     if (!str) {
