@@ -1,7 +1,8 @@
-function registerReply() {
-    const BNO = 3;
-    const REGIST_URL = "/replies";
+const BNO = 3;
 
+function registerReply() {
+    
+    const REGIST_URL = "/replies";
     let jsonData = getValidData($('#newReplyWriter'), $('#newReplyText'));
     if (!jsonData) {
         return;
@@ -72,24 +73,29 @@ function closeMod() { //댓글 창 지우는 것
     $modDiv.hide('slow'); //느리게 사라짐
 }
 
-function listPage() {
-    const bno = 3;
-    const page = 1;
-    listUrl = "/replies/all/" + bno + "/" + page;
-    $.getJSON(listUrl, (data, b, c) => {
-        console.log(">> data=", data, ", b=", b, ", c=", c);
-        let str = ""; //바뀔 수 있음
-        //$(data).each((a,b) => {console.log(a,b)});
-        data.list.forEach(
-            (d) => {
-                //str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
-                str += `<li data-rno= "${d.rno}" class= "replyLi">
-                        <span>${d.replytext}</span>
-                        <button onclick=modClicked(this) class="point">수정</button>
-                        </li>`;
-            }
-        );
-        $('#replies').html(str);
+function listPage(page){
+    page = page || 1;
+    listUrl = "/replies/all/" + BNO + "/" + page;
+    
+    sendAjax(listUrl, (isSuccess, res)=>{
+        if(isSuccess){
+            let data = res.list,
+                pageMaker = res.pageMaker;
+            let str = ""; //바뀔 수 있음
+            //$(data).each((a,b) => {console.log(a,b)});
+            data.forEach(
+                    (d) => {
+                        //str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
+                        str += `<li data-rno= "${d.rno}" class= "replyLi">
+                            <span>${d.replytext}</span>
+                            <button onclick=modClicked(this) class="point">수정</button>
+                            </li>`;
+                    }
+            );
+            $('#replies').html(str);
+            printPage(pageMaker);
+        }
+        
     });
 }
 
@@ -194,21 +200,17 @@ function hideBtn(){
    }
 
 function printPage(pm){
+    
     console.log(pm);
     let str = "";
-    let activeCss = currentPage = pm.criteria.page
-    if(pm.prev) {
+    if(pm.prev) 
         str = `<li><a href="#" data-page = "${pm.startPage - 1}">&lt;&lt;</a></li>`;
-    }
-
-    for(let i = pm.startPage; i <= pm.endPage; i++){
-        // str += `<li><a href="#" class="$currentPage === i ? "active" : "" data-page = "${i}">"${i}"</a></li>'
+    
+    for(let i = pm.startPage; i <= pm.endPage; i++)
         str += `<li><a href="#" class="$currentPage === i ? "active" : "" data-page = "${i}">"${i}"</a></li>`;
-    }
 
-    if(pm.prev) {
+    if(pm.next) 
         str += `<li><a href="#" data-page = "${pm.startPage + 1}">&lt;&lt;</a></li>`;
-    }
 }
 
 

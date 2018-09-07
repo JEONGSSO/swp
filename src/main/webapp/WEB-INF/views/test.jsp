@@ -41,10 +41,6 @@
     </div>
 
     <ul class="pagination">
-        <li><a href="#" data-page = "000">&lt;&lt;</a></li> <!-- lt는 prev -->
-        <li><a href="#" data-page = "1">&lt;&lt;</a></li> <!-- lt는 prev -->
-        <li><a href="#" data-page = "333">&gt;&gt;</a></li>    <!-- gt는 넥스트 --> 요거 3개 js로 빼기 껍데기만 넘기는게 에이작스
-        
     </ul>
     
 <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
