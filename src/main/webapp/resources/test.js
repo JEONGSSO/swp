@@ -24,14 +24,14 @@ let workingReplyText = "", //현재 리플의 텍스트.
     workingRno = 0; //현재 떠있는 리플 번호.
 
 function editReply() { //jsp에서 onclick 이름과 같다.	오류 k.type.toUpperCase is not a function
-	
-    let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replytext 에서 val로 가져옴	
-    if (editedReplytext === workingReplyText) {	    //0907 미완성
-                                        //수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단.
+        hideBtn();
+    // let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replytext 에서 val로 가져옴	
+    // if (editedReplytext === workingReplyText) {	    //0907 미완성
+    //                                     //수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단.
         
-	    alert("내용 수정 안됨");
-	    return;
-	}
+	//     alert("내용 수정 안됨");
+	//     return;
+	// }
 	
 	if(!confirm("수정?")) return;	//수정여부 물어보고 수정이 yes가 아니면 (no면) 종료 
 													    							
@@ -179,9 +179,38 @@ function modClicked(btn) { //버튼을 클릭하면
     $workingReply = $reply; //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게
 }
 
-function hideBtn(){
 
+function hideBtn(){
+   let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replytext 에서 val로 가져옴	
+   // console.log(editedReplytext);
+   // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다
+
+       if (editedReplytext !== workingReplyText) {	    
+           $('#btnModReply').hide()        //@@@Todo
+           //수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단해 버튼 사라짐.
+       }
+       else
+           $('#btnModReply').show()
+   }
+
+function printPage(pm){
+    console.log(pm);
+    let str = "";
+    let activeCss = currentPage = pm.criteria.page
+    if(pm.prev) {
+        str = `<li><a href="#" data-page = "${pm.startPage - 1}">&lt;&lt;</a></li>`;
+    }
+
+    for(let i = pm.startPage; i <= pm.endPage; i++){
+        // str += `<li><a href="#" class="$currentPage === i ? "active" : "" data-page = "${i}">"${i}"</a></li>'
+        str += `<li><a href="#" class="$currentPage === i ? "active" : "" data-page = "${i}">"${i}"</a></li>`;
+    }
+
+    if(pm.prev) {
+        str += `<li><a href="#" data-page = "${pm.startPage + 1}">&lt;&lt;</a></li>`;
+    }
 }
+
 
 var truncSpace = function (str) {
     if (!str) {

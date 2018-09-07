@@ -22,3 +22,12 @@ li{
 .point{
     cursor : pointer;
 }
+
+.pagination{
+    list-style: none;
+    display: inline;
+}
+
+.pagination li{
+    display: inline;
+}
