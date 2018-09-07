@@ -19,35 +19,36 @@ function registerReply() {
     }, 'POST', jsonData);
 }
 
-let workingReplyText = " "; //현재 리플의 텍스트.
-let $workingReply; //현재 리플은 비어있다
-let workingRno = 0; //현재 떠있는 리플 번호.
+let workingReplyText = "", //현재 리플의 텍스트.
+    $workingReply = null, //현재 리플은 비어있다
+    workingRno = 0; //현재 떠있는 리플 번호.
 
 function editReply() { //jsp에서 onclick 이름과 같다.	오류 k.type.toUpperCase is not a function
 	
-	let editedReplytext = $('#replytext').val();	//수정된 텍스트는 제이쿼리 id	replytext 에서 val로 가져옴		
-	if (editedReplytext === workingReplyText) {	//0907 미완성
-														//수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단.
-	alert("내용 수정 안됨");
-	return;
+    let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replytext 에서 val로 가져옴	
+    if (editedReplytext === workingReplyText) {	    //0907 미완성
+                                        //수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단.
+        
+	    alert("내용 수정 안됨");
+	    return;
 	}
 	
 	if(!confirm("수정?")) return;	//수정여부 물어보고 수정이 yes가 아니면 (no면) 종료 
 													    							
     let jsonData = {
         replytext: editedReplytext
-    } //제이슨 데이타 replytext는 editedReplytext를 담는다.
+    } //제이슨 데이타안에 replytext는 editedReplytext를 담는다.
 
-    sendAjax("/replies/" + workingRno, (isSuccess, res) => {
+    sendAjax("/replies/" + workingRno, (isSuccess, res) => {    //함수 sendAjax 실행
         if (isSuccess) {
             alert(workingRno + "수정완료");
-            listPage(); //댓글 목록
+            listPage(); //댓글 목록 -> 페이지 0906 수정
             $workingReply.find('span').text(editedReplytext);   //$workingReply의 span에서 텍스트를 가져온다 그 텍스트는 editedReplytext
             closeMod();	//댓글 닫기
         } else {
             console.debug("update error>>", res);
         }
-    },jsonData , 'PUT');	//순서 바뀌면 OBJ오류 출력됐었다.
+    },'PUT', jsonData);	//순서 바뀌면 OBJ오류 출력됐었다. 하지만 그게 정상 sendAjax 0907 14:00
 }
 
 function removeReply() {
@@ -145,7 +146,7 @@ function showJson() {
         let $li = $(li),
             rno = $li.data('rno')
         replyer = $li.data('replyer')
-        replytext = truncSpace($li.text()); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈
+        replytext = truncSpace($li.text()); 
         result.push({
             rno: rno,
             replyer: replyer,
@@ -166,21 +167,25 @@ function movCenterModDiv() {
     });
 }
 
-function modClicked(btn) { //버튼을 클릭하면 
+function modClicked(btn) { //버튼을 클릭하면  
     let $btn = $(btn),
-        $reply = $btn.parent(), //$reply에 btn의 부모 참조? 사용?
+        $reply = $btn.parent(), //$reply에 btn의 부모를 가르킴 이돟ㅇ
         rno = $reply.data('rno'); //rno는 
-    replytext = truncSpace($reply.find('span').text());
-    $('#replycontext').val(replytext);
+    replytext = truncSpace($reply.find('span').text()); //replytext는 truncSpace안에 span을 찾아 text를 가져온다
+    $('#replycontext').val(replytext);  //id replycontext 안에 val에서 텍스트를 가져와 담음.
     $('#modDiv').show('slow');
     workingRno = rno;               
     workingReplyText = replytext;
     $workingReply = $reply; //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게
 }
 
+function hideBtn(){
+
+}
+
 var truncSpace = function (str) {
     if (!str) {
         return "";
     }
-    return str.replace(/[\n\r\t]/g, '').trim();
+    return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈
 };

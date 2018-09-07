@@ -30,7 +30,7 @@
         <div class="modal-title">
             <span id="mod-rno"></span>
             <div>
-                <textarea id="replycontext" rows="3" placeholder="Enter"></textarea>    
+                <textarea id="replycontext" rows="3" placeholder="Enter"></textarea>  <!-- 글의 텍스트 -->  
             </div>
         </div>
         <div>
