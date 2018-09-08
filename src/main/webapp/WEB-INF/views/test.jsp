@@ -26,11 +26,11 @@
         <button id="btnShowJson" class="btn btn-warning">댓글전체JSON</button>
     </div>
     
-    <div id="modDiv">
+    <div id="modDiv">    
         <div class="modal-title">
             <span id="mod-rno"></span>
             <div>
-                <textarea id="replycontext" rows="3" placeholder="Enter"></textarea>  <!-- 글의 텍스트 -->  
+                <textarea id="replycontext" cols="35" rows="3" placeholder="Enter"></textarea>  <!-- 텍스트 쓰는곳 -->  
             </div>
         </div>
         <div>

@@ -1,7 +1,6 @@
-const BNO = 3;
+const BNO = 3;	//bno 전역변수로 잡음 const는 상수
 
 function registerReply() {
-    
     const REGIST_URL = "/replies";
     let jsonData = getValidData($('#newReplyWriter'), $('#newReplyText'));
     if (!jsonData) {
@@ -24,18 +23,10 @@ let workingReplyText = "", //현재 리플의 텍스트.
     $workingReply = null, //현재 리플은 비어있다
     workingRno = 0; //현재 떠있는 리플 번호.
 
-function editReply() { //jsp에서 onclick 이름과 같다.	오류 k.type.toUpperCase is not a function
-        hideBtn();
-    // let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replytext 에서 val로 가져옴	
-    // if (editedReplytext === workingReplyText) {	    //0907 미완성
-    //                                     //수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단.
-        
-	//     alert("내용 수정 안됨");
-	//     return;
-	// }
-	
-	if(!confirm("수정?")) return;	//수정여부 물어보고 수정이 yes가 아니면 (no면) 종료 
-													    							
+function editReply() { //jsp에서 onclick 이름과 같다.	오류 k.type.toUpperCase is not a function 오타오류였음
+
+    if (!confirm("수정?")) return;	//수정여부 물어보고 수정이 yes가 아니면 (no면) 종료 
+
     let jsonData = {
         replytext: editedReplytext
     } //제이슨 데이타안에 replytext는 editedReplytext를 담는다.
@@ -49,15 +40,15 @@ function editReply() { //jsp에서 onclick 이름과 같다.	오류 k.type.toUpp
         } else {
             console.debug("update error>>", res);
         }
-    },'PUT', jsonData);	//순서 바뀌면 OBJ오류 출력됐었다. 하지만 그게 정상 sendAjax 0907 14:00
+    }, 'PUT', jsonData);	//순서 바뀌면 OBJ오류 출력됐었다. 하지만 그게 정상 sendAjax 0907 14:00
 }
 
 function removeReply() {
-    if (!confirm("Are u sure??")) return;
+    if (!confirm("삭제하시겠습니까?")) return;
 
     sendAjax("/replies/" + workingRno, (isSuccess, res) => {
         if (isSuccess) { //
-            alert(workingRno + "s번 댓글이 삭제완료되었습니다.");
+            alert(workingRno + "번 댓글이 삭제완료되었습니다.");
             listPage(); //댓글 목록
             closeMod(); //댓글창 닫기
         } else {
@@ -68,34 +59,34 @@ function removeReply() {
 
 function closeMod() { //댓글 창 지우는 것
     let $modDiv = $("#modDiv"); //변수 modDiv 에 제이쿼리 modDiv를? 선언
-    workingRno = 0; // 현재 실행중 rno 삭제
+    workingRno = 0; // 현재 실행중 rno 삭제 깔끔하게 0으로 만들어주는게 좋ㄷㅏ.
     $('#replytext').text(''); //제이쿼리 아이디가 replytext중에 text들을 삭제
     $modDiv.hide('slow'); //느리게 사라짐
 }
 
-function listPage(page){
+function listPage(page) {
     page = page || 1;
     listUrl = "/replies/all/" + BNO + "/" + page;
-    
-    sendAjax(listUrl, function(isSuccess, res){	//res
-        if(isSuccess){
+
+    sendAjax(listUrl, function (isSuccess, res) {	//res
+        if (isSuccess) {
             let data = res.list,
                 pageMaker = res.pageMaker;
             let str = ""; //바뀔 수 있음
             //$(data).each((a,b) => {console.log(a,b)});
             data.forEach(
-                    (d) => {
-                        //str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
-                        str += `<li data-rno= "${d.rno}" class= "replyLi">
+                (d) => {
+                    //str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
+                    str += `<li data-rno= "${d.rno}" class= "replyLi">
                             <span>${d.replytext}</span>
                             <button onclick=modClicked(this) class="point">수정</button>
                             </li>`;
-                    }
+                }
             );
             $('#replies').html(str);
             printPage(pageMaker);
         }
-        
+
     }//fn여기까지
     );
 }
@@ -139,7 +130,6 @@ function sendAjax(url, fn, method, jsonData) {
     }
 
     $.ajax(options).always((responseText, statusText, ajaxResult) => {		 // 다른곳 res = responseTextmap.put("list", list);		map.put("pageMaker", pagemaker); 담아온다
-
         let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
         fn(isSuccess, responseText);
         if (!isSuccess) {
@@ -154,7 +144,7 @@ function showJson() {
         let $li = $(li),
             rno = $li.data('rno')
         replyer = $li.data('replyer')
-        replytext = truncSpace($li.text()); 
+        replytext = truncSpace($li.text());
         result.push({
             rno: rno,
             replyer: replyer,
@@ -175,61 +165,59 @@ function movCenterModDiv() {
     });
 }
 
-function modClicked(btn) { //버튼을 클릭하면  
+function modClicked(btn) { //댓글 옆 수정 버튼을 클릭하면  
     let $btn = $(btn),
         $reply = $btn.parent(), //$reply에 btn의 부모를 가르킴 이돟ㅇ
         rno = $reply.data('rno'); //rno는 
     replytext = truncSpace($reply.find('span').text()); //replytext는 truncSpace안에 span을 찾아 text를 가져온다
     $('#replycontext').val(replytext);  //id replycontext 안에 val에서 텍스트를 가져와 담음.
     $('#modDiv').show('slow');
-    workingRno = rno;               
+    workingRno = rno;
     workingReplyText = replytext;
-    $workingReply = $reply; //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게
+    $workingReply = $reply;
+    hideBtn();		
 }
 
+function hideBtn() {
+    let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replycontext 에서 val로 가져옴	
+    // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다	//디스플레이 none으로 대체
+    //   $('#replycontext').change(function() { alert("content changed"); });	//체인지 함수.
+//    console.log($('#replycontext').val() == editedReplytext); //true 값이랑 비교하면 트루
+    $('#replycontext').keyup(function() {//키를 누르면 실행되는 함수 인것 같다.
+    	$('#btnModReply').show();
+      if ($('#replycontext').val() == editedReplytext)		//만약에 변경된게 수정된 텍스트랑 다르면 수정버튼 보여준다.
+    	  $('#btnModReply').hide();	
+    });
+}
 
-function hideBtn(){
-   let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replytext 에서 val로 가져옴	
-   // console.log(editedReplytext);
-   // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다
+function printPage(pm) {		//0907 오후 수업	pm은 페이지 메이커에서 받아받아온거 매개변수
 
-       if (editedReplytext !== workingReplyText) {	    
-           $('#btnModReply').hide()        //@@@@@@@Todo 과제 댓글 페이지 유지하기
-           //수정된 텍스트랑 현재 텍스트랑 같으면 수정이 없는것이라 판단해 버튼 사라짐.
-       }
-       else
-           $('#btnModReply').show()
-   }
-
-function printPage(pm){		//0907 오후 수업	pm은 페이지 메이커에서 받아받아온거 매개변수
-    
     console.log(pm);
     let str = "",
-    	tmpPage = 0;	//임시 변수
+        tmpPage = 0;	//임시 변수
     let currentPage = pm.criteria.page;
-    
-    if(pm.prev) 
-    	{
-    		tmpPage = pm.startPage - 1;
-    	 	str = `<li><a href="#" onclick = "listPage(tmpPage)" data-page = "${tmpPage}">&lt;&lt;</a></li>`;
-    	}
-       
-    for(let i = pm.startPage; i <= pm.endPage; i++)
-    	 str += `<li><a href="#" onclick = "listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page = "${i}">${i}</a></li>`;
-    	//class="${currentPage === i ? "active" : ""}" currentPage가 i 랑 같으면 클래스가 "active" 아니면 "null" "?"삼항 연산자
-    if(pm.next) 
-    	{
-	    	tmpPage = pm.startPage + 1;
-	        str += `<li><a href="#" onclick = "listPage(tmpPage) data-page = "${tmpPage}">&gt;&gt;</a></li>`;
-    	}
-    	
 
-    	$('ul.pagination').html(str);	//ul안에 pagination찾음
+    if (pm.prev) {
+        tmpPage = pm.startPage - 1;
+        str = `<li><a href="#" onclick = "listPage(tmpPage)" data-page = "${tmpPage}">&lt;&lt;</a></li>`;
+    }
+
+    for (let i = pm.startPage; i <= pm.endPage; i++)
+        str += `<li><a href="#" onclick = "listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page = "${i}">${i}</a></li>`;
+    //class="${currentPage === i ? "active" : ""}" currentPage가 i 랑 같으면 클래스가 "active" 아니면 "null" "?"삼항 연산자
+    if (pm.next) {
+        tmpPage = pm.startPage + 1;
+        str += `<li><a href="#" onclick = "listPage(tmpPage) data-page = "${tmpPage}">&gt;&gt;</a></li>`;
+    }
+    $('ul.pagination').html(str);	//ul안에 pagination찾음
 }
 
 var truncSpace = function (str) {
     if (!str) {
         return "";
     }
-    return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈
+    return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈	트림은 공백제거
 };
+
+//Archive
+//수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게 0908 완료
