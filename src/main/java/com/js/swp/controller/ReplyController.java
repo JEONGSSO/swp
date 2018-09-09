@@ -10,11 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.PageMaker;
@@ -70,8 +72,11 @@ public class ReplyController
 	}
 
 	@RequestMapping(value = "/{rno}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> delete(@PathVariable("rno") Integer rno)
+	public ResponseEntity<String> delete(
+			@PathVariable("rno") Integer rno,
+			RedirectAttributes rttr, Criteria cri)
 	{
+		//Todo 현재페이지 입력되게끔
 		logger.debug("ReplyDelete>>{}", rno);
 		try
 		{
