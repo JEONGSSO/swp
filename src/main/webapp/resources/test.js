@@ -216,19 +216,13 @@ function toggleEditBtn() {
 	let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replycontext 에서 val로 가져옴
     // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다	//디스플레이 none으로 대체
     //   $('#replycontext').change(function() { alert("content changed"); });	//체인지 함수.
-//    console.log($('#replycontext').val() == editedReplytext); //true 값이랑 비교하면 트루
+	//    console.log($('#replycontext').val() == editedReplytext); //true 값이랑 비교하면 트루
     $('#replycontext').keyup(function() {//텍스트를 입력하면 실행되는 keyup함수
     	$('#btnModReply').show();
       if ($('#replycontext').val() == editedReplytext)		//만약에 변경된게 수정된 텍스트랑 다르면 수정버튼 보여준다.
     	  $('#btnModReply').hide();	
     });
 }
-
-function ReplyPage()
-{
-	
-}
-
 //Archive
 //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게 0908 완료
 
