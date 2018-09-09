@@ -28,7 +28,7 @@ function editReply() { //jsp에서 onclick 이름과 같다.	오류 k.type.toUpp
     if (!confirm("수정?")) return;	//수정여부 물어보고 수정이 yes가 아니면 (no면) 종료 
 
     let jsonData = {
-        replytext: editedReplytext
+        replytext: editedReplytext = $('#replycontext').val()	//전역변수로 하니까 널값이 되어서 0909에 수정
     } //제이슨 데이타안에 replytext는 editedReplytext를 담는다.
 
     sendAjax("/replies/" + workingRno, (isSuccess, res) => {    //함수 sendAjax 실행
@@ -179,7 +179,7 @@ function modClicked(btn) { //댓글 옆 수정 버튼을 클릭하면
 }
 
 function hideBtn() {
-    let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replycontext 에서 val로 가져옴	
+	let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replycontext 에서 val로 가져옴
     // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다	//디스플레이 none으로 대체
     //   $('#replycontext').change(function() { alert("content changed"); });	//체인지 함수.
 //    console.log($('#replycontext').val() == editedReplytext); //true 값이랑 비교하면 트루
