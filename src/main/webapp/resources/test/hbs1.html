@@ -6,14 +6,11 @@
 </head>
 <body>
 
-<script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>  
-<script src="../handlebars-v4.0.12.js"></script>    <!-- 상대경로, 하나위에 핸들바-->
+	<div id="tmp1_output">
+		<!--  넣는 공간 -->
+	</div>
 
-<div id = "tmp1_output"> <!--  넣는 공간 -->
-
-</div>
-
-<!--  <script>
+	<!--  <script>
 	let template1 = Handlebars.compile($('#test').html()),  //변수 template1는 핸들바 컴파일 test가 들어간다.
 		data = {id : 123, name : "아두이", addr : "seoul"}; //data {{id}}} 처럼 {{}}이런곳에 들어갈 데이터를 넣는것.
 	
@@ -22,19 +19,32 @@
 </script>
 -->
 
-<script id="tmpl1" type="text/x-handlebars-template">
+	<script id="tmpl1" type="text/x-handlebars-template"> 
+            <div>-
+                id : {{id}}, name : {{name}} 
+            </div>
+        </script>
+
+	<script id="tmpl2" type="text/x-handlebars-template"> 
         <div>-
-            id : {{id}}, name : {{name}} 
+            id : {{id}}. <strong>{{name}}</strong> 
         </div>
-</script>
+    </script>
 
-<script>
-    let template = Handlebars.compile($('#tmpl1').html()),  // template 는 핸들바 컴파일 (제이쿼리 아이디가 제이쿼리인 html함수를 실행해 담는다.
-    context = {id : 123, name : "홍길동"},  //context는 Json으로 아이디 이름을 가져온다.
-    html = template(context);  // html 는 template 함수호출하고 안에 위에서 처리한 context를 담아 저장
+	<script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+	<script src="../handlebars-v4.0.12.js"></script>
+	<script src="../hbs.js"></script>
+	<!-- 상대경로, 하나위에 핸들바-->
 
-    $("#tmp1_output").html(html); <!--
-    console.log(html);
+	<script> //호출 부분
+	let data = {id : 123, name : "홍길동"};//context는 Json으로 아이디 이름을 가져온다.
+	renderHbs("tmpl1", data, 'div');
+   // let template = Handlebars.compile($('#tmpl1').html()),  // template 는 핸들바 컴파일 (제이쿼리 아이디가 제이쿼리인 html함수를 실행해 담는다.
+    //나중에 함수만들면 이걸로만 처리 가능
+   // tempHtml = template(data);  // html 는 template 함수호출하고 안에 위에서 처리한 context를 담아 저장
+
+    //$("#tmp1_output").html(tempHtml);
+   // console.log(tempHtml);
 
 </script>
 </body>
