@@ -54,6 +54,7 @@ function removeReply() {
     sendAjax("/replies/" + workingRno, (isSuccess, res) => {
         if (isSuccess) { 
             alert(workingRno + " 번 댓글이 삭제완료되었습니다.");
+            workingPage = ($('.active').data().page);
             listPage(workingPage); //todo 댓글 페이지 유지 시켜야해
             closeMod(); //댓글창 닫기
         } else {
@@ -81,7 +82,7 @@ function listPage(page) {
                             </li>`;
                 }
             );
-            $('#replies').html(str);
+            $('#replies').html(str);//replies를 html 만들어주는거
             printPage(pageMaker);
         }
 
@@ -89,7 +90,7 @@ function listPage(page) {
     );
 }
 
-function getValidData($replyer, $replytext) {	//Register때 실행
+function getValidData($replyer, $replytext) {	//Register때만 실행
     let errorFocus = null,
         replyer = $replyer.val(),
         replytext = $replytext.val(),
@@ -204,12 +205,13 @@ function printPage(pageMaker) {		//0907 오후 수업	pageMaker은 페이지 메
 
     for (let i = pageMaker.startPage; i <= pageMaker.endPage; i++)
         str += `<li><a href="#" onclick = "listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page = "${i}">${i}</a></li>`;
-    //class="${currentPage === i ? "active" : ""}" currentPage가 i 랑 같으면 클래스가 "active" 아니면 "null" "?"삼항 연산자
+    //class="${currentPage === i ? "active" : ""}" currentPage가 i 랑 같으면 클래스가 "active" 아니면 "null" "?"삼항 연산자	
+    //active 현재 페이지를 가지고는 있다.
     if (pageMaker.next) {
         tmpPage = pageMaker.startPage + 1;
         str += `<li><a href="#" onclick = "listPage(tmpPage) data-page = "${tmpPage}">&gt;&gt;</a></li>`;
     }
-    $('ul.pagination').html(str);	//ul안에 pagination찾음
+    $('ul.pagination').html(str);	//ul안에 pagination찾아 만들어줌
 }
 
 function toggleEditBtn() {
