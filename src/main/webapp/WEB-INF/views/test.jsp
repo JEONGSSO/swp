@@ -12,6 +12,8 @@
 </head>
 <body>
     <h2 id = "h2-title" class="point">Ajax Test Page</h2>
+    
+    	<!-- 댓글 목록 ------------------------------------------------>
     <ul id="replies">    
     </ul>
     
@@ -52,12 +54,6 @@
         $('#btnReplyAdd').click(function(){
             registerReply();
         })
-        
-        $('#btnShowJson').click(function(){
-            showJson();
-        })
-        
-        movCenterModDiv();
     });
 </script>
 </body>
