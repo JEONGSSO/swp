@@ -1,5 +1,6 @@
 li{
     list-style:none;
+    display: inline;
 }
 #replies{
     padding:0;
@@ -32,9 +33,4 @@ li{
     display: inline;
     padding :10px;
     float: left;
-}
-
-.active{
-    border: 1px solid black;
-    padding: 1px;
 }

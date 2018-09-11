@@ -1,4 +1,42 @@
-const BNO = 3;	//bno 전역변수로 잡음 const는 상수
+let gbno = 0;
+
+function replylistPage(page, bno) {		//0911 수업
+	gbno = bno || gbno;
+    page = page || 1;
+    listUrl = "/replies/all/" + gbno + "/" + page;
+
+    sendAjax(listUrl, function (isSuccess, res) {
+        if (isSuccess) {
+             res.pageData = makePageData(res.pageMaker);
+             console.debug("디버그",res.pageData);
+        	 res.currentPage = page;	//pageData 삭제하고 액티브 나오게 했다.
+//        	 console.debug(">>>", res)
+             renderHbs("replies", res, 'div'); //호출 replies , res 제이슨 데이타, 태그는 div
+        	 }
+    	}
+    );
+}
+
+function makePageData(pageMaker){	//0911 수업
+//    console.debug(">saddasd>>",pageMaker);
+    let pageData = {
+        prevPage : 0,
+        pages : [],
+        nextPage : 0
+    };
+
+    if (pageMaker.prev) {
+    	pageData.prevPage = pageMaker.startPage - 1;
+    }
+
+    for (let i = pageMaker.startPage ; i <= pageMaker.endPage ; i++) {
+        pageData.pages.push(i); //pageData.pages는 위에 pages [] 푸쉬는 넣는거  
+    }
+    if(pageMaker.next){
+    	pageData.nextPage = pageMaker.endPage + 1;
+    }
+    return pageData;
+}	//0911 수업
 
 function registerReply() {
     const REGIST_URL = "/replies";
@@ -13,7 +51,7 @@ function registerReply() {
     sendAjax(REGIST_URL, (isSuccess, res) => { //url, is
         if (isSuccess) {
             alert("등록이 완료 되었습니다.");
-            listPage();
+            replylistPage();
             document.getElementById("newreg").reset(); //0909 new부분 폼으로 감싸서 완료. 입력창 비워주기
         } else {
             console.debug("Error on registerReply>>", res);
@@ -36,7 +74,7 @@ function editReply() { //jsp에서 onclick 이름과 같다.	오류 k.type.toUpp
     sendAjax("/replies/" + workingRno, (isSuccess, res) => {    //함수 sendAjax 실행
         if (isSuccess) {
             alert(workingRno + "수정완료");
-            //listPage(); //댓글 목록 -> 페이지 0906 수정	0909 수정  1페이지 간거 수정
+            //replylistPage(); //댓글 목록 -> 페이지 0906 수정	0909 수정  1페이지 간거 수정
             $workingReply.find('span').text(editedReplytext);   //$workingReply의 span에서 텍스트를 가져온다 그 텍스트는 editedReplytext
             closeMod();	//댓글 닫기
         } else {
@@ -50,12 +88,12 @@ let workingPage = 0;	//현재있는 페이지
 function removeReply() {
     if (!confirm("삭제하시겠습니까?")) return;
 
-//    workingPage = ${listPage}
+//    workingPage = ${replylistPage}
     sendAjax("/replies/" + workingRno, (isSuccess, res) => {
         if (isSuccess) { 
             alert(workingRno + " 번 댓글이 삭제완료되었습니다.");
             workingPage = ($('.active').data().page);	//액티브에 데이타함수에 페이지 값
-            listPage(workingPage); //댓글 페이지 유지
+            replylistPage(workingPage); //댓글 페이지 유지
             closeMod(); //댓글창 닫기
         } else {
             console.debug("Error on removeReply>>", res);
@@ -63,35 +101,6 @@ function removeReply() {
     }, 'DELETE');
 }
 
-function listPage(page) {
-    page = page || 1;
-    listUrl = "/replies/all/" + BNO + "/" + page;
-
-    sendAjax(listUrl, function (isSuccess, res) {
-        if (isSuccess) {
-        	// console.debug(">>>", res)
-            renderHbs("replies", res, 'div'); //호출 replies , res 제이슨 데이타, 태그는 div
-            
-/*           let data = res.list,
-               pageMaker = res.pageMaker;
-           let str = ""; //바뀔 수 있음
-           //$(data).each((a,b) => {console.log(a,b)});
-           data.forEach(
-               (d) => {
-                   //str += '<li data-rno="' + d.rno + '" class="replyLi">' + d.replytext + '<button>수정</button>' + '</li>';
-                   str += `<li data-rno= "${d.rno}" class= "replyLi">
-                           <span>${d.replytext}</span>
-                           <button onclick=modClicked(this) class="point">수정</button>
-                           </li>`;
-               }
-           );
-           $('#replies').html(str);//replies를 html 만들어주는거
-           printPage(pageMaker);
-*/       }
-
-    }//fn여기까지
-    );
-}
 
 function getValidData($replyer, $replytext) {	//Register때만 실행
     let errorFocus = null,
@@ -131,7 +140,7 @@ function sendAjax(url, fn, method, jsonData) {
         console.log(options);
     }
 
-    $.ajax(options).always((responseText, statusText, ajaxResult) => {		 // 다른곳 res = responseTextmap.put("list", list);		map.put("pageMaker", pagemaker); 담아온다
+    $.ajax(options).always((responseText, statusText, ajaxResult) => {
         let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
         fn(isSuccess, responseText);
         if (!isSuccess) {
@@ -194,29 +203,6 @@ var truncSpace = function (str) {
     return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈	트림은 공백제거
 };
 
-function printPage(pageMaker) {		//0907 오후 수업	pageMaker은 페이지 메이커에서 받아받아온거 매개변수
-
-    console.log(pageMaker);
-    let str = "",
-        tmpPage = 0;	//임시 변수
-    let currentPage = pageMaker.criteria.page;
-
-    if (pageMaker.prev) {
-        tmpPage = pageMaker.startPage - 1;
-        str = `<li><a href="#" onclick = "listPage(tmpPage)" data-page = "${tmpPage}">&lt;&lt;</a></li>`;
-    }
-
-    for (let i = pageMaker.startPage; i <= pageMaker.endPage; i++)
-        str += `<li><a href="#" onclick = "listPage(${i})" class="${currentPage === i ? "active" : ""}" data-page = "${i}">${i}</a></li>`;
-    //class="${currentPage === i ? "active" : ""}" currentPage가 i 랑 같으면 클래스가 "active" 아니면 "null" "?"삼항 연산자	
-    //active 현재 페이지를 가지고는 있다.
-    if (pageMaker.next) {
-        tmpPage = pageMaker.startPage + 1;
-        str += `<li><a href="#" onclick = "listPage(tmpPage) data-page = "${tmpPage}">&gt;&gt;</a></li>`;
-    }
-    $('ul.pagination').html(str);	//ul안에 pagination찾아 만들어줌
-}
-
 function toggleEditBtn() {
 	let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replycontext 에서 val로 가져옴
     // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다	//디스플레이 none으로 대체
@@ -232,4 +218,3 @@ function toggleEditBtn() {
 //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게 0908 완료
 
 //Todo 댓글 목록 화살표 해보기
-listPage();

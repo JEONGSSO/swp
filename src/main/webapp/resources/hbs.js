@@ -15,5 +15,13 @@
         let $tmpl = $('#' + tmpid); //tmp 아이디를 담음
         let html = Templates[tmpid](jsonData);
         let cssClass = $tmpl.attr('class') || "";
-        $tmpl.replaceWith(`<${tag} class="${cssClass}">` + html + `</${tag}`)  
+        $tmpl.replaceWith(`<${tag} id = "${tmpid}" class="${cssClass}">` + html + `</${tag}`)  
     };
+    
+    Handlebars.registerHelper('eq', (a, b) => {	
+    	return a == b;
+    })
+
+    Handlebars.registerHelper('fromNow', (dt, option) => {	
+    	return moment(dt).fromNow();
+    })

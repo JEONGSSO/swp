@@ -48,7 +48,7 @@
 <script>
     $(function(){
         //$('#h2-title').on('click',listAll);
-        listPage();
+        replylistPage();
         $('#btnReplyAdd').click(function(){
             registerReply();
         })
