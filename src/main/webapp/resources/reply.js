@@ -1,21 +1,20 @@
-let gbno = 0,
+let gbno = 0,	
 	gIsEdit = false;
 	gRno = 0,
 	gPage = null;
 	
 const	REGIST_URL = "/replies/";
-	//todo 
 
 function replylistPage(page, bno) {		//0911 수업
-	gbno = bno || gbno;
-    page = page || gPage || 1;
-    listUrl = "/replies/all/" + gbno + "/" + page;
+	gbno = bno || gbno;	//bno 없으면 gbno
+    gPage = page || gPage || 1;
+    listUrl = "/replies/all/" + gbno + "/" + gPage;
 
-    sendAjax(listUrl, (isSuccess, res) => {
+    sendAjax(listUrl, (isSuccess, res) => {	//res = responsetext 페이지메이커랑 뭐랑있음.
         if (isSuccess) {
              res.pageData = makePageData(res.pageMaker);
-//             console.debug("디버그",res.pageData);
-        	 res.currentPage = page;	//pageData 삭제하고 액티브 나오게 했다.
+        	 res.currentPage = gPage;	//pageData 삭제하고 액티브 나오게 했다.
+//        	 console.debug("디버그",res.pageData);
 //        	 console.debug(">>>", res)
              renderHbs("replies", res, 'div'); //호출 replies , res 제이슨 데이타, 태그는 div
     	 }
@@ -28,10 +27,9 @@ function makePageData(pageMaker){	//0911 수업
         prevPage : 0,
         nextPage : 0,
         pages : []
-        
     };
-
-    if (pageMaker.prev) {	//페이지 메이커에 prev 있으면
+    	//페이지 메이커에 prev 있으면
+    if (pageMaker.prev) {	
     	pageData.prevPage = pageMaker.startPage - 1;
     	//페이지 데이터 안에 prev는 page메이커 스타트 페이지 -1
     }
@@ -62,24 +60,26 @@ function closeMod() { //댓글 창 지우는 것
 	gRno = 0;
 //	$('#replyer').val('');	//작성자 지워주기
 //	$('#replytext').val('');	//텍스트 지워주기 
-	$('#mymodal').modal('hide');	//모달 숨김
+	$('#myModal').modal('hide');	//모달 숨김
 	}
 
 function save() {	//0912
     let jsonData = getValidData($('#replyer'), $('#replytext'));	//수정 등록 경계를 허물어서 바꿈
-    let url = gIsEdit ? REGIST_URL + gRno : REGIST_URL,	
+    let url = gIsEdit ? REGIST_URL + gRno : REGIST_URL,		//등록인지 수정인지 gIsEdit이 true면  앞 : false면 뒤
     	method = gIsEdit ? 'PATCH' : 'POST';
-    if(!gIsEdit){
-    		jsonData.bno = gbno;
-    	}
+    
+    if(!gIsEdit){ jsonData.bno = gbno;}
+    
     sendAjax(url, (isSuccess, res) => { //url, is
         if (isSuccess) {
         	let resultMsg = gIsEdit ? gRno + "번 댓글이 수정되었습니다." 
         			: "댓글이 등록되었습니다.";
             alert(resultMsg);
-            replylistPage(gIsEdit || 1); //등록완료되면 페이지 1로
-//            document.getElementById("newreg").reset(); //0909 new부분 폼으로 감싸서 완료. 입력창 비워주기
-        } else {
+            
+           let result = gIsEdit ? gPage : 1;	//결과는 gIsEdit 수정 이면 ~~ 아니면 1
+            replylistPage(result);//todo 수정 후 페이지 유지.
+            closeMod();										
+    } 	else {
             console.debug("Error on registerReply>>", res);
         }
     }, method, jsonData);
@@ -109,12 +109,11 @@ function sendAjax(url, fn, method, jsonData) {
 function removeReply() {
     if (!confirm("댓글을 삭제하시겠습니까?")) return;
 
-//    workingPage = ${replylistPage}
     sendAjax("/replies/" + gRno, (isSuccess, res) => {
         if (isSuccess) { 
             alert(gRno + " 번 댓글이 삭제완료되었습니다.");
-            gPage = ($('.active').data().page);	//액티브에 데이타함수에 페이지 값
-            replylistPage(workingPage); //댓글 페이지 유지
+            console.log();
+            replylistPage(gPage); //댓글 페이지 유지
             closeMod(); //댓글창 닫기
         } else {
             console.debug("Error on removeReply>>", res);
@@ -160,6 +159,7 @@ function getValidData($replyer, $replytext) {	//Register때만 실행
 //      if ($('#replycontext').val() == editedReplytext)		//만약에 변경된게 수정된 텍스트랑 다르면 수정버튼 보여준다.
 //    	  $('#btnModReply').hide();	
 //    });
+//}
 //Archive
 //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게 0908 완료
 

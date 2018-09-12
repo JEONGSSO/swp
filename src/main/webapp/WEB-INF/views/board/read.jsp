@@ -104,9 +104,8 @@
 	       </div>
       </div>
       
-      {{!-- 댓글 등록---------------------------------------------}}
       <div class="modal-footer">
-    	    <button id="btnReplyAdd" class="btn btn-primary" onclick = "save()">{{#if gIsEdit}}수정{{else}}등록{{/if}}</button>	
+    	    <button id="btnReplyAdd" class="btn btn-primary" onclick="save()">{{#if gIsEdit}}수정{{else}}등록{{/if}}</button>	
 		 	{{#if gIsEdit}}
 	 	 		<button onclick = "removeReply()" id="btnDelReply">삭제</button>
 	  		{{/if}}      
@@ -115,11 +114,10 @@
   </div>
 </script>
 
- <button onclick = "editReply()" id ="btnModReply">등록</button>	<!--@@@Todo 글 누르면 수정으로가게 끔 -->
+ <button onclick = "editReply()" id ="btnModReply" class = "btn btn-primary">등록</button>
 
 	<script>
     $(document).ready(function(){
-    		
     		replylistPage(1, ${board.bno});
     		$("#button-remove-read").on("click",function(){
     			if(confirm("삭제 하시겠습니까?"))	{
@@ -132,7 +130,6 @@
     if (result === 'ok') {
     	alert("수정 완료");
     }
-    	
     
 </script>
 
