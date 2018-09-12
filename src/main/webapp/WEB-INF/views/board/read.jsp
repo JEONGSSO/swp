@@ -43,16 +43,15 @@
 	<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
 </div>
 
-<!-- replies----------------------------------------------->
+<!-- 댓글 목록--------------------------------------------------------------------------09 12-->
 <script id="replies" class="well" type="text/x-handlebars-template"> 
 	<ul class = "list-group">
 		{{#each list}} {{!--리스트만큼 반복.--}}
-			<li class = "list-group-item">
-				{{replyer}}	
-				<small class="text-muted"><i class="fa fa-user">{{replytext}}</i></small>
+			<a href = "#" class = "list-group-item" onclick="editReply({{rno}}, '{{replyer}}', '{{replytext}}')">
+				{{replytext}}	
+				<small class="text-muted"><i class="fa fa-user">{{replyer}}</i></small>
 				<small class="text-muted pull right">{{fromNow regdate}}</small>	{{!--moment fromNow 현재시간--}}
-		  		<button onclick=modClicked(this) class="point">수정</button>
-			</li>
+			</a>
 		{{/each}}
 	</ul>
 		
@@ -88,40 +87,35 @@
 </div>	
 </script>
 
-<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal"
-			 id = "modalBtn">
-  댓글 등록
-</button>
-
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<!-- 핸들러~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+<script type="text/x-handlebars-template"  class="modal fade" id="myModal" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">댓글 등록</h4>
+        <h4 class="modal-title" id="myModalLabel">댓글 {{#if gIsEdit}}수정{{else}}등록{{/if}}</h4>
       </div>
       <div class="modal-body">
-	      <div>
-	            작성자 : <input type="text" name="replyer" id="newReplyWriter" class = "form-control" />
-	      </div>
-	      
+	      	<div>
+	      	      작성자 : <input type="text" value="{{replyer}}" name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" />
+	     	 </div>
 	       <div>
-		            내용 : <textarea name="replytext" id="newReplyText" cols="30" rows="3" class="form-control"></textarea>
+		            내용 : <textarea name="replytext" id="replytext" cols="30" rows="3" class="form-control">{{replytext}}</textarea>
 	       </div>
-	       
       </div>
       
-      <!-- 댓글 등록------------------------------------------- -->
+      {{!-- 댓글 등록---------------------------------------------}}
       <div class="modal-footer">
-      <button id="btnReplyAdd" class="btn btn-primary">등록</button>
-					<!-- <button onclick = "closeMod()" id="btnCloseReply">닫기</button>-->
-      </div>
+    	    <button id="btnReplyAdd" class="btn btn-primary" onclick = "save()">{{#if gIsEdit}}수정{{else}}등록{{/if}}</button>	
+		 	{{#if gIsEdit}}
+	 	 		<button onclick = "removeReply()" id="btnDelReply">삭제</button>
+	  		{{/if}}      
+	  </div>
     </div>
   </div>
-</div>
+</script>
 
- <button onclick = "editReply()" id ="btnModReply">수정</button>	<!--@@@Todo 글 누르면 수정으로가게 끔 -->
-<button onclick = "removeReply()" id="btnDelReply">삭제</button>
+ <button onclick = "editReply()" id ="btnModReply">등록</button>	<!--@@@Todo 글 누르면 수정으로가게 끔 -->
 
 	<script>
     $(document).ready(function(){

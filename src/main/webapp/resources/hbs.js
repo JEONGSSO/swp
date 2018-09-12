@@ -21,7 +21,12 @@
     Handlebars.registerHelper('eq', (a, b) => {	
     	return a == b;
     })
-
+    
+    moment.locale('ko');
     Handlebars.registerHelper('fromNow', (dt, option) => {	
     	return moment(dt).fromNow();
+    })
+    
+    Handlebars.registerHelper('fullTime', (dt, option) => {	
+    	return moment(dt).format('llll');
     })
