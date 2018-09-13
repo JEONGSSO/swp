@@ -114,4 +114,31 @@ public class ReplyController
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@RequestMapping(value = "/all/{bno}/{page}", method = RequestMethod.GET)		//리스트는 읽기 GET todotodoto
+	public ResponseEntity<Map<String, Object>>readRno(@PathVariable("bno") Integer bno,	//@PathVariable uri에있는 값을 가져온다?
+			@PathVariable("page") Integer page)	//@PathVariable은 @RequestMapping에 bno, page를 담는다
+	{
+		logger.debug("ReplyList>>{}", bno);
+		try
+		{
+			Map<String, Object> map = new HashMap<>();	//해쉬맵 하나 선언 맵의 키 list pageMaker	list: [리스트vo] 
+			Criteria cri = new Criteria();		//크리테리아는 페이징하려고
+			cri.setPage(page);					
+			PageMaker pagemaker = new PageMaker(cri);	//페이지메이커는 쪽수 표현하려고
+			List<ReplyVO> list = service.listReplyPage(bno, cri);	// 배열로 [ bno = 6 , rno = 10 , replyer :홍길동 ]
+			map.put("list", list);	
+
+			int replyCount = service.getTotalCount(bno);// 서비스에 getTotalCount 실행해 리턴해온 값을 replyCount에 담는다.
+			pagemaker.setTotalCount(replyCount);	//전체 갯수
+
+			map.put("pageMaker", pagemaker);
+
+			return new ResponseEntity<>(map, HttpStatus.OK);
+		} 
+			catch (Exception e)
+		{
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 }
