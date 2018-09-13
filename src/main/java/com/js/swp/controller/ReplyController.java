@@ -76,7 +76,6 @@ public class ReplyController
 			@PathVariable("rno") Integer rno,
 			RedirectAttributes rttr, Criteria cri)
 	{
-		//Todo 현재페이지 입력되게끔
 		logger.debug("ReplyDelete>>{}", rno);
 		try
 		{
@@ -114,31 +113,24 @@ public class ReplyController
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
-	@RequestMapping(value = "/all/{bno}/{page}", method = RequestMethod.GET)		//리스트는 읽기 GET todotodoto
-	public ResponseEntity<Map<String, Object>>readRno(@PathVariable("bno") Integer bno,	//@PathVariable uri에있는 값을 가져온다?
-			@PathVariable("page") Integer page)	//@PathVariable은 @RequestMapping에 bno, page를 담는다
+	//일단 댓글 번호를 읽으려면 rno를 받아와야한다. 컨트롤러 -> 서비스(댓글은 생략가능) -> dao >>>>~~~  TODO
+	@RequestMapping(value = "/{rno}", method = { RequestMethod.GET})	//PUT, PATCH 수정 QQQ
+	public ResponseEntity<Map<String, Object>> readRno(@PathVariable("rno") Integer rno,		//@PathVariable 변수는 RNO 타입은 INTEGER;
+			@RequestBody ReplyVO reply)	//@RequestBody 잭슨이 JSON값을 REPLY에 담는다?
 	{
-		logger.debug("ReplyList>>{}", bno);
+		logger.debug("ReplyUpdate>>{}", rno, reply);
 		try
-		{
-			Map<String, Object> map = new HashMap<>();	//해쉬맵 하나 선언 맵의 키 list pageMaker	list: [리스트vo] 
-			Criteria cri = new Criteria();		//크리테리아는 페이징하려고
-			cri.setPage(page);					
-			PageMaker pagemaker = new PageMaker(cri);	//페이지메이커는 쪽수 표현하려고
-			List<ReplyVO> list = service.listReplyPage(bno, cri);	// 배열로 [ bno = 6 , rno = 10 , replyer :홍길동 ]
-			map.put("list", list);	
-
-			int replyCount = service.getTotalCount(bno);// 서비스에 getTotalCount 실행해 리턴해온 값을 replyCount에 담는다.
-			pagemaker.setTotalCount(replyCount);	//전체 갯수
-
-			map.put("pageMaker", pagemaker);
-
-			return new ResponseEntity<>(map, HttpStatus.OK);
+		{	
+			Map<String, Object> map = new HashMap<>();
+			map.put("readRno", rno);	// 키 readRno에 밸류 rno값을 넣는다. 
+			reply.getRno();	//replyvo에 getRno안에서 가져온다
+			service.readRno(rno);	//서비스 -> DAO -> SQLSESSION(매퍼 실행)  사실상 실행문
+			return new ResponseEntity<>("ReplyUpdateOK", HttpStatus.OK);
 		} 
-			catch (Exception e)
+		
+		catch (Exception e)
 		{
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
 }

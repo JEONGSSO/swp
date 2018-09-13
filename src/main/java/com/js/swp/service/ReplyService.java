@@ -5,7 +5,6 @@ import java.util.List;
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.ReplyVO;
 
-
 public interface ReplyService {
 	void register(ReplyVO reply) throws Exception;
 	
@@ -16,4 +15,6 @@ public interface ReplyService {
 	List<ReplyVO> listReplyPage(Integer bno, Criteria cri) throws Exception;
 	
 	int getTotalCount(Integer bno) throws Exception;
+
+	int readRno(Integer rno) throws Exception;	//0914
 }

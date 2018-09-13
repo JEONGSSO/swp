@@ -21,10 +21,10 @@ public class ReplyDAOImpl implements ReplyDAO{
 	private static final String NS = "replyMapper";									
 	private static final String CREATE = NS + ".create";								//매퍼에 ID가 create인 쿼리를 담는다 
 	private static final String UPDATE = NS + ".update";								//매퍼에 ID가 update인 쿼리를 담는다 
-	private static final String DELETE = NS + ".delete";										//매퍼에 ID가 delete인 쿼리를 담는다 
+	private static final String DELETE = NS + ".delete";									//매퍼에 ID가 delete인 쿼리를 담는다 
 	private static final String LISTPAGE = NS + ".listPage";					
 	private static final String GETTOTALCOUNT = NS + ".getTotalCount";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
-	
+	private static final String READRNO = NS + ".readRno";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
 	
 	@Override
 	public void create(ReplyVO reply) throws Exception {
@@ -58,6 +58,11 @@ public class ReplyDAOImpl implements ReplyDAO{
 	@Override
 	public int getToalCount(Integer bno) {
 		return session.selectOne(GETTOTALCOUNT, bno);	//GETTOTALCOUNT는 매퍼 쿼리문, BNO는 값을 가져와, 서비스에 넘겨준다.
+	}
+
+	@Override
+	public int readRno(Integer rno) {
+		return session.selectOne(READRNO, rno);	//0914
 	}
 
 }

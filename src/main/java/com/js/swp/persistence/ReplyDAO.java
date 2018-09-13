@@ -16,4 +16,6 @@ public interface ReplyDAO {
 	List<ReplyVO> listPage(Integer bno, Criteria cri) throws Exception;
 
 	int getToalCount(Integer bno);
+
+	int readRno(Integer rno);	//0914
 }

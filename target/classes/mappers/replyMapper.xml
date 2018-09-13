@@ -33,6 +33,13 @@
 		select count(bno)
 		from reply
 		where bno = #{bno}
+		
+	</select>
+	<!-- 0914@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<select id="readRno" resultType="int">
+		select rno
+		from reply
+		where rno = #{rno}
 	</select>
 	
 </mapper>

@@ -41,5 +41,10 @@ public class ReplyServiceImpl implements ReplyService{
 	public int getTotalCount(Integer bno) throws Exception {
 		return replyDAO.getToalCount(bno);		// DAO에 getTotalCount 실행해 리턴해온 값을 서비스에 리턴해준다.
 	}
+
+	@Override
+	public int readRno(Integer rno) throws Exception {	//인트로 받는거 아닌지????????????? 매개변수확인하래
+		return replyDAO.readRno(rno);	//0914
+	}
 	
 }

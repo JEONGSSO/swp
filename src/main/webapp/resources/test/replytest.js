@@ -33,7 +33,7 @@ QUnit.test("Test pageMaker", (assert) => {
 			],
 		 	"nextPage" : 11
 		};
-	assert.deepEqual(resReal, resExpect, "makePageData 통과");
+	assert.deepEqual(resReal, resExpect, "makePageData 통과");		//0913 통
 });
 
 
@@ -57,7 +57,7 @@ QUnit.test("Test pageMaker", (assert) => {
 		 assert.deepEqual(read(res.list), assignmentExpected,"성공");
 		 assert.deepEqual(res.list[0],assignmentExpected, "listPage 통과");
 	 	}
-	 	done(); // 끝났음을 알려준다.
+	 	done(); // 끝났음을 알려준다.과
 	 	});
 	 });
 //
