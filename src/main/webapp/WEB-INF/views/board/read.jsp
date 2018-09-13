@@ -9,6 +9,8 @@
 	<input type ='hidden' name ='bno' value="${board.bno}">
 </form>
 
+<%@ include file="../qunit.jsp" %>
+
 <!-- 섹션 시작 ----------------------------------------------- -->
 <section class="content">
 	<div class="box-body">
@@ -47,7 +49,7 @@
 <script id="replies" class="well" type="text/x-handlebars-template"> 
 	<ul class = "list-group">
 		{{#each list}} {{!--리스트만큼 반복.--}}
-			<a href = "#" class = "list-group-item" onclick="editReply({{rno}}, '{{replyer}}', '{{replytext}}')">
+			<a href = "#" class = "list-group-item" onclick="editReply({{rno}}, '{{replyer}}', '{{replytext}}')">	{{!--댓글 클릭 하면 수정으로 todo 요거 몇몇댓글--}}
 				{{replytext}}	
 				<small class="text-muted"><i class="fa fa-user">{{replyer}}</i></small>
 				<small class="text-muted pull right">{{fromNow regdate}}</small>	{{!--moment fromNow 현재시간--}}
@@ -55,8 +57,8 @@
 		{{/each}}
 	</ul>
 		
-<div class="text-center">
-	<nav aria-label="pagination"> {{!-- 0911 수업 --}}
+<div>
+	<nav aria-label="pagination" class="text-center"> {{!-- 0911 수업 --}}
 		<ul class ="pagination">
 		{{#if pageData.prevPage}}	 {{!-- 페이지 메이커 prev가 있으면 밑에 실행해 --}}
 					<li>
@@ -97,15 +99,15 @@
       </div>
       <div class="modal-body">
 	      	<div>
-	      	      작성자 : <input type="text" value="{{replyer}}" name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" />
+	      	      작성자 : <input type="text" onkeyup="toggleEditBtn()" value="{{replyer}}" name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" />
 	     	 </div>
 	       <div>
-		            내용 : <textarea name="replytext" id="replytext" cols="30" rows="3" class="form-control">{{replytext}}</textarea>
+		            내용 : <textarea name="replytext" id="replytext" onkeyup="toggleEditBtn()" cols="30" rows="3" class="form-control">{{replytext}}</textarea>
 	       </div>
       </div>
       
-      <div class="modal-footer">
-    	    <button id="btnReplyAdd" class="btn btn-primary" onclick="save()">{{#if gIsEdit}}수정{{else}}등록{{/if}}</button>	
+      <div class="modal-footer">	{{!-- 수정 모달 안에 버튼들 --}}
+    	    <button id="btnReplyAdd" class="btn btn-primary"  onclick="save()">{{#if gIsEdit}}수정{{else}}등록{{/if}}</button>	
 		 	{{#if gIsEdit}}
 	 	 		<button onclick = "removeReply()" id="btnDelReply">삭제</button>
 	  		{{/if}}      
@@ -138,5 +140,8 @@
 <script src="../resources/moment_min.js"></script>
 <script src="../resources/hbs.js"></script>
 <script src="../resources/reply.js"></script>
+
+<!--QQQ :  Reply Unit Test -->
+<script src="../resources/test/replytest.js"></script>
 
 <%@include file="../include/footer.jsp" %>

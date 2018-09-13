@@ -2,6 +2,7 @@ let gbno = 0,
 	gIsEdit = false;
 	gRno = 0,
 	gPage = null;
+	gReplytext = null;		//0913 수정버튼 삭제할때 만듦 
 	
 const	REGIST_URL = "/replies/";
 
@@ -15,7 +16,7 @@ function replylistPage(page, bno) {		//0911 수업
              res.pageData = makePageData(res.pageMaker);
         	 res.currentPage = gPage;	//pageData 삭제하고 액티브 나오게 했다.
 //        	 console.debug("디버그",res.pageData);
-//        	 console.debug(">>>", res)
+        	 console.debug(">>>", res)
              renderHbs("replies", res, 'div'); //호출 replies , res 제이슨 데이타, 태그는 div
     	 }
 	});
@@ -40,24 +41,31 @@ function makePageData(pageMaker){	//0911 수업
     if(pageMaker.next){
     	pageData.nextPage = pageMaker.endPage + 1;
     }
+//    pagaData.delim = "|"; 
+    
     return pageData;
 }	//0911 수업
 
 function editReply(rno, replyer, replytext){	//수정인지 등록인지 계산하는 함수	
-	console.debug("editReply " + rno, replyer, replytext)
+//	console.debug("editReply " + rno, replyer, replytext)
 	event.preventDefault();	//# 눌렀을 때 작동 안되게
 	gIsEdit = !!rno; //rno가 없거나 공백이거나 스페이스바거나 두루뭉술 gisEdit 만들
 	gRno = rno;
+	gReplytext = replytext;
+	
 	renderHbs('myModal', {
 		gIsEdit : gIsEdit,
 		replyer : replyer,
 		replytext : replytext
 	}, 'div');	//(tmpid, jsonData, tag)를 각각 넣어준다.
+	
 	$('#myModal').modal();	//모달 쇼 디폴트 쇼
+	 $('#btnReplyAdd').hide();
 }
 
 function closeMod() { //댓글 창 지우는 것
 	gRno = 0;
+	gReplytext = null;	
 //	$('#replyer').val('');	//작성자 지워주기
 //	$('#replytext').val('');	//텍스트 지워주기 
 	$('#myModal').modal('hide');	//모달 숨김
@@ -67,7 +75,8 @@ function save() {	//0912
     let jsonData = getValidData($('#replyer'), $('#replytext'));	//수정 등록 경계를 허물어서 바꿈
     let url = gIsEdit ? REGIST_URL + gRno : REGIST_URL,		//등록인지 수정인지 gIsEdit이 true면  앞 : false면 뒤
     	method = gIsEdit ? 'PATCH' : 'POST';
-    
+//    gReplytext = $(replytext).val();
+//    console.log("지리플텍스트 >>>" + gReplytext);
     if(!gIsEdit){ jsonData.bno = gbno;}
     
     sendAjax(url, (isSuccess, res) => { //url, is
@@ -75,15 +84,31 @@ function save() {	//0912
         	let resultMsg = gIsEdit ? gRno + "번 댓글이 수정되었습니다." 
         			: "댓글이 등록되었습니다.";
             alert(resultMsg);
-            
+            toggleEditBtn();
            let result = gIsEdit ? gPage : 1;	//결과는 gIsEdit 수정 이면 ~~ 아니면 1
-            replylistPage(result);//todo 수정 후 페이지 유지.
+            replylistPage(result);//0912 수정 후 페이지 유지.
             closeMod();										
     } 	else {
             console.debug("Error on registerReply>>", res);
         }
     }, method, jsonData);
 }
+
+function toggleEditBtn() {	//0913 수정
+	let $replyer= $('#replyer'),
+		$replytext = $('#replytext'),
+		replyer = $replyer,
+		replytext = $replytext.val();
+	
+	 if(event.keyCode === 13)							
+			console.debug("%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+		
+      if (replyer && replytext && replytext != gReplytext)	
+    	  $('#btnReplyAdd').show();
+      else
+    	  $('#btnReplyAdd').hide();
+    };
+//  $('#replytext').keyup(function() {//텍스트를 입력하면 실행되는 keyup함수
 
 function sendAjax(url, fn, method, jsonData) {
     let options = {
@@ -149,18 +174,8 @@ function getValidData($replyer, $replytext) {	//Register때만 실행
 
 //    return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈	트림은 공백제거
 
-//function toggleEditBtn() {
-//	let editedReplytext = $('#replycontext').val();	//수정된 텍스트는 제이쿼리 id	replycontext 에서 val로 가져옴
-//    // $('#btnModReply').hide()    //수정버튼이 사라져있어야 하는데 아직은 안된다	//디스플레이 none으로 대체
-//    //   $('#replycontext').change(function() { alert("content changed"); });	//체인지 함수.
-//	//    console.log($('#replycontext').val() == editedReplytext); //true 값이랑 비교하면 트루
-//    $('#replycontext').keyup(function() {//텍스트를 입력하면 실행되는 keyup함수
-//    	$('#btnModReply').show();
-//      if ($('#replycontext').val() == editedReplytext)		//만약에 변경된게 수정된 텍스트랑 다르면 수정버튼 보여준다.
-//    	  $('#btnModReply').hide();	
-//    });
-//}
 //Archive
 //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게 0908 완료
 
-//Todo 수정 에러
+//Todo
+// 몇몇 댓글들 안들어가진다.
