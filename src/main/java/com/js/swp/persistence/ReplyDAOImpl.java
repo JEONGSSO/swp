@@ -61,7 +61,7 @@ public class ReplyDAOImpl implements ReplyDAO{
 	}
 
 	@Override
-	public int readRno(Integer rno) {
+	public ReplyVO readRno(Integer rno) {
 		return session.selectOne(READRNO, rno);	//0914
 	}
 

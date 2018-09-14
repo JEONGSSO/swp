@@ -36,8 +36,8 @@
 		
 	</select>
 	<!-- 0914@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-	<select id="readRno" resultType="int">
-		select rno
+	<select id="readRno" resultType="ReplyVO">
+		select *
 		from reply
 		where rno = #{rno}
 	</select>

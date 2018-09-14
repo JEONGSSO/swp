@@ -43,7 +43,7 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 
 	@Override
-	public int readRno(Integer rno) throws Exception {	//인트로 받는거 아닌지????????????? 매개변수확인하래
+	public ReplyVO readRno(Integer rno) throws Exception {	//인트로 받는거 아닌지????????????? 매개변수확인하래
 		return replyDAO.readRno(rno);	//0914
 	}
 	

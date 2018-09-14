@@ -172,6 +172,25 @@ function getValidData($replyer, $replytext) {	//Register때만 실행
     };
 }
 
+const readReply = rno => new Promise( (resolves, rejects) => 	//0914 수업 아예 타지 않음.	
+{
+	sendAjax("/replies/" + rno, (isSuccess, res) =>  //예측 값
+	{
+		if(isSuccess)
+			{
+//				console.debug("isSuccess" + res); 
+				resolves(res);
+			}
+			
+		else
+			rejects(Error(res));
+	});
+});
+
+function readRno(){	//TODO
+	
+}
+
 //    return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈	트림은 공백제거
 
 //Archive

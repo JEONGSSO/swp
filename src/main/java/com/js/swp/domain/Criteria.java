@@ -73,5 +73,9 @@ public class Criteria {
 	public String toString() {
 		return "Criteria [page=" + page +"," + "perPageNum=" + perpageNum+"]";
 	}
+	
+//	public String toString() {
+//		return super.toString() + "Criteria" + "[searchType ="+ searchType + "keyword=" + keyword + "]"; 
+//	}
 
 }

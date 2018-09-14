@@ -17,5 +17,5 @@ public interface ReplyDAO {
 
 	int getToalCount(Integer bno);
 
-	int readRno(Integer rno);	//0914
+	ReplyVO readRno(Integer rno);	//0914
 }

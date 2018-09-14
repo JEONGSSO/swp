@@ -1,7 +1,6 @@
 package com.js.swp.domain;
 
 import org.springframework.web.util.UriComponentsBuilder;
-
 public class PageMaker {
 	private int displayPageNum = 10;
 	

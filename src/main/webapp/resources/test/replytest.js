@@ -36,31 +36,69 @@ QUnit.test("Test pageMaker", (assert) => {
 	assert.deepEqual(resReal, resExpect, "makePageData 통과");		//0913 통
 });
 
+const gResExpect = //예측 값
+{	
+		"nextPage" : 11,
+		"pages" : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+		"prevPage" : 0
+} 
 
- const assignentExpected = read(75); // 이거 db로가져온다 컨ㅌ크롤러 부터 쿼리까지 다만들어야 db예측값 todototodo
-
- QUnit.test("Test listPage() 첫 페이지", (assert) => { // 리스트페이지 그대로넣어
- let page = 1;
- let listUrl = "/replies/all/" + 3 + "/" + 1; // 3은 글번호 1은 페이지 번호
- console.debug("url >>> ", listUrl);
+ QUnit.test("Test listPage() 첫 페이지", (assert) => 	// 리스트페이지 그대로넣어
+ { 
+	 let page = 1;
+	 let listUrl = "/replies/all/" + 3 + "/" + 1; // 3은 글번호 1은 페이지 번호
+	 console.debug("url >>> ", listUrl);
+		
+	 const done = assert.async(); // 다 끝날때까지 기다려
 	
- const done = assert.async(); // 다 끝날때까지 기다려
-
-	 sendAjax(listUrl, (isSuccess, res) => { // res = responsetext 페이지메이커랑
-												// LIST 맵 (댓글목록 10개).
-	 console.debug("listPage : res >>", res);
-	 assert.ok(isSuccess, "Ajax 성공!");
-	 if(isSuccess) {
-		 res.currentPage = page;
-		 res.pageData = makePageData(res.pageMaker);
-		 assert.equal(res.list.length, 10, "페이지 10개!");
-		 assert.deepEqual(read(res.list), assignmentExpected,"성공");
-		 assert.deepEqual(res.list[0],assignmentExpected, "listPage 통과");
-	 	}
-	 	done(); // 끝났음을 알려준다.과
-	 	});
-	 });
-//
+		 sendAjax(listUrl, (isSuccess, res) =>	 // res = responsetext 페이지메이커랑
+			{
+				 console.debug("listPage : res >>", res);
+				 assert.ok(isSuccess, "Ajax 성공!");
+				 
+				 let isDone = false;
+				 try 
+				 {
+					 if(isSuccess) 
+					 {
+						 res.currentPage = page;
+						 res.pageData = makePageData(res.pageMaker);
+//						 console.debug("rerererers" + res.list.length);  10개 잘넘어 옴
+						 assert.equal(res.list.length, 10, "페이지 10개!");
+						 assert.deepEqual(res.pageData, gResExpect ,"성공");
+						 
+						 let firstReply = res.list[0];
+						 
+						 readReply(firstReply.rno).then	// 0914 여기서 에러
+						 (
+								 success =>	// 함수명
+								 {
+									 assert.deepEqual(firstReply, success, "리플 데이터 통과");
+									 done();
+									 isDone = true;
+								 },
+								 
+								 error =>
+								 {
+									 console.error("에러 온 리드", error);
+									 done();
+									 isDone = true;
+								 }
+						);	//then end
+						 
+				 }			// if end	 
+					 else
+						 	throw new Error ("list ajax fail!!")
+				 }	// try end
+				 catch(Error)
+				 {	
+					 if (!isDone)
+						done(); // 끝났음을 알려준다. 쓰루하고 캐치안하면 언카우치
+				 }
+	 	});	//sand ajax end
+ });	//Qunit end
+ 
+ 
 // //과제 20페이지??
 // //Todo 과제 텍스트엔터누르면 수정 되게끔 작성자에서 엔터누르면 댓글내용으로 가게끔
 // //Todo 예상된 rno랑 실제 rno를 비교한다(db에서 직접가져오기 ) -> 컨트롤러 -> 서비스 -> ~~~~~ 

@@ -16,5 +16,5 @@ public interface ReplyService {
 	
 	int getTotalCount(Integer bno) throws Exception;
 
-	int readRno(Integer rno) throws Exception;	//0914
+	ReplyVO readRno(Integer rno) throws Exception;	//0914
 }

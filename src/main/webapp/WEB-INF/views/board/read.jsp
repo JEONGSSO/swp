@@ -2,14 +2,19 @@
 <%@ page session="false" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
-   
+	
+<c:set var = "isTest" scope = "page" value = "${true}"/>		<!--QQQ :  Reply Unit Test -->
 <%@ include file="../include/header.jsp" %>
+
+<c:if test = "${ true eq isTest }">
+	<%@ include file="../qunit.jsp" %>
+	<script src="../resources/test/replytest.js"></script>
+</c:if>
 
 <form role ="form" method="post">
 	<input type ='hidden' name ='bno' value="${board.bno}">
 </form>
 
-<%@ include file="../qunit.jsp" %>
 
 <!-- 섹션 시작 ----------------------------------------------- -->
 <section class="content">
@@ -132,7 +137,17 @@
     if (result === 'ok') {
     	alert("수정 완료");
     }
-    
+  <!-- 
+    let jdata = {
+    		  id: 123,
+    		  age: 45,
+    		  name: `aaa`
+    		};
+    		let {id, age} = jdata;
+    		console.log(`QQQ>> id=${id}, age=${age}`);
+    		let [a,b] = [123, 456, 777];
+    		console.log(`QQQ>> a=${a}, b=${b}`)
+    -->
 </script>
 
 <link rel="stylesheet" href="/resources/test.css" />
@@ -140,8 +155,5 @@
 <script src="../resources/moment_min.js"></script>
 <script src="../resources/hbs.js"></script>
 <script src="../resources/reply.js"></script>
-
-<!--QQQ :  Reply Unit Test -->
-<script src="../resources/test/replytest.js"></script>
 
 <%@include file="../include/footer.jsp" %>

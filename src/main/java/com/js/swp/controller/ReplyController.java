@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -113,24 +112,22 @@ public class ReplyController
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	//일단 댓글 번호를 읽으려면 rno를 받아와야한다. 컨트롤러 -> 서비스(댓글은 생략가능) -> dao >>>>~~~  TODO
+	//일단 댓글 번호를 읽으려면 rno를 받아와야한다. 컨트롤러 -> 서비스(댓글은 생략가능) -> dao >>>>
 	@RequestMapping(value = "/{rno}", method = { RequestMethod.GET})	//PUT, PATCH 수정 QQQ
-	public ResponseEntity<Map<String, Object>> readRno(@PathVariable("rno") Integer rno,		//@PathVariable 변수는 RNO 타입은 INTEGER;
-			@RequestBody ReplyVO reply)	//@RequestBody 잭슨이 JSON값을 REPLY에 담는다?
+	public ResponseEntity<ReplyVO> readRno(@PathVariable("rno") Integer rno)		//@PathVariable 변수는 RNO 타입은 INTEGEr	// @RequestBody 잭슨이 JSON값을 REPLY에 담는다?
 	{
-		logger.debug("ReplyUpdate>>{}", rno, reply);
+//		logger.debug("ReplyUpdate>>{}", rno);
 		try
 		{	
-			Map<String, Object> map = new HashMap<>();
-			map.put("readRno", rno);	// 키 readRno에 밸류 rno값을 넣는다. 
-			reply.getRno();	//replyvo에 getRno안에서 가져온다
-			service.readRno(rno);	//서비스 -> DAO -> SQLSESSION(매퍼 실행)  사실상 실행문
-			return new ResponseEntity<>("ReplyUpdateOK", HttpStatus.OK);
+			// ReplyVO리턴 타입 vo에 rno 받음
+			ReplyVO Replyvo = service.readRno(rno);	// 서비스 -> DAO -> SQLSESSION(매퍼 실행)  사실상 실행문 vo반환
+			System.out.println(service.readRno(rno).toString());
+			return new ResponseEntity<>(Replyvo, HttpStatus.OK);	// ResponseEntity 생성해 vo(body)를 보낸다.
+//			return new ResponseEntity<ReplyVO>(body, status)
 		} 
-		
 		catch (Exception e)
 		{
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 }
