@@ -57,7 +57,7 @@
 				<option value="tc">제목+내용</option>
 				<option value="a">전체 검색</option>
 			</select>
-			<input type="text" id="keyword"  name ="keyword" value="${ pageMaker.criteria.keyword}"
+			<input type="text" id="keyword"  name ="keyword" value="${ pageMaker.criteria.keyword }"
 						placeholder ="검색어 입력" class ="form-control"/>
 			<button id ="searchBtn" class ="btn btn-primary">검색</button>
 	</div>
@@ -89,7 +89,7 @@
 <script>
    		$(document).ready(function() {
    			var canPrev = "${pageMaker.prev}";
-   			console.log("canPrev >>", canPrev)
+   			<!-- console.log("canPrev >>", canPrev) -->
    			
    			if(canPrev !=='true'){
    				$('#page-prev').addClass('disabled')
@@ -106,7 +106,7 @@
     	
  			$('#searchBtn').on('click', function() {
  				var $keyword = $('#keyword');
- 				var $searchType =$('#searchType');
+ 				var $searchType = $('#searchType');
  				
  				var searchType = $searchType.val();
  				var keywordStr = $keyword.val();
@@ -117,9 +117,10 @@
  					return;
  				}
  				
- 				var url = "listPage${pageMaker.makeQuery(1, false)}";
-						url += "&searchType" + searchType;
-						url += "&keyword" + encodeURIComponent(keywordStr);
+ 				var url = "listPage?page=1"
+ 						+ "&perPageNum=" + "${pageMaker.criteria.perPageNum}"
+						+ "&searchType=" + searchType
+						+ "&keyword=" + encodeURIComponent(keywordStr);
 						window.location.href = url;
         });
 });	   			

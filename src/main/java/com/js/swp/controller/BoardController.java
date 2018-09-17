@@ -70,6 +70,9 @@ public class BoardController {
 			rttr.addFlashAttribute("msg", "ok");	//msg에 ok를 심음
 			rttr.addAttribute("page", criteria.getPage());
 			rttr.addAttribute("perPageNum", criteria.getPerPageNum());
+			rttr.addAttribute("searchType", criteria.getSearchType());
+			rttr.addAttribute("keyword", criteria.getKeyword());
+			rttr.addAttribute("bno", board.getBno());
 			return "redirect:/board/read?bno="+ board.getBno();	//지금 수정한 bno로 이동한다. 메시지 var "msg" 는 read.jsp에다가 써야한다
 		}
 		
@@ -79,6 +82,8 @@ public class BoardController {
 			rttr.addFlashAttribute("msg", "remove-ok");	//msg에 remove-ok를 심음	
 			rttr.addAttribute("page", criteria.getPage());
 			rttr.addAttribute("perPageNum", criteria.getPerPageNum());
+			rttr.addAttribute("searchType", criteria.getSearchType());
+			rttr.addAttribute("keyword", criteria.getKeyword());
 			return "redirect:/board/listPage";	//삭제 후 보드 리스트로 이동
 		}
 		

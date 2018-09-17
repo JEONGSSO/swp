@@ -13,6 +13,13 @@
 		
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<!-- dao classes -->
+	<context:component-scan base-package="com.js.swp.persistence"></context:component-scan>
+	<context:component-scan base-package="com.js.swp.service"></context:component-scan>	
+	<context:component-scan base-package="com.js.swp.aop"></context:component-scan>	
+		
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>		<!--  프록시가 필요하면 알아서 만들어라 -->
+	
 	<bean id="dataSource" 
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName"
@@ -36,9 +43,5 @@
 		<constructor-arg name="sqlSessionFactory"
 			ref="sqlSessionFactory"></constructor-arg>
 	</bean>
-		
-	<!-- dao classes -->
-	<context:component-scan base-package="com.js.swp.persistence"></context:component-scan>
-	<context:component-scan base-package="com.js.swp.service"></context:component-scan>	
-		
+	
 </beans>

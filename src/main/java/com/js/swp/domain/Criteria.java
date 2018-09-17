@@ -11,6 +11,8 @@ public class Criteria {
 	public Criteria() {
 		this.page =1 ;
 		this.perpageNum =10 ;
+		this.searchType = null;
+		this.keyword = null;
 	}
 	public void setPage(int page) {
 		if(page <=0) {
@@ -29,13 +31,17 @@ public class Criteria {
 		this.perpageNum = perPageNum;
 	}
 	
-	public String makeQuery() {	
-		return UriComponentsBuilder.newInstance()
-					.queryParam("page", this.page)
-					.queryParam("perPageNum", this.getPerPageNum())
+	public String makeQuery() {
+		UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.newInstance()
+				.queryParam("page", page)
+				.queryParam("perpageNum", this.perpageNum);
+				
+		if (searchType!=null) {
+			uriComponentsBuilder
 					.queryParam("searchType", this.searchType)
-					.queryParam("keyword", this.keyword)
-					.build().toString();
+					.queryParam("keyword", this.keyword);
+		}
+		return uriComponentsBuilder.build().encode().toString();
 	}
 	
 	public int getPage() {
@@ -71,11 +77,8 @@ public class Criteria {
 	}
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page +"," + "perPageNum=" + perpageNum+"]";
+		return "Criteria [page=" + page +"," + "perPageNum=" + perpageNum +
+				"searchType =" + searchType + "keyword=" + keyword + "]";
 	}
-	
-//	public String toString() {
-//		return super.toString() + "Criteria" + "[searchType ="+ searchType + "keyword=" + keyword + "]"; 
-//	}
 
 }
