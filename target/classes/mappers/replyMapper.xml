@@ -35,9 +35,17 @@
 		where bno = #{bno}
 		
 	</select>
-	<!-- 0914@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<!-- 0914@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	 -->
 	<select id="readRno" resultType="ReplyVO">
 		select *
+		from reply
+		where rno = #{rno}
+	</select>
+
+	 
+	<!-- 0918@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+	<select id="getBno" resultType="int">
+		select bno
 		from reply
 		where rno = #{rno}
 	</select>

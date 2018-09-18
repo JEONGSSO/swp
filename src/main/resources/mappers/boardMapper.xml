@@ -12,7 +12,7 @@
 	</insert>
 
 	<select id="read" resultType="com.js.swp.domain.Board">
-		select bno, title, content, writer, regdate, viewcnt
+		select bno, title, content, writer, regdate, viewcnt, replycnt
 		from tb1_board
 		where bno = #{bno}
 	</select>
@@ -22,7 +22,7 @@
 		content =# {content}
 		where bno = #{bno}
 	</update>
-
+	
 	<delete id="delete">
 		delete from tb1_board where bno = #{bno}
 	</delete>
@@ -34,7 +34,7 @@
 	<select id="listAll" resultType="com.js.swp.domain.Board">
 		<![CDATA[
 		select
-			bno, title, content, writer, regdate, viewcnt
+			bno, title, content, writer, regdate, viewcnt, replycnt
 		from tb1_board
 		where bno > 0
 		order by bno desc, regdate desc
@@ -43,7 +43,7 @@
 
 	<select id="listPage" resultType="com.js.swp.domain.Board">
 			select
-				bno, title, content, writer, regdate, viewcnt
+				bno, title, content, writer, regdate, viewcnt, replycnt
 			from tb1_board
 			where bno > 0
 				order by bno desc, regdate desc
@@ -80,7 +80,7 @@
 	
 	<select id="listCriteria" resultType="com.js.swp.domain.Board">
 		select
-			bno, title, content, writer, regdate, viewcnt
+			bno, title, content, writer, regdate, viewcnt, replycnt
 		from tb1_board
 			where bno > 0
 		<include refid="search"></include>
@@ -98,5 +98,17 @@
 			bno > 0
 		]]>
 	</select>
+	
+		<!-- 0918  -->
+	<update id="plusViewcnt">
+		update tb1_board set viewcnt = viewcnt + 1
+		where bno = #{bno}
+	</update>
+	
+	<update id="updateReplycnt">
+		update tb1_board set replycnt = replycnt + #{amt},
+		where bno = #{bno}
+	</update>
+	<!-- 0918 까지  -->
 	
 </mapper>

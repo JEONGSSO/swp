@@ -18,4 +18,7 @@ public interface ReplyDAO {
 	int getToalCount(Integer bno);
 
 	ReplyVO readRno(Integer rno);	//0914
+	
+	int getBno (Integer rno) throws Exception;
+
 }

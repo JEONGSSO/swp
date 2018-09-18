@@ -5,15 +5,21 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.ReplyVO;
+import com.js.swp.persistence.BoardDAO;
 import com.js.swp.persistence.ReplyDAO;
 
 @Service
 public class ReplyServiceImpl implements ReplyService{
+	
 	@Inject
 	ReplyDAO replyDAO;
+	
+	@Inject
+	BoardDAO boardDAO;
 	
 	@Override
 	public void register(ReplyVO reply) throws Exception {			//addreply
@@ -45,6 +51,29 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public ReplyVO readRno(Integer rno) throws Exception {	//인트로 받는거 아닌지????????????? 매개변수확인하래
 		return replyDAO.readRno(rno);	//0914
+	}
+	
+	@Transactional
+	@Override
+	public void addReply(ReplyVO replyvo) throws Exception
+	{
+		replyDAO.create(replyvo);
+		boardDAO.updateReplycnt(replyvo.getBno(), 1);
+	}
+	
+	@Override
+	public void modifyReply(ReplyVO replyvo) throws Exception
+	{
+		replyDAO.update(replyvo);
+	}
+	
+	@Transactional
+	@Override
+	public void removeReply(Integer rno) throws Exception
+	{
+		int bno = replyDAO.getBno(rno);
+		replyDAO.delete(rno);
+		boardDAO.updateReplycnt(bno, -1);
 	}
 	
 }

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
@@ -22,6 +24,7 @@ public class BoardServiceImpl  implements BoardService{
 		dao.create(board);	
 	}
 
+	@Transactional(isolation=Isolation.READ_COMMITTED)
 	@Override
 	public Board read(Integer bno) throws Exception {
 		return dao.read(bno);

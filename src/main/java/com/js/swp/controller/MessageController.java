@@ -22,9 +22,8 @@ public class MessageController
 	@RequestMapping(value = "/", method = RequestMethod.POST) // POST 등록
 	public ResponseEntity<String> addMessage(@RequestBody MessageVo message)	// 스트링을 리턴할거야	json하려면 obj가와야한다.
 	{ 		ResponseEntity<String> entity = null;									//json은 받아와서 vo를 만들거야, 잭슨이 받아온다(?)
-																								//@RequestBody는 json의 바디에  클라이언트에서 준 vo를 reply에 담는다?
-																								//ResponseEntity 주고받는 봉투를 구현한것, 
-																								//잭슨은 json을 만들어주는 것
+																									//@RequestBody는 json의 바디에  클라이언트에서 준 값을 message에 담는다.
+																//ResponseEntity 주고받는 봉투를 구현한것,  데이터가 예외적 상황에 상태 표현해주는 것 값은 스트링
 		try
 		{
 			service.addMessage(message);	//위에서 담은 reply를 서비스에 레지스터 실행

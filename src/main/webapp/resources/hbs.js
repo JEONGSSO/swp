@@ -30,3 +30,8 @@
     Handlebars.registerHelper('fullTime', (dt, option) => {	
     	return moment(dt).format('llll');
     })
+    
+//	 Handlebars.registerHelper('transHtml', (str) => {	
+//		 if(!str) return str;
+//    })
+	 

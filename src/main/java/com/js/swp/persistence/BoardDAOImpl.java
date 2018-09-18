@@ -1,7 +1,10 @@
 package com.js.swp.persistence;
 
-	import java.util.List;
-	import javax.inject.Inject;
+	import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
 	import org.apache.ibatis.session.SqlSession;
 	import org.springframework.stereotype.Repository;
 	import com.js.swp.domain.Board;
@@ -64,5 +67,23 @@ import com.js.swp.domain.Criteria;
 		@Override
 		public int countPaging(Criteria criteria) throws Exception {
 			return session.selectOne(namespace+".countPaging", criteria);
+		}
+		
+//0918@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		
+		@Override
+		public void updateReplycnt(Integer bno, int amt) throws Exception
+		{
+//			System.out.println(">>>>>>>>>>>>>>>>>" + bno);
+			Map<String, Object> paramMap = new HashMap<String, Object>();
+			paramMap.put("bno", bno);
+			paramMap.put("amt", amt);
+			session.update(namespace+".updateReplycnt", paramMap);
+		}
+
+		@Override
+		public void plusViewcnt(Integer bno) throws Exception
+		{
+			session.update(namespace+".plusViewcnt", bno);
 		}
 }

@@ -9,8 +9,8 @@
 
 	<!-- 데이터 삽입 -->
 	<insert id="create">
-		INSERT INTO tb1_message (targetid,		 sender, 		message)
-					VALUES  	(#{targetid }, 	#{sender} ,		#{message});
+		insert into tb1_message 	(targetid,		 sender, 		message)
+							VALUES  (#{targetid }, 	#{sender} ,		#{message});
 	</insert>
 	
 	<select id="readMessage" resultType="MessageVo">

@@ -11,7 +11,7 @@
 	<update id="updatePoint">
 		update user
 		set upoint = upoint + #{upoint}
-		where uid = #{uid}
+		where userid = #{userid}
 	</update>
 	
 </mapper>

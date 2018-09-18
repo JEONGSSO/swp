@@ -34,12 +34,10 @@
 			<label for="writer1">작성자</label>
 			<input  class="form-control" type= "text"  name ="writer" id="writer"   value="${board.writer}" readonly ="readonly"/>
 		</div>
-							<!--
-							<div class="form-group">
-								<label for="writer1">조회수</label>
-								<span>${ board.viewcnt }</span>
-							</div>
-							-->
+		<div class="form-group">
+			<label for="writer1">조회수</label>
+			<span>${ board.viewcnt }</span>
+		</div>
 	</div>	
 </section><!-- 섹션 끝  -------------------------------------------->
 

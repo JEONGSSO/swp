@@ -39,7 +39,11 @@
   <c:forEach items="${list}"  var="board">
 	  <tr>
 	    	<td>${ board.bno }</td>
-	    	<td><a href="/board/read${pageMaker.makeQuery(pageMaker.criteria.page)}&bno=${board.bno}"> ${board.title}</a></td>
+	    	<td>
+		    	<a href="/board/read${pageMaker.makeQuery(pageMaker.criteria.page)}&bno=${board.bno}"> ${board.title}
+		    		<small class="text-muted">[${ board.replycnt }]</small>
+		    	</a>
+	    	</td>
 	    	<td>${board.writer}</td>
 	    	<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm" value ="${board.regdate}" /></td>
 	    	<td><span class ="badge bg-red">${ board.viewcnt }</span></td>
