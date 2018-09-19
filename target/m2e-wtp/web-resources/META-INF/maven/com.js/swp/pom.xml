@@ -11,7 +11,7 @@
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.3.8.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.8.9</org.aspectj-version> <!-- 0917 AOP -->
-		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.slf4j-version>1.7.25</org.slf4j-version> 	<!-- 0919 logger.info 오류나서 수정 slf4j 표준화된 인터페이스가 와서 구현만 하면 된다. -->
 	</properties>
 	<dependencies>
 	
@@ -74,7 +74,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>1.2.17</version>	<!-- 0919 logger.info 오류나서 수정 -->
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -188,6 +188,20 @@
 			<version>1.16.10</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- upload 0919 -->
+	<dependency>             
+	    <groupId>commons-fileupload</groupId>             
+	    <artifactId>commons-fileupload</artifactId>
+	    <version>1.3.2</version>        
+    </dependency>
+
+	<dependency>
+	    <groupId>org.imgscalr</groupId>
+	    <artifactId>imgscalr-lib</artifactId>
+	    <version>4.2</version>
+	</dependency>
+		
 		
 		       
 	</dependencies>

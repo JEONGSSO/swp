@@ -19,7 +19,7 @@
 
 	<update id="update">
 		update tb1_board set title =#{title},
-		content =# {content}
+		content = #{content}
 		where bno = #{bno}
 	</update>
 	
@@ -109,6 +109,14 @@
 		update tb1_board set replycnt = replycnt + #{amt},
 		where bno = #{bno}
 	</update>
-	<!-- 0918 까지  -->
+		<!-- 0918 까지  -->
+		<!--  
+	<update id="updateCnt">
+		update tb1_board  set replycnt = (select count(*) where bno = #{bno})
+		where #{bno} >0
+	</update>
+	-->
+	
+
 	
 </mapper>

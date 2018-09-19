@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@0918@@@@@@@@@@@@@@@@@@@@@@@@@@
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@AOP0918@@@@@@@@@@@@@@@@@@@@@@@@@@
 @Component
 @Aspect
 public class SampleAdvice
@@ -30,7 +30,7 @@ public class SampleAdvice
 	@After("execution(* com.js.swp.service.MessageService*.*(..))")
 	public void endlog(JoinPoint joinpoint)	
 	{
-		logger.info("--------------startlog---------------");
+		logger.info("--------------endlog---------------");
 		logger.info(" pointcut >> " + joinpoint.getSignature().getName());	//부르는 (실행하는) 메소드를 보여준다.
 		logger.info(" args >> " + Arrays.toString(joinpoint.getArgs()));			//배열을 투스트링으로 바꿔서 보여진다.
 	}

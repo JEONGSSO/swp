@@ -3,11 +3,15 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>	<!-- 네임스페이스 추가 -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
@@ -21,8 +25,20 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.js.swp" />
+<!-- 0919 파일업로드 multipartResolver는 토렌트 같이 분산되었다가 합치는거-->
+	<beans:bean id="multipartResolver"   
+class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    <beans:property name="maxUploadSize" 
+        value="10485760"></beans:property>
+</beans:bean>
+
+<beans:bean id="uploadPath" 
+         class="java.lang.String">
+    <beans:constructor-arg value="//Users//Administrator//Documents//workspace-sts-3.9.5.RELEASE//upload"></beans:constructor-arg>
+</beans:bean>
+<!-- 0919  value = 경로 //두개쓴이유는 하나가 무시될 수 있기때문에-->
 	
+	<context:component-scan base-package="com.js.swp" />
 	
 	
 </beans:beans>

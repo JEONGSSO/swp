@@ -18,4 +18,5 @@ List<Board> listCriteria(Criteria criteria) throws Exception;
 int countPaging(Criteria criteria) throws Exception;
 void updateReplycnt(Integer bno, int amt) throws Exception;
 void plusViewcnt(Integer bno) throws Exception;
+//void updateCnt(Integer mno) throws Exception;
 }

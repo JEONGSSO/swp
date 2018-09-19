@@ -16,7 +16,7 @@ import com.js.swp.domain.Criteria;
 		@Inject
 		private SqlSession session;
 		private static String namespace="com.js.swp.mapper.BoardMapper";
-		
+//		private static final String UPDATE_CNT = namespace + ".updateCnt";
 		@Override
 		public void create (Board b) throws Exception
 		{
@@ -86,4 +86,11 @@ import com.js.swp.domain.Criteria;
 		{
 			session.update(namespace+".plusViewcnt", bno);
 		}
+		
+//		@Override
+//		public void updateCnt(Integer mno) throws Exception
+//		{
+//			session.update(UPDATE_CNT, mno);
+//		}
+		
 }

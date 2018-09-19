@@ -16,7 +16,8 @@ public class MessageDAOImpl implements MessageDAO
 	private static final String NS = "messageMapper";
 	private static final String CREATE = NS + ".create";	
 	private static final String READ_MESSAGE = NS + ".readMessage";	
-	private static final String UPDATE_STATE = NS + ".updateState";	
+	private static final String UPDATE_STATE = NS + ".updateState";
+	
 	
 	@Override
 	public void create(MessageVo message) throws Exception
@@ -35,5 +36,4 @@ public class MessageDAOImpl implements MessageDAO
 	{
 		session.update(UPDATE_STATE, mno);
 	}
-	
 }
