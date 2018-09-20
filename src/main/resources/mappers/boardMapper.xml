@@ -101,12 +101,14 @@
 	
 		<!-- 0918  -->
 	<update id="plusViewcnt">
-		update tb1_board set viewcnt = viewcnt + 1
+		update tb1_board
+		set viewcnt = viewcnt + 1
 		where bno = #{bno}
 	</update>
 	
 	<update id="updateReplycnt">
-		update tb1_board set replycnt = replycnt + #{amt},
+		update tb1_board
+		set replycnt = replycnt + #{amt}
 		where bno = #{bno}
 	</update>
 		<!-- 0918 까지  -->

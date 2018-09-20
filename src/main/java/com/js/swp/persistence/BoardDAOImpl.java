@@ -17,6 +17,7 @@ import com.js.swp.domain.Criteria;
 		private SqlSession session;
 		private static String namespace="com.js.swp.mapper.BoardMapper";
 //		private static final String UPDATE_CNT = namespace + ".updateCnt";
+		
 		@Override
 		public void create (Board b) throws Exception
 		{
@@ -74,8 +75,8 @@ import com.js.swp.domain.Criteria;
 		@Override
 		public void updateReplycnt(Integer bno, int amt) throws Exception
 		{
-//			System.out.println(">>>>>>>>>>>>>>>>>" + bno);
-			Map<String, Object> paramMap = new HashMap<String, Object>();
+			System.out.println(">>>>>>>>>>>>>>>>>" + bno);
+			Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("bno", bno);
 			paramMap.put("amt", amt);
 			session.update(namespace+".updateReplycnt", paramMap);

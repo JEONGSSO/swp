@@ -7,13 +7,18 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.ReplyVO;
+import com.js.swp.service.ReplyServiceImpl;
 
 @Repository
 public class ReplyDAOImpl implements ReplyDAO{
+	
+	private static final Logger logger = LoggerFactory.getLogger(ReplyDAOImpl.class);
 	
 	@Inject
 	SqlSession session;
@@ -41,8 +46,8 @@ public class ReplyDAOImpl implements ReplyDAO{
 
 	@Override
 	public void delete(Integer rno) throws Exception {
+//		logger.debug(">>>>@@@@@@@@@@@@@@@@@@@@@@@@@@@>>>>>>>>" + rno);
 		session.delete(DELETE, rno);
-		
 	}
 
 	@Override

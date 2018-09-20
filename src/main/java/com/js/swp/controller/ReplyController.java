@@ -37,7 +37,7 @@ public class ReplyController
 																								//@RequestBody는 json의 바디에  클라이언트에서 준 vo를 reply에 담는다?
 																								//ResponseEntity 주고받는 봉투를 구현한것, 
 																								//잭슨은 json을 만들어주는 것
-		logger.debug("ReplyRegister>>{}", reply);	//디버그
+//		logger.debug("ReplyRegister>>{}", reply);	//디버그
 		try
 		{
 			service.register(reply);	//위에서 담은 reply를 서비스에 레지스터 실행
@@ -58,12 +58,12 @@ public class ReplyController
 	public ResponseEntity<String> update(@PathVariable("rno") Integer rno,		//@PathVariable 변수는 RNO 타입은 INTEGER;
 			@RequestBody ReplyVO reply)	//@RequestBody 잭슨이 JSON값을 REPLY에 담는다?
 	{
-		logger.debug("ReplyUpdate>>{}", rno, reply);
+//		logger.debug("ReplyUpdate>>{}", rno, reply);
 		try
 		{
 			reply.setRno(rno);	//replyvo에 setrno안에 클라이언트에게서 받은 rno를 쓴다.
 			service.modify(reply);	//서비스 -> DAO -> SQLSESSION(매퍼 실행)  사실상 실행문
-			return new ResponseEntity<>("ReplyUpdateOK", HttpStatus.OK);
+			return new ResponseEntity<String>("ReplyUpdateOK", HttpStatus.OK);
 		} catch (Exception e)
 		{
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -71,11 +71,9 @@ public class ReplyController
 	}
 
 	@RequestMapping(value = "/{rno}", method = RequestMethod.DELETE)
-	public ResponseEntity<String> delete(
-			@PathVariable("rno") Integer rno,
-			RedirectAttributes rttr, Criteria cri)
+	public ResponseEntity<String> delete(@PathVariable("rno") Integer rno)
 	{
-		logger.debug("ReplyDelete>>{}", rno);
+		
 		try
 		{
 			service.remove(rno);		//실제 삭제 실행문
@@ -83,14 +81,14 @@ public class ReplyController
 		} catch (Exception e)
 		{
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+		}				
 	}
 
 	@RequestMapping(value = "/all/{bno}/{page}", method = RequestMethod.GET)		//리스트는 읽기 GET
 	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno,	//@PathVariable uri에있는 값을 가져온다?
 			@PathVariable("page") Integer page)	//@PathVariable은 @RequestMapping에 bno, page를 담는다
 	{
-		logger.debug("ReplyList>>{}", bno);
+//		logger.debug("ReplyList>>{}", bno);
 		try
 		{
 			Map<String, Object> map = new HashMap<>();	//해쉬맵 하나 선언 맵의 키 list pageMaker	list: [리스트vo] 

@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
 	
-<c:set var = "isTest" scope = "page" value = "${true}"/>		<!--QQQ :  Reply Unit Test -->
+<c:set var = "isTest" scope = "page" value = "${false}"/>		<!--QQQ :  Reply Unit Test -->
 <%@ include file="../include/header.jsp" %>
 
 <c:if test = "${ true eq isTest }">
@@ -122,19 +122,19 @@
  <button onclick = "editReply()" id ="btnModReply" class = "btn btn-primary">등록</button>
 
 	<script>
-    $(document).ready(function(){
-    		replylistPage(1, ${board.bno});
-    		$("#button-remove-read").on("click",function(){
-    			if(confirm("삭제 하시겠습니까?"))	{
-    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}"
-    				}
-    		});
-    });
+    $(function(){
+   		replylistPage(1, ${board.bno});
+   		$("#button-remove-read").click(function(){
+   			if(confirm("삭제 하시겠습니까?"))	{
+   					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}";
+   				}
+   		});
     
     var result = '${msg}';	
     if (result === 'ok') {
-    	alert("수정 완료");
-    }
+    	alert("완료");
+    	}
+    });
   <!-- 
     let jdata = {
     		  id: 123,

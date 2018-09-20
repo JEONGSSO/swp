@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.js.swp.controller.ReplyController;
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.ReplyVO;
 import com.js.swp.persistence.BoardDAO;
@@ -15,16 +18,19 @@ import com.js.swp.persistence.ReplyDAO;
 @Service
 public class ReplyServiceImpl implements ReplyService{
 	
+	private static final Logger logger = LoggerFactory.getLogger(ReplyServiceImpl.class);
+	
 	@Inject
 	ReplyDAO replyDAO;
 	
 	@Inject
 	BoardDAO boardDAO;
 	
+	@Transactional
 	@Override
 	public void register(ReplyVO reply) throws Exception {			//addreply
 		replyDAO.create(reply);										//서비스에서 준 값을 dao에 넘긴다.
-		
+		boardDAO.updateReplycnt(reply.getBno(), 1);
 	}
 
 	@Override
@@ -33,9 +39,12 @@ public class ReplyServiceImpl implements ReplyService{
 		
 	}
 
+	@Transactional
 	@Override
 	public void remove(Integer rno) throws Exception {
 		replyDAO.delete(rno);
+//		logger.debug(">>>>>>>>>>>>" + rno);	//찍힘
+		boardDAO.updateReplycnt(replyDAO.getBno(rno), -1);
 	}
 
 	@Override
@@ -51,29 +60,6 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public ReplyVO readRno(Integer rno) throws Exception {	//인트로 받는거 아닌지????????????? 매개변수확인하래
 		return replyDAO.readRno(rno);	//0914
-	}
-	
-	@Transactional
-	@Override
-	public void addReply(ReplyVO replyvo) throws Exception
-	{
-		replyDAO.create(replyvo);
-		boardDAO.updateReplycnt(replyvo.getBno(), 1);
-	}
-	
-	@Override
-	public void modifyReply(ReplyVO replyvo) throws Exception
-	{
-		replyDAO.update(replyvo);
-	}
-	
-	@Transactional
-	@Override
-	public void removeReply(Integer rno) throws Exception
-	{
-		int bno = replyDAO.getBno(rno);
-		replyDAO.delete(rno);
-		boardDAO.updateReplycnt(bno, -1);
 	}
 	
 }

@@ -41,15 +41,20 @@ public class FileUtils	//0920//TODO
 		
 		String ext = getFileExtenstion(filename);	//만들어야해
 		
-		String uploadFilename = null; 
-		if(getMediaType(ext) != null)
+		String uploadFilename = null;
+		
+		if(getMediaType(ext) != null)	//이미지라면 썸네일 생성.
 			uploadFilename = makeThumbnail(uploadPath, dirname, filename);
 		else
 			uploadFilename = makeIcon(uploadPath, dirname, filename);
 		
-		return filename;
+		return uploadFilename;
 	}
 	
+	private static String getFileExtenstion(String filename) {
+		return filename.substring(filename.lastIndexOf(".")+1);
+	}
+
 	private static String makeIcon(String uploadPath, String dirname, String filename)
 	{
 		String iconName = uploadPath + File.separator + filename;
@@ -94,10 +99,4 @@ public class FileUtils	//0920//TODO
 		}
 		return uploadRootPath;
 	}
-	
-	public static void main(String args[])
-	{
-		getCurrentUploadPath("aaa");
-	}
-	
 }
