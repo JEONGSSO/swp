@@ -34,7 +34,7 @@
 	</form>
 	<div id = "percent">0%</div>
 	<div id = "status">ready</div>
-	ajaxsavedFileName : <sapn id="ajax_upfile"></sapn>
+	ajaxsavedFileName : <sapn id="ajax_file"></sapn>
 	
 	<script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
 	<script src="/resources/plugins/jQuery/jQuery.form.min.js"></script>
@@ -58,10 +58,15 @@
 		
 		$fileDrop.on('drop', (evt) => {
 			evt.preventDefault();
+			let files = evt.originalEvent.dataTransfer.files;
 			console.debug("drop >> ", evt.originalEvent.dataTransfer.files);
+			$fileDrop.css("border", "none");
+			$fileDrop.html(files[0].name);
+			$("ajax_file").prop("files", evt.originalEvent.dataTransfer.files);	//QQQ prop 객체 선택?
+			$('#form').submit();
 		});
 		
-		$fileDrop.on('dropleave', (evt) => {
+		$fileDrop.on('dragleave', (evt) => {
 			evt.preventDefault();
 			$fileDrop.css("border", "none");
 		});
@@ -81,7 +86,8 @@
 			$percent.html(percentComplete + '%');
 		},
 		complete: function(xhr) {
-	        status.html(xhr.responseText);
+			console.debug('complete');
+	        $status.html(xhr.responseText); //QQQ
 	    }
 	});
 	</script>
