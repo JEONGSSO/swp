@@ -35,7 +35,7 @@
 	<!-- Root Logger -->
 	<root>
 		<priority value="debug" />
-		<appender-ref ref="console" />
+		<appender-ref ref="debug" />
 	</root>
 	
 </log4j:configuration>

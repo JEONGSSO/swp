@@ -62,7 +62,7 @@
 			console.debug("drop >> ", evt.originalEvent.dataTransfer.files);
 			$fileDrop.css("border", "none");
 			$fileDrop.html(files[0].name);
-			$("ajax_file").prop("files", evt.originalEvent.dataTransfer.files);	//QQQ prop 객체 선택?
+			$("ajax_file").prop("files", evt.originalEvent.dataTransfer.files);	// prop 객체 선택?
 			$('#form').submit();
 		});
 		

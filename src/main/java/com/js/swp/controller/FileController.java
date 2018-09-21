@@ -53,7 +53,7 @@ public class FileController {
 			logger.info("upload POST >>> Type={}", type);
 		try
 		{
-			String savedFileName = FileUtils.uploadFile(file , uploadPath);
+			String savedFileName = FileUtils.uploadFile(file , uploadPath);	//업파일해서 다(?) 만들어줌
 			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
 		}
 		catch(Exception e)

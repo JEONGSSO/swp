@@ -18,16 +18,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtils	//0920//TODO
 {
-	private static Map<String, MediaType> mediaMap;	//맵을 만들어서 
+	private static Map<String, MediaType> mediaMap;	//맵을 만들어서 키밸류 쌍으로
 	static	// FileUtils 생성될 때 이짓거리를 해라 static은 한번만 실행된다 //싱글톤(?)은 뉴 안하고 하나만 만든다. 
 	{
-		mediaMap = new HashMap<>();
-		mediaMap.put("JPG", MediaType.IMAGE_JPEG);
+		mediaMap = new HashMap<>();		// 맵을 담았다
+		mediaMap.put("JPG", MediaType.IMAGE_JPEG);	//일단 이미지형태만 잡아놓음 
 		mediaMap.put("GIF", MediaType.IMAGE_GIF);
 		mediaMap.put("PNG", MediaType.IMAGE_PNG);
 	}
 	
-	public static MediaType getMediaType(String ext)
+	public static MediaType getMediaType(String ext)	//확성자를 주면 대문자로 찾아 내려보냄
 	{
 		return mediaMap.get(ext.toUpperCase());
 	}
@@ -36,10 +36,10 @@ public class FileUtils	//0920//TODO
 	{
 		String filename = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();	//랜덤 아이디 출력 asdasdsa_이름.jpg 등
 		String dirname = getCurrentUploadPath(uploadPath);	//dirname 에는 현재 업로드 경로 함수가 담긴다 (년 월 일) 생성
-		File target = new File(dirname, filename);	//새로운 객체를 만들어 매개변수 전닳
+		File target = new File(dirname, filename);	//새로운 객체를 만들어 매개변수 전닳 
 		FileCopyUtils.copy(file.getBytes(), target);		//getBytes은 파일이름을 부른(?)다.
 		
-		String ext = getFileExtenstion(filename);	//만들어야해
+		String ext = getFileExtenstion(filename);	
 		
 		String uploadFilename = null;
 		
@@ -52,7 +52,7 @@ public class FileUtils	//0920//TODO
 	}
 	
 	private static String getFileExtenstion(String filename) {
-		return filename.substring(filename.lastIndexOf(".")+1);
+		return filename.substring(filename.lastIndexOf(".")+1); //확장자는 맨 마지막에 점
 	}
 
 	private static String makeIcon(String uploadPath, String dirname, String filename)
@@ -74,7 +74,7 @@ public class FileUtils	//0920//TODO
 		return thumbnailName.substring(uploadRootPath.length()).replace(File.separatorChar, '/');
 	}
 	
-	public static String getCurrentUploadPath(String uploadRootPath) 
+	public static String getCurrentUploadPath(String uploadRootPath) 	//년월일 뽑는 메소드
 	{
 		Calendar cal = Calendar.getInstance();
 		int y = cal.get(Calendar.YEAR);
@@ -84,14 +84,14 @@ public class FileUtils	//0920//TODO
 		return makeDir(uploadRootPath, "" + y, StringUtils.len2(m), StringUtils.len2(d));
 	}
 
-	private static String makeDir(String uploadRootPath, String... paths)
+	public static String makeDir(String uploadRootPath, String... paths)
 	{
 		System.out.println(">>" + Arrays.toString(paths));
 		for (String path : paths)
 		{
 			uploadRootPath += File.separator + path;
 			System.out.println(uploadRootPath);
-			File tmpFile = new File(path) ;
+			File tmpFile = new File(uploadRootPath) ;
 			if(tmpFile.exists())
 				continue;
 			else
