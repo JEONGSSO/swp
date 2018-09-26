@@ -61,7 +61,7 @@ public class FileUtils	//0920//TODO
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 
-	private static String makeThumbnail(String uploadRootPath, String dirname, String filename) throws IOException 
+	static String makeThumbnail(String uploadRootPath, String dirname, String filename) throws IOException 
 	{
 		BufferedImage srcImg = ImageIO.read(new File(dirname, filename));	//버퍼는 콩이랑 쌀 걸러낼때 바구니 2개를 만드는거
 		BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);	//scrImg를 무조건 100으로 맞춰라
