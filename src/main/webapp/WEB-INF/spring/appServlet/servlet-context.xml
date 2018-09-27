@@ -34,7 +34,7 @@ class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
 <beans:bean id="uploadPath" 
          class="java.lang.String">
-    <beans:constructor-arg value="//Users//Administrator//Documents//workspace-sts-3.9.5.RELEASE//upload"></beans:constructor-arg>
+    <beans:constructor-arg value="/Users/Administrator/Documents/workspace-sts-3.9.5.RELEASE/upload"></beans:constructor-arg>
 </beans:bean>
 <!-- 0919  value = 경로 //두개쓴이유는 하나가 무시될 수 있기때문에-->
 	

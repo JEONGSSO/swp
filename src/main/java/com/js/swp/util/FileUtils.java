@@ -51,7 +51,7 @@ public class FileUtils	//0920//TODO
 		return uploadFilename;
 	}
 	
-	private static String getFileExtenstion(String filename) {
+	public static String getFileExtenstion(String filename) {
 		return filename.substring(filename.lastIndexOf(".")+1); //확장자는 맨 마지막에 점
 	}
 
@@ -67,7 +67,7 @@ public class FileUtils	//0920//TODO
 		BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);	//scrImg를 무조건 100으로 맞춰라
 		
 		String thumbnailName = dirname + File.separator + "s_" + filename; // 디렉토리명;; separator는 스트링
-		String ext = filename.substring(filename.lastIndexOf(".") + 1);		//
+		String ext = getFileExtenstion(filename);		//
 		File newFile = new File(thumbnailName);// 디렉토리;
 		ImageIO.write(destImg, ext.toUpperCase(), newFile); //디스크에 쓸 파일 준다.
 		
@@ -86,7 +86,7 @@ public class FileUtils	//0920//TODO
 
 	public static String makeDir(String uploadRootPath, String... paths)
 	{
-		System.out.println(">>" + Arrays.toString(paths));
+		System.out.println("makeDir >>" + Arrays.toString(paths));//경로 나옴 생성이 안됨
 		for (String path : paths)
 		{
 			uploadRootPath += File.separator + path;
