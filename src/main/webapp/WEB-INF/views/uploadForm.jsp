@@ -48,8 +48,8 @@
 	</script>
 	
 	<script>
-		const $fileDrop = $('div.fileDrop'),
-				$uploadedList = $('div.uploadedList');
+		const $fileDrop = $('div.fileDrop'),	
+				$uploadedList = $('div.uploadedList');	//달러는 변수명도 달러로
 		
 		$fileDrop.on('dragover dragenter', (evt) => {
 			evt.preventDefault();
@@ -94,9 +94,9 @@
 			//console.debug('originalName>>>>', originalName);
 			
 			let uf = '<a href="/displayFile?fileName=' + xhr.responseText + '">' + originalName +  '</a>';
-			let ocd = "deleteFile('" + xhr.responseText + "')";
-			uf += '<a href="javascript:;" onclick="' + ocd + '">X</a>';
-			$uplist.append('<div>' + uf + '</div>');
+			let ocd = "deleteFile('" + xhr.responseText + "')";	//쌍따옴표랑 외따옴표(?) 같이쓸때 헷갈리면 변수로 나누기
+			uf += '<a href="javascript:;" onclick="' + ocd + '">X</a>';		//삭제 X 버튼 
+			$uplist.append('<div>' + uf + '</div>');	//uf를 div로 감싼다.
 	        $status.html(uf +  'Uploaded');
 	    }
 	});
