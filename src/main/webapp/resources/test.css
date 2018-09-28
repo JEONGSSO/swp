@@ -17,6 +17,16 @@ li{
    left: 50%;
    display:none;
 }
+
+.fileDrop
+{
+	width : 80%
+	height :80%
+	border: 1px dotted grey;
+	background-color : lightgrey
+	margin : auto;
+}
+
 .modal-title{
     margin-bottom: 10px;
 }

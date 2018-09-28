@@ -13,46 +13,63 @@ import com.js.swp.domain.Criteria;
 import com.js.swp.persistence.BoardDAO;
 
 @Service
-public class BoardServiceImpl  implements BoardService{
-
+public class BoardServiceImpl implements BoardService
+{
+	
 	// dao를 받기 위해 인젝트 사용
-	@Inject 
+	@Inject
 	private BoardDAO dao;
 	
+	@Transactional
 	@Override
-	public void regist(Board board) throws Exception {
-		dao.create(board);	
+	public void regist(Board board) throws Exception 	//0928
+	{
+		dao.create(board);
+		
+		String[] files = board.getFiles();
+		
+		if(files == null) return ;	//파일이 널일때 종료
+		
+			for(String file : files)
+			{
+//				dao.addAttach(file);
+			}
 	}
-
-	
-	@Transactional(isolation=Isolation.READ_COMMITTED)
+	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
-	public Board read(Integer bno) throws Exception {
+	public Board read(Integer bno) throws Exception
+	{
 		dao.plusViewcnt(bno);
 		return dao.read(bno);
 	}
-
+	
 	@Override
-	public void modify(Board board) throws Exception {
+	public void modify(Board board) throws Exception
+	{
 		dao.update(board);
 	}
-
+	
 	@Override
-	public void remove(Integer bno) throws Exception {
+	public void remove(Integer bno) throws Exception
+	{
 		dao.delete(bno);
 	}
-
+	
 	@Override
-	public List<Board> listAll() throws Exception {
+	public List<Board> listAll() throws Exception
+	{
 		return dao.listAll();
 	}
 	
 	@Override
-		public List<Board> listCriteria(Criteria criteria) throws Exception{
+	public List<Board> listCriteria(Criteria criteria) throws Exception
+	{
 		return dao.listCriteria(criteria);
 	}
+	
 	@Override
-	public int listCountCriteria(Criteria criteria) throws Exception{
+	public int listCountCriteria(Criteria criteria) throws Exception
+	{
 		return dao.countPaging(criteria);
 	}
 }

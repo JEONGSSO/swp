@@ -1,10 +1,12 @@
 package com.js.swp.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 import javax.inject.Inject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -24,10 +26,26 @@ public class BoardServiceTest extends BoardServiceImpl {
 	
 	private static Logger logger = LoggerFactory.getLogger(BoardServiceTest.class);
 			
-	@Test
+	@Ignore
 	public void testRead() throws Exception {
 		Board board = service.read(2);
 		logger.debug(board.toString());
 		assertEquals("새로운 글을 넣습니다.", board.getTitle());
+	}
+	
+	@Test
+	public void testRegist() throws Exception	//0928
+	{	
+		Board board = new Board();
+		
+		board.setTitle("테스트 제목");
+		board.setContent("테스트 내용");
+		board.setWriter("테스트 내용");
+		
+		assertNull(board.getFiles());
+		
+		service.regist(board);
+		
+		logger.debug("testREgist.board = {}", board.toString());
 	}
 }

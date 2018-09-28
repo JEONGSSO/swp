@@ -29,6 +29,12 @@
   </head>
       <!-- jQuery 2.1.4 -->
     <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+ 	<script src="/resources/plugins/jQuery/jQuery.form.min.js"></script>
+    <script src="/resources/handlebars-v4.0.12.js"></script>
+    <script src="/resources/moment_min.js"></script>
+    <script src="/resources/hbs.js"></script>
+    <script src="/resources/ajax.js"></script>
+    
   <body class="skin-blue sidebar-mini">
     <div class="wrapper">
       

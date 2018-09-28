@@ -111,6 +111,7 @@
 		set replycnt = replycnt + #{amt}
 		where bno = #{bno}
 	</update>
+	
 		<!-- 0918 까지  -->
 		<!--  
 	<update id="updateCnt">
@@ -118,6 +119,12 @@
 		where #{bno} >0
 	</update>
 	-->
+	
+	<!-- 0928 첨부파일  -->
+	<insert id="addAttach">
+		insert into attach(bno, FullName)
+		values(	#{ last_insert_id }, #{ FullName } )
+	</insert>
 	
 
 	

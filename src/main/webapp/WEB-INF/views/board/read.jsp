@@ -148,7 +148,7 @@
     -->
 </script>
 
-<link rel="stylesheet" href="/resources/test.css" />
+<link rel="stylesheet" href="/resources/style.css"/>
 <script src="../resources/handlebars-v4.0.12.js"></script>
 <script src="../resources/moment_min.js"></script>
 <script src="../resources/hbs.js"></script>

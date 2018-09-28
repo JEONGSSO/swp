@@ -38,7 +38,7 @@ public class UploadController
 		logger.info("upload GET >>>>>>>>>>");
 	}
 	
-	@RequestMapping(value = "/uploadForm", method = RequestMethod.POST) // TODO 에러는 일단 여기에서 난다.
+	@RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
 	public void uploadFormPOST(MultipartFile file, Model model, @RequestParam String type) throws Exception
 	{
 		logger.info("upload POST >>> originName={}, size={}, contentType={}",
@@ -51,7 +51,7 @@ public class UploadController
 		model.addAttribute("type", type);
 	}
 	
-	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐
+	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
 	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	public ResponseEntity<String> uploadFormAjax(MultipartFile file, Model model, @RequestParam String type) throws Exception
 	{

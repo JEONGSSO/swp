@@ -83,15 +83,16 @@ import com.js.swp.domain.Criteria;
 		}
 
 		@Override
-		public void plusViewcnt(Integer bno) throws Exception
+		public void plusViewcnt(Integer bno)
 		{
 			session.update(namespace+".plusViewcnt", bno);
 		}
 		
-//		@Override
-//		public void updateCnt(Integer mno) throws Exception
-//		{
-//			session.update(UPDATE_CNT, mno);
-//		}
+//0928@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		@Override
+		public void addAttach(String file)
+		{
+			session.update(namespace+".addAttach", file);
+		}
 		
 }
