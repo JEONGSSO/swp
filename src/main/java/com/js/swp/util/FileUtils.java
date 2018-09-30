@@ -39,7 +39,7 @@ public class FileUtils	//0920//TODO
 		File target = new File(dirname, filename);	//새로운 객체를 만들어 매개변수 전닳 
 		FileCopyUtils.copy(file.getBytes(), target);		//getBytes은 파일이름을 부른(?)다.
 		
-		String ext = getFileExtenstion(filename);	
+		String ext = getFileExtension(filename);	
 		
 		String uploadFilename = null;
 		
@@ -51,23 +51,23 @@ public class FileUtils	//0920//TODO
 		return uploadFilename;
 	}
 	
-	public static String getFileExtenstion(String filename) {
-		return filename.substring(filename.lastIndexOf(".")+1); //확장자는 맨 마지막에 점
+	public static String getFileExtension(String filename) {
+		return filename.substring(filename.lastIndexOf(".") + 1); //확장자는 맨 마지막에 점
 	}
 
 	private static String makeIcon(String uploadPath, String dirname, String filename)
 	{
-		String iconName = uploadPath + File.separator + filename;
+		String iconName = dirname + File.separator + filename;
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
 
 	static String makeThumbnail(String uploadRootPath, String dirname, String filename) throws IOException 
 	{
 		BufferedImage srcImg = ImageIO.read(new File(dirname, filename));	//버퍼는 콩이랑 쌀 걸러낼때 바구니 2개를 만드는거
-		BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);	//scrImg를 무조건 100으로 맞춰라
+		BufferedImage destImg = Scalr.resize(srcImg, Scalr.Method.AUTOMATIC, Scalr.Mode.FIT_TO_HEIGHT, 100);	//scrImg를 HEIGHT 100으로 맞춰라 나머지는 알아서 맞춰줌
 		
 		String thumbnailName = dirname + File.separator + "s_" + filename; // 디렉토리명;; separator는 스트링
-		String ext = getFileExtenstion(filename);		//
+		String ext = getFileExtension(filename);		//확장자
 		File newFile = new File(thumbnailName);// 디렉토리;
 		ImageIO.write(destImg, ext.toUpperCase(), newFile); //디스크에 쓸 파일 준다.
 		
@@ -86,12 +86,12 @@ public class FileUtils	//0920//TODO
 
 	public static String makeDir(String uploadRootPath, String... paths)
 	{
-		System.out.println("makeDir >>" + Arrays.toString(paths));//경로 나옴 생성이 안됨
+//		System.out.println("makeDir >>" + Arrays.toString(paths));//경로 나옴 생성이 안됨
 		for (String path : paths)
 		{
 			uploadRootPath += File.separator + path;
-			System.out.println(uploadRootPath);
-			File tmpFile = new File(uploadRootPath) ;
+//			System.out.println(uploadRootPath);
+			File tmpFile = new File(path) ;
 			if(tmpFile.exists())
 				continue;
 			else

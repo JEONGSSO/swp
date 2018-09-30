@@ -44,12 +44,6 @@ public class BoardController {
 //		<!-- 글쓰기하고 취소하면 1페이지로 간다. -->
 	}
 	
-		@RequestMapping(value = "/listAll", method = RequestMethod.GET)
-		public void listAll(Model model) throws Exception {
-			logger.info("list get");
-			model.addAttribute("list", service.listAll());
-		}
-		
 		@RequestMapping(value = "/read", method = RequestMethod.GET)
 		public void read(@RequestParam("bno")int bno, 
 						@ModelAttribute("criteria") Criteria criteria,
@@ -86,13 +80,7 @@ public class BoardController {
 			rttr.addAttribute("keyword", criteria.getKeyword());
 			return "redirect:/board/listPage";	//삭제 후 보드 리스트로 이동
 		}
-		
-		@RequestMapping(value = "/listCri", method = RequestMethod.GET)
-		public void listAll(Criteria criteria, Model model) throws Exception {
-			logger.info("list Cri");
-			model.addAttribute("list", service.listCriteria(criteria));
-		}
-		
+
 		@RequestMapping(value = "/listPage", method = RequestMethod.GET)
 		public void listPage(@ModelAttribute("Criteria")Criteria criteria, Model model) throws Exception {
 			logger.info(criteria.toString());
@@ -106,4 +94,19 @@ public class BoardController {
 			
 			model.addAttribute("pageMaker" , pageMaker);
 		}
+		
+//		@RequestMapping(value = "/listAll", method = RequestMethod.GET)
+//		public void listAll(Model model) throws Exception {
+//			logger.info("list get");
+//			model.addAttribute("list", service.listAll());
+//		}
+		
+		
+//		@RequestMapping(value = "/listCri", method = RequestMethod.GET)
+//		public void listAll(Criteria criteria, Model model) throws Exception {
+//			logger.info("list Cri");
+//			model.addAttribute("list", service.listCriteria(criteria));
+//		}
+//		
+		
 }

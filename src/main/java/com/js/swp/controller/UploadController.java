@@ -38,22 +38,9 @@ public class UploadController
 		logger.info("upload GET >>>>>>>>>>");
 	}
 	
-	@RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
-	public void uploadFormPOST(MultipartFile file, Model model, @RequestParam String type) throws Exception
-	{
-		logger.info("upload POST >>> originName={}, size={}, contentType={}",
-				file.getOriginalFilename(),
-				file.getSize(),
-				file.getContentType());//각종 출력
-		
-		String savedFileName = FileUtils.uploadFile(file, uploadPath);	//파일 유틸에 업로드 파일 실행해서 담음.
-		model.addAttribute("savedFileName", savedFileName);
-		model.addAttribute("type", type);
-	}
-	
 	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
-	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-	public ResponseEntity<String> uploadFormAjax(MultipartFile file, Model model, @RequestParam String type) throws Exception
+	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
+	public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
 	{
 		logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
 				file.getOriginalFilename(),
@@ -75,10 +62,10 @@ public class UploadController
 	@RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)	//0927
 	public ResponseEntity<String> deleteFile(String fileName) throws Exception
 	{
-		logger.info("deleteFile >>> name={}",fileName);
+		logger.info("deleteFile >>> filename={}",fileName);
 		try
 		{
-			boolean isImage = FileUtils.getMediaType(FileUtils.getFileExtenstion(fileName)) != null;	 //이미지라면 섬네일이 올랑땜ㄴ에
+			boolean isImage = FileUtils.getMediaType(FileUtils.getFileExtension(fileName)) != null;	 //이미지라면 섬네일이 올랑땜ㄴ에
 			File file = new File(uploadPath + fileName);
 			file.delete();
 			
@@ -106,17 +93,17 @@ public class UploadController
 	{
 		logger.info("display File filename ={}", fileName);
 		
-		InputStream in = null;	//?
+		InputStream in = null;	//읽기 위한것 out은 쓰기위한것 반드시 닫아줘야함
 		
 		try
 		{
-			String formatName = FileUtils.getFileExtenstion(fileName);	//확장자 담기
+			String formatName = FileUtils.getFileExtension(fileName);	//확장자 담기
 			MediaType mType = FileUtils.getMediaType(formatName);	//타입 비교
 			HttpHeaders headers = new HttpHeaders();	//?? 객체생성함
 			
 			File file = new File(uploadPath + fileName);
 			logger.info("exists={}", file.exists());	//파일의 유무 판단?
-			if (!file.exists())		//없으면 낫파운드
+			if (!file.exists())		//파일이 없으면 낫파운드
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			
 			in = new FileInputStream(file);	//바이트 단위의 파일처리
@@ -125,9 +112,9 @@ public class UploadController
 				headers.setContentType(mType);//콘텐츠를 mType
 			else
 			{
-				fileName = fileName.substring(fileName.indexOf("_") + 1);	//파일 이름
+				fileName = fileName.substring(fileName.indexOf("_") + 1);	//파일 이름 +1하면 언더바 다음
 				headers.setContentType(MediaType.APPLICATION_OCTET_STREAM); //8byte 파이프 크기 
-				String dsp = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");	//utf-8 쪼개서 ISO-8859-1으로 합쳐진다.
+				String dsp = new String(fileName.getBytes("UTF-8"), "ISO-8859-1");	//utf-8 쪼개서 ISO-8859-1으로 합쳐진다. 한글 안깨지게 하는거
 				logger.info("dsp={}", dsp);
 				headers.add("content-Disposition", "attachment; filename=\"" + dsp + "\"");	//첨부파일 파일명 dsp
 			}
@@ -145,6 +132,19 @@ public class UploadController
 			if(in != null)
 			in.close();
 		}
+	}
+	
+	@RequestMapping(value = "/uploadForm", method = RequestMethod.POST)
+	public void uploadFormPOST(MultipartFile file, Model model, @RequestParam String type) throws Exception
+	{
+		logger.info("upload POST >>> originName={}, size={}, contentType={}",
+				file.getOriginalFilename(),
+				file.getSize(),
+				file.getContentType());//각종 출력
+		
+		String savedFileName = FileUtils.uploadFile(file, uploadPath);	//파일 유틸에 업로드 파일 실행해서 담음.
+		model.addAttribute("savedFileName", savedFileName);
+		model.addAttribute("type", type);	//ifr넘어왔어
 	}
 	
 }

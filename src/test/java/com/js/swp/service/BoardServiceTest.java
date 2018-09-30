@@ -40,12 +40,12 @@ public class BoardServiceTest extends BoardServiceImpl {
 		
 		board.setTitle("테스트 제목");
 		board.setContent("테스트 내용");
-		board.setWriter("테스트 내용");
+		board.setWriter("작성자");
 		
-		assertNull(board.getFiles());
+		assertNull(board.getFiles());	//하기전에 널인지 체크
 		
 		service.regist(board);
 		
-		logger.debug("testREgist.board = {}", board.toString());
+		logger.info("testRegist.board = {}", board.toString());
 	}
 }

@@ -1,12 +1,16 @@
    
-    const Templates ={},   //const쓰는 이유는 틀만 변하지 않으면 되기때문에.
-             $htmls = $('script[type="text/x-handlebars-template"]');
-
-    console.log("::htmls>>", $htmls)
-    $htmls.each( (idx, h) => {   //h는 script 열고 닫기까지
-//    	console.log(idx, h)
-        let tmpid = $(h).attr('id');
-        Templates[tmpid] = Handlebars.compile($(h).html());
+    const Templates ={};   //const쓰는 이유는 틀만 변하지 않으면 되기때문에.
+    
+    $(document).ready( e => 
+    {
+    	const $htmls = $('script[type="text/x-handlebars-template"]');
+        console.log("::htmls>>", $htmls)
+        $htmls.each( (idx, h) => 
+        {   //h는 script 열고 닫기까지
+            let tmpid = $(h).attr('id');
+            console.log("tmpid>>>>", tmpid)
+            Templates[tmpid] = Handlebars.compile($(h).html());
+        });
     });
 
     let renderHbs = (tmpid, jsonData, tag) => {

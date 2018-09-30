@@ -92,7 +92,7 @@ import com.js.swp.domain.Criteria;
 		@Override
 		public void addAttach(String file)
 		{
-			session.update(namespace+".addAttach", file);
+			session.insert(namespace+".addAttach", file);
 		}
 		
 }

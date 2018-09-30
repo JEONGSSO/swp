@@ -32,7 +32,7 @@ public class BoardServiceImpl implements BoardService
 		
 			for(String file : files)
 			{
-//				dao.addAttach(file);
+				dao.addAttach(file);
 			}
 	}
 	@Transactional(isolation = Isolation.READ_COMMITTED)
