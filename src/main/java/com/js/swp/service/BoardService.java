@@ -19,6 +19,7 @@ public interface BoardService {
 	List<Board> listCriteria(Criteria criteria) throws Exception;
 	
 	int listCountCriteria(Criteria criteria) throws Exception;
+
+	List<String> getAttach(Integer bno);
 	
-//	void attRegist(Board board) throws Exception;
 }

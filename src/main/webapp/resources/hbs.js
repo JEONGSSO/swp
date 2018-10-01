@@ -9,7 +9,7 @@
         {   //h는 script 열고 닫기까지
             let tmpid = $(h).attr('id');
             console.log("tmpid>>>>", tmpid)
-            Templates[tmpid] = Handlebars.compile($(h).html());
+            Templates[tmpid] = Handlebars.compile($(h).html());	//쏙쏙 박힘
         });
     });
 

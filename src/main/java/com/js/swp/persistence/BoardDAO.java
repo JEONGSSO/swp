@@ -29,8 +29,8 @@ void updateReplycnt(Integer bno, int amt) throws Exception;
 
 void plusViewcnt(Integer bno) throws Exception;
 
-//void updateCnt(Integer mno) throws Exception;
-
 void addAttach(String file);
+
+List<String> getAttach(Integer bno);
 
 }

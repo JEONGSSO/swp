@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService
 		
 		if(files == null) return ;	//파일이 널일때 종료
 		
-			for(String file : files)
+			for(String file : files)	//10-01
 				dao.addAttach(file);
 	}
 	
@@ -70,6 +70,12 @@ public class BoardServiceImpl implements BoardService
 	public int listCountCriteria(Criteria criteria) throws Exception
 	{
 		return dao.countPaging(criteria);
+	}
+
+	@Override
+	public List<String> getAttach(Integer bno)
+	{
+		return dao.getAttach(bno);
 	}
 	
 }

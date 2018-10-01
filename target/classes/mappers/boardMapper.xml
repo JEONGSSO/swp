@@ -123,9 +123,14 @@
 	<!-- 0928 첨부파일  -->
 	<insert id="addAttach">
 		insert into attach(bno, fullName)
-		values(	last_insert_id(), #{ fullName } )
+						values(	last_insert_id(), #{fullName} )
 	</insert>
 	
+	<!-- 1001 첨부파일  -->
+	<select id="getAttach" resultType="String">
+		select fullname from Attach
+		where bno = #{bno}
+	</select>
 
 	
 </mapper>

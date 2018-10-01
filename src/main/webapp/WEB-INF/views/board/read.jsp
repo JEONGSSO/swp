@@ -1,54 +1,69 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="false"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
-<c:set var = "isTest" scope = "page" value = "${false}"/>		<!--QQQ :  Reply Unit Test -->
-<%@ include file="../include/header.jsp" %>
 
-<c:if test = "${ true eq isTest }">
-	<%@ include file="../qunit.jsp" %>
-	<script src="../resources/test/replytest.js"></script>
-</c:if>
+<c:set var="isTest" scope="page" value="${false}" />
+<!--QQQ :  Reply Unit Test -->
+<%@ include file="../include/header.jsp"%>
 
-<form role ="form" method="post">
-	<input type ='hidden' name ='bno' value="${board.bno}">
+<script>
+	var result = '${msg}';	
+	if (result === 'ok') 
+	{
+		alert("수정 완료");
+	}
+</script>
+
+<form role="form" method="post">
+	<input type='hidden' name='bno' value="${board.bno}">
 </form>
 
+<c:if test="${ true eq isTest }">
+	<%@ include file="../qunit.jsp"%>
+	<script src="../resources/test/replytest.js"></script>
+</c:if>
 
 <!-- 섹션 시작 ----------------------------------------------- -->
 <section class="content">
 	<div class="box-body">
-	
+
 		<div class="form-group">
-			<label for="writer1">작성자</label>
-			<span style="float:right"><label for="writer1" >조회수</label>${ board.viewcnt }</span>
-			<input  class="form-control" type= "text"  name ="writer" id="writer"   value="${board.writer}" readonly ="readonly"/>
+			<label for="writer1">작성자</label> <span style="float: right"><label
+				for="writer1">조회수</label>${ board.viewcnt }</span> <input
+				class="form-control" type="text" name="writer" id="writer"
+				value="${board.writer}" readonly="readonly" />
 		</div>
-	
+
 		<div class="form-group">
-				<label for="title1">제목</label>
-				<input class="form-control" name="title"  type="text"  value="${board.title}"  readonly ="readonly"/>
+			<label for="title1">제목</label> <input class="form-control"
+				name="title" type="text" value="${board.title}" readonly="readonly" />
 		</div>
-		
+
 		<div class="form-group">
 			<label for="content">내용</label>
-			<textarea class="form-control" name="content"  rows="3" id="content"
-							 readonly ="readonly">${board.content}</textarea>							
+			<textarea class="form-control" name="content" rows="3" id="content"
+				readonly="readonly">${board.content}</textarea>
 		</div>
-	</div>	
+	</div>
+
+	<!-- 1001 파일업로드  -------------------------------------------->
+	<ul class="mailbox-attachments clearfix uploadedList">
+		<%@include file="uploadedFiles.jsp"%>
+	</ul>
+
+	<!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
+	<div class="box-footer">
+		<button id="button-remove-read" class="btn btn-danger">삭제</button>
+		<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"
+			class="btn btn-warning">수정</a> <a
+			href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
+		<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글
+			등록</button>
+	</div>
 </section><!-- 섹션 끝  -------------------------------------------->
-
-<!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
-<div class="box-footer">
-	<button id ="button-remove-read" class ="btn btn-danger">삭제</button>
-	<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"  class="btn btn-warning">수정</a>
-	<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
-	<button onclick = "editReply()" id ="btnModReply" class = "btn btn-Info">댓글 등록</button>
-</div>
-
-<!-- 댓글 목록--------------------------------------------------------------------------09 12-->
-<script id="replies" class="well" type="text/x-handlebars-template"> 
+	<!-- 댓글 목록--------------------------------------------------------------------------09 12-->
+	<script id="replies" class="well" type="text/x-handlebars-template"> 
 	<ul class = "list-group">
 		{{#each list}} {{!--리스트만큼 반복.--}}
 			<a href = "#" class = "list-group-item" onclick="editReply({{rno}}, '{{replyer}}', '{{replytext}}')">	{{!--댓글 클릭 하면 수정으로 todo 요거 몇몇댓글--}}
@@ -92,7 +107,7 @@
 </script>
 
 <!-- 핸들러~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-<script type="text/x-handlebars-template"  class="modal fade" id="myModal" >
+<script type="text/x-handlebars-template" class="modal fade" id="myModal">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -118,37 +133,38 @@
   </div>
 </script>
 
-	<script>
-    $(function(){
+<script src="/resources/reply.js"></script>
+<script src="/resources/upload.js"></script>
+
+<script>
+$(document).ready(	function()
+   {
    		replylistPage(1, ${board.bno});
-   		$("#button-remove-read").click(function(){
-   			if(confirm("삭제 하시겠습니까?"))	{
+   		$("#button-remove-read").on('click', function()
+   		{
+   			if(confirm("삭제 하시겠습니까?"))	
    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}";
-   				}
    		});
-    
-    var result = '${msg}';	
-    if (result === 'ok') {
-    	alert("수정 완료");
-    	}
-    });
-  <!-- 
-    let jdata = {
-    		  id: 123,
-    		  age: 45,
-    		  name: `aaa`
-    		};
-    		let {id, age} = jdata;
-    		console.log(`QQQ>> id=${id}, age=${age}`);
-    		let [a,b] = [123, 456, 777];
-    		console.log(`QQQ>> a=${a}, b=${b}`)
-    -->
+   		
+   		listPage(1, '${board.bno}'); // QQQ
+   		
+   		sendAjax("/board/getAttach/${board.bno}", (isSuccess, res) => 
+   		{
+   	        if (isSuccess) 
+   	        {
+   	        	let upfiles =[];	// array of jsonData
+   	        	res.forEach( rj =>	
+	            {
+	            	let jsonData = getFileInfo(rj);
+	            	upFiles.push(jsonData);
+	            });
+   	        	renderHbs('template', { upfiles : upfiles }, 'div');
+   	    } 	else 
+   	    	{
+   	            console.debug("Error on registerReply>>", res);
+   	        }
+   	});
+  });
 </script>
 
-<link rel="stylesheet" href="/resources/style.css"/>
-<script src="../resources/handlebars-v4.0.12.js"></script>
-<script src="../resources/moment_min.js"></script>
-<script src="../resources/hbs.js"></script>
-<script src="../resources/reply.js"></script>
-
-<%@include file="../include/footer.jsp" %>
+<%@include file="../include/footer.jsp"%>

@@ -1,5 +1,7 @@
 package com.js.swp.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.inject.Inject;
 
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,6 +60,14 @@ public class BoardController {
 		{
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getAttach/{bno}", method = RequestMethod.GET)
+	public List<String> read(@PathVariable ("bno") Integer bno) throws Exception
+	{
+		logger.info("getAttach ..... bno={}", bno);
+		return service.getAttach(bno);
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)

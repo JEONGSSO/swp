@@ -32,29 +32,25 @@ public class UploadController
 	
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 	
-	@RequestMapping(value = "/uploadForm", method = RequestMethod.GET)	//매핑주소 GET방식
-	public void uploadFormGET() throws Exception
-	{
-		logger.info("upload GET >>>>>>>>>>");
-	}
-	
 	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
-	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
-	public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
-	{
-		logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
-				file.getOriginalFilename(),
-				file.getSize(),
-				file.getContentType());
+	@RequestMapping(value = "/uploadAjaxes", method = RequestMethod.POST) //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거 10-01 배열은 텍스트로 받는거 안된다.
+	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, String type) throws Exception
+	{		//10-01 멀티파일
+		int len = files == null ? 0 : files.length;	// 파일이 널 이면 0을 주고 아니면 파일길이를 준다.
+		
+		logger.info("upload AJAXes >>> file.length={}", len);
 		try
 		{
-			String savedFileName = FileUtils.uploadFile(file, uploadPath); // 업파일해서 다(?) 만들어줌
-			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
+			String[] uplodaedFiles = new String[len];	 // 업로드파일스에 배열만큼 담는다.
+			for (int i = 0; i < len; i++)
+				uplodaedFiles[i] = FileUtils.uploadFile(files[i], uploadPath); // 루프돌려 만듬
+			
+			return new ResponseEntity<>(uplodaedFiles, HttpStatus.CREATED);	//성공 201
 		} 
 		
 		catch (Exception e)
 		{
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(new String[] { e.getMessage() }, HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -77,7 +73,6 @@ public class UploadController
 				File real = new File(uploadPath + realName);	
 				real.delete();	//원본 삭제
 			}
-			
 			return new ResponseEntity<>("deleted" , HttpStatus.OK);
 		} 
 		
@@ -88,7 +83,7 @@ public class UploadController
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "/displayFile")
+	@RequestMapping(value = "/displayFile")	//이미지 나타내게
 	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception
 	{
 		logger.info("display File filename ={}", fileName);
@@ -145,6 +140,32 @@ public class UploadController
 		String savedFileName = FileUtils.uploadFile(file, uploadPath);	//파일 유틸에 업로드 파일 실행해서 담음.
 		model.addAttribute("savedFileName", savedFileName);
 		model.addAttribute("type", type);	//ifr넘어왔어
+	}
+	
+	@RequestMapping(value = "/uploadForm", method = RequestMethod.GET)	//매핑주소 GET방식
+	public void uploadFormGET() throws Exception
+	{
+		logger.info("upload GET >>>>>>>>>>");
+	}
+	
+	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
+	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
+	public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
+	{
+		logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
+				file.getOriginalFilename(),
+				file.getSize(),
+				file.getContentType());
+		try
+		{
+			String savedFileName = FileUtils.uploadFile(file, uploadPath); // 업파일해서 다(?) 만들어줌
+			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
+		} 
+		
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 }

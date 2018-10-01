@@ -95,4 +95,11 @@ import com.js.swp.domain.Criteria;
 			session.insert(namespace+".addAttach", file);
 		}
 		
+//1001@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		@Override
+		public List<String> getAttach(Integer bno)
+		{
+			return session.selectList(namespace+".getAttach", bno);
+		}
+		
 }
