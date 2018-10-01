@@ -1,6 +1,6 @@
 	const $fileDrop = $('div.fileDrop');
 
-	let gisEditing = false;
+	let gIsEditing = false;
 	
 	$fileDrop.on('dragover dragenter', (evt) => 	//드래그오버, 드래그엔터 : 드래그가 진입했을때
 	{
@@ -44,7 +44,7 @@
 		},
 		complete : function(xhr)  //0927 xhr 서버에서 보내주는 값 이상 해결: ajax를 컨트롤러에 넣어줌.
 		{	//10-01 멀티파일
-			let resJson = xhr.responseJSON;	
+			let resJson = xhr.responseJSON;		//array
 			if( xhr.status !== 201 )	//업로드가 실패했으면 컨트롤러 CREATE는 200번 아니라 201번
 				{
 					alert("업로드 에러,  (" +  resJson[0] + ")")	
@@ -58,7 +58,7 @@
 				gUpFiles.push(jsonData);	//배열에 파일 하나씩 푸쉬
 			});
 			$status.html(resJson.length +  ' Uploaded');
-			renderHbs('template', { UpFiles : gUpFiles }, 'div');
+			renderHbs('template', { upFiles : gUpFiles }, 'div');
 			//tmpid, gUpFiles, div(안넣어도 기본값) 넣어준다.
 			
 			$('#board-files').val(gUpFiles);
@@ -129,6 +129,6 @@
 			getLink: getLink,
 			fullName: fullName,
 			fileId : fileId,
-			isEditing : gisEditing
+			isEditing : gIsEditing
 		};
 	}	///---------------------------- getFileInfo 끝

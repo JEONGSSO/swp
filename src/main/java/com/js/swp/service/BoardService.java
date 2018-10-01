@@ -20,6 +20,6 @@ public interface BoardService {
 	
 	int listCountCriteria(Criteria criteria) throws Exception;
 
-	List<String> getAttach(Integer bno);
+	List<String> getAttach(Integer bno);	//ok
 	
 }

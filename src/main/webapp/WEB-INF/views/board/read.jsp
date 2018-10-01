@@ -142,11 +142,9 @@ $(document).ready(	function()
    		replylistPage(1, ${board.bno});
    		$("#button-remove-read").on('click', function()
    		{
-   			if(confirm("삭제 하시겠습니까?"))	
+   			if(confirm("삭제하시겠습니까?"))	
    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}";
    		});
-   		
-   		listPage(1, '${board.bno}'); // QQQ
    		
    		sendAjax("/board/getAttach/${board.bno}", (isSuccess, res) => 
    		{
@@ -156,10 +154,10 @@ $(document).ready(	function()
    	        	res.forEach( rj =>	
 	            {
 	            	let jsonData = getFileInfo(rj);
-	            	upFiles.push(jsonData);
+	            	upfiles.push(jsonData);
 	            });
-   	        	renderHbs('template', { upfiles : upfiles }, 'div');
-   	    } 	else 
+   	        	renderHbs('template', { upFiles : upfiles }, 'div');
+   	    } 	else 	//upfiles 대소문자 문제가능성 있음
    	    	{
    	            console.debug("Error on registerReply>>", res);
    	        }

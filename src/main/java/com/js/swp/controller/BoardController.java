@@ -2,13 +2,11 @@ package com.js.swp.controller;
 
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.PageMaker;
 import com.js.swp.service.BoardService;
-import com.js.swp.util.FileUtils;
 
 @Controller
 @RequestMapping("/board/*")
@@ -33,39 +29,13 @@ public class BoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
-	@Resource(name = "uploadPath")	//어플리케이션에서 필요한 자원을 자동으로 연결할 때 사용.
-	private String uploadPath;
-	
 	@Inject
 	private BoardService service;
 
-	//10-01
-	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
-	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
-	public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
-	{
-		logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
-				file.getOriginalFilename(),
-				file.getSize(),
-				file.getContentType());
-		try
-		{
-			String savedFileName = FileUtils.uploadFile(file, uploadPath); 
-//			logger.info("ajax savedFileName >>> " + savedFileName);	
-			// savedFileName이  xhr.responseText로 전달된다.
-			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
-		} 
-		
-		catch (Exception e)
-		{
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@ResponseBody
+	@ResponseBody	//ajax라서 사용 rest방식이라 @PathVariable 사용 
 	@RequestMapping(value = "/getAttach/{bno}", method = RequestMethod.GET)
-	public List<String> read(@PathVariable ("bno") Integer bno) throws Exception
-	{
+	public List<String> read(@PathVariable ("bno") Integer bno) throws Exception 
+	{	//bno잘 찍힘
 		logger.info("getAttach ..... bno={}", bno);
 		return service.getAttach(bno);
 	}
@@ -77,8 +47,7 @@ public class BoardController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerPOST(Board board, RedirectAttributes rttr) throws Exception {
-		logger.info("register post");
-		logger.info(board.toString());
+		logger.info("register post {}", board.toString());
 		service.regist(board);
 //		model.addAttribute("result", "success");
 //		return "/board/success";
@@ -88,10 +57,22 @@ public class BoardController {
 	}
 	
 		@RequestMapping(value = "/read", method = RequestMethod.GET)
-		public void read(@RequestParam("bno")int bno, 
+		public String read(@RequestParam("bno")int bno, 
 						@ModelAttribute("criteria") Criteria criteria,
-						Model model) throws Exception {
-			model.addAttribute(service.read(bno));
+						HttpServletResponse response,
+						Model model) throws Exception 
+		{
+			logger.info("read GET .....");
+			Board board = service.read(bno);
+			logger.info(">>>> board.read: {}", board);
+			if (board == null) 
+			{
+				response.sendError(404);
+			}
+			logger.info("::>>>> board.read: {}", board);
+			
+			model.addAttribute(board);
+			return "/board/read";
 		}
 		
 		@RequestMapping(value = "/update", method = RequestMethod.GET)
@@ -151,5 +132,35 @@ public class BoardController {
 //			model.addAttribute("list", service.listCriteria(criteria));
 //		}
 //		
+		//10-01
+		/*@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
+		@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
+		public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
+		{
+			logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
+					file.getOriginalFilename(),
+					file.getSize(),
+					file.getContentType());
+			try
+			{
+				String savedFileName = FileUtils.uploadFile(file, uploadPath); 
+//				logger.info("ajax savedFileName >>> " + savedFileName);	
+				// savedFileName이  xhr.responseText로 전달된다.
+				return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
+			} 
+			
+			catch (Exception e)
+			{
+				return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			}
+		}
+		
+		@ResponseBody
+		@RequestMapping(value = "/getAttach/{bno}", method = RequestMethod.GET)
+		public List<String> read(@PathVariable ("bno") Integer bno) throws Exception
+		{
+			logger.info("getAttach ..... bno={}", bno);
+			return service.getAttach(bno);
+		}*/
 		
 }

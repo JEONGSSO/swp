@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <script id="template" type="text/x-handlebars-template">
-				{{#each gUpFiles}}
+				{{#each upFiles}}
 					<li id="{{fileId}}">
 						<input type="hidden" name="files" value="{{fullName}}"/>
 						<span class = "mailbox-attachment-icon has-img">
@@ -14,6 +14,7 @@
 							<a href="javascript:;" onclick ="deleteFile('{{fullName}}')" class="btn btn-default btn-xs pull-right delbtn"> {{!-- javascript a태그 무력화  띄어쑤기 조심--}}
 								<i class="fa fa-fw fa-remove"></i>
 							</a>
+							{{/if}}
 						</div>
 					</li>
 					{{else}}

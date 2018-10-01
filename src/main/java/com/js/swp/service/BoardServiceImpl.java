@@ -27,11 +27,10 @@ public class BoardServiceImpl implements BoardService
 		dao.create(board);
 		
 		String[] files = board.getFiles();
+		if(files == null) return;	//파일이 널일때 종료
 		
-		if(files == null) return ;	//파일이 널일때 종료
-		
-			for(String file : files)	//10-01
-				dao.addAttach(file);
+		for(String file : files)	//10-01
+			dao.addAttach(file);
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)

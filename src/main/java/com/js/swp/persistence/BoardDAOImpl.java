@@ -92,6 +92,7 @@ import com.js.swp.domain.Criteria;
 		@Override
 		public void addAttach(String file)
 		{
+//			System.out.println("daoimpl>>>>" + file);	// 풀네임 잘 넘어옴
 			session.insert(namespace+".addAttach", file);
 		}
 		
