@@ -120,7 +120,7 @@
 		if(checkImageType(fileName))
 			{
 				ret = ret.substring(ret.indexOf('_') + 1);
-				//console.info("IMAGE>>>>>>>");
+				console.info("IMAGE>>>>>>>");
 				return '<img src="/displayFile?fileName=' + fileName + '" alt="' + ret + '">';	//이미지라면 이미지 태그를 섬네일
 			}
 		else

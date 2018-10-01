@@ -19,4 +19,6 @@ public interface BoardService {
 	List<Board> listCriteria(Criteria criteria) throws Exception;
 	
 	int listCountCriteria(Criteria criteria) throws Exception;
+	
+//	void attRegist(Board board) throws Exception;
 }

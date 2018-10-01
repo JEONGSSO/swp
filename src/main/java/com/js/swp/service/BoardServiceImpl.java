@@ -31,10 +31,9 @@ public class BoardServiceImpl implements BoardService
 		if(files == null) return ;	//파일이 널일때 종료
 		
 			for(String file : files)
-			{
 				dao.addAttach(file);
-			}
 	}
+	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	@Override
 	public Board read(Integer bno) throws Exception
@@ -72,4 +71,5 @@ public class BoardServiceImpl implements BoardService
 	{
 		return dao.countPaging(criteria);
 	}
+	
 }

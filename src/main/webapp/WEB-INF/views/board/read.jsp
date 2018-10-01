@@ -19,6 +19,13 @@
 <!-- 섹션 시작 ----------------------------------------------- -->
 <section class="content">
 	<div class="box-body">
+	
+		<div class="form-group">
+			<label for="writer1">작성자</label>
+			<span style="float:right"><label for="writer1" >조회수</label>${ board.viewcnt }</span>
+			<input  class="form-control" type= "text"  name ="writer" id="writer"   value="${board.writer}" readonly ="readonly"/>
+		</div>
+	
 		<div class="form-group">
 				<label for="title1">제목</label>
 				<input class="form-control" name="title"  type="text"  value="${board.title}"  readonly ="readonly"/>
@@ -29,23 +36,15 @@
 			<textarea class="form-control" name="content"  rows="3" id="content"
 							 readonly ="readonly">${board.content}</textarea>							
 		</div>
-		
-		<div class="form-group">
-			<label for="writer1">작성자</label>
-			<input  class="form-control" type= "text"  name ="writer" id="writer"   value="${board.writer}" readonly ="readonly"/>
-		</div>
-		<div class="form-group">
-			<label for="writer1">조회수</label>
-			<span>${ board.viewcnt }</span>
-		</div>
 	</div>	
 </section><!-- 섹션 끝  -------------------------------------------->
 
 <!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
 <div class="box-footer">
-	<button id ="button-remove-read" class ="btn btn-denger">삭제</button>
+	<button id ="button-remove-read" class ="btn btn-danger">삭제</button>
 	<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"  class="btn btn-warning">수정</a>
 	<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
+	<button onclick = "editReply()" id ="btnModReply" class = "btn btn-Info">댓글 등록</button>
 </div>
 
 <!-- 댓글 목록--------------------------------------------------------------------------09 12-->
@@ -119,8 +118,6 @@
   </div>
 </script>
 
- <button onclick = "editReply()" id ="btnModReply" class = "btn btn-primary">등록</button>
-
 	<script>
     $(function(){
    		replylistPage(1, ${board.bno});
@@ -132,7 +129,7 @@
     
     var result = '${msg}';	
     if (result === 'ok') {
-    	alert("완료");
+    	alert("수정 완료");
     	}
     });
   <!-- 

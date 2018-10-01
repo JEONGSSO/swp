@@ -1,7 +1,7 @@
    
     const Templates ={};   //const쓰는 이유는 틀만 변하지 않으면 되기때문에.
     
-    $(document).ready( e => 
+    $(document).ready( e => 	// 준비가 되면 실행
     {
     	const $htmls = $('script[type="text/x-handlebars-template"]');
         console.log("::htmls>>", $htmls)

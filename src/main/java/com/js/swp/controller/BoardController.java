@@ -1,21 +1,27 @@
 package com.js.swp.controller;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.PageMaker;
 import com.js.swp.service.BoardService;
+import com.js.swp.util.FileUtils;
 
 @Controller
 @RequestMapping("/board/*")
@@ -24,9 +30,35 @@ public class BoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 
+	@Resource(name = "uploadPath")	//어플리케이션에서 필요한 자원을 자동으로 연결할 때 사용.
+	private String uploadPath;
+	
 	@Inject
 	private BoardService service;
 
+	//10-01
+	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
+	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
+	public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
+	{
+		logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
+				file.getOriginalFilename(),
+				file.getSize(),
+				file.getContentType());
+		try
+		{
+			String savedFileName = FileUtils.uploadFile(file, uploadPath); 
+//			logger.info("ajax savedFileName >>> " + savedFileName);	
+			// savedFileName이  xhr.responseText로 전달된다.
+			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
+		} 
+		
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET(Board board, Model model) throws Exception {
 		logger.info("register get");

@@ -11,12 +11,10 @@
 <c:choose>
 	<c:when test ="${msg eq 'success'}">
 		<c:set var="resultMsg" value = "등록완료."/>
-		<div class="alert alert-success" role="alert"></div>
 	</c:when>
 	
 	<c:when test ="${msg eq 'remove-ok'}">
-		<c:set var="resultMsg" value = "삭제완료."/>
-		<div class="alert alert-success" role="alert">...</div>
+		<c:set var="resultMsg" value = "삭제완료"/>
 	</c:when>
 	
 </c:choose>
@@ -30,8 +28,8 @@
     <table class="table table-bordered">
     <tr>
 	    <th style="width: 10px">번호</th>
-	    <th>제목</th>
 	    <th>작성자</th>
+	    <th>제목</th>
 	    <th>작성 날짜</th>
 	    <th>조회수</th>
     </tr>
