@@ -64,7 +64,7 @@ public class FileUtils
 		String iconName = dirname + File.separator + filename;
 		return iconName.substring(uploadPath.length()).replace(File.separatorChar, '/');
 	}
-
+	
 	static String makeThumbnail(String uploadRootPath, String dirname, String filename) throws IOException 
 	{
 		BufferedImage srcImg = ImageIO.read(new File(dirname, filename));	//버퍼는 콩이랑 쌀 걸러낼때 바구니 2개를 만드는거 temp생각하면 된다.
@@ -77,6 +77,8 @@ public class FileUtils
 		// 섬네일 경로생성후 fileupload 보냄
 		return thumbnailName.substring(uploadRootPath.length()).replace(File.separatorChar, '/');
 	}
+	
+	//crop
 	
 	public static String getCurrentUploadPath(String uploadRootPath) 
 	{	//년월일 뽑는 메소드

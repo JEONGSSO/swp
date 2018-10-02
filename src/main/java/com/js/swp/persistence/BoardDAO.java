@@ -9,6 +9,8 @@ public interface BoardDAO {
 	
 	void create(Board board) throws Exception;
 	
+	void createWithAttach(Board board) throws Exception;
+	
 	Board read(Integer bno) throws Exception;
 	
 	void update(Board board) throws Exception;
@@ -18,6 +20,8 @@ public interface BoardDAO {
 	List<Board> listAll() throws Exception;
 	
 	Integer getMaxbno();
+	
+	Integer getLastId();		//1002
 	
 	List<Board> listPage(int page) throws Exception;
 	
@@ -29,8 +33,13 @@ public interface BoardDAO {
 	
 	void plusViewcnt(Integer bno) throws Exception;
 	
-	void addAttach(String file);	//ok
+	void addAttach(String fullName);	//ok
 	
 	List<String> getAttach(Integer bno);	//ok
 
+	void removeAttach(String fileName);
+
+	void appendAttach(String fullNames, Integer bno);
+
+	void deleteAllAttaches(Integer bno);
 }

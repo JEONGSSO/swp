@@ -32,14 +32,6 @@ public class BoardController {
 	@Inject
 	private BoardService service;
 
-	@ResponseBody	//ajax라서 사용 rest방식이라 @PathVariable 사용 
-	@RequestMapping(value = "/getAttach/{bno}", method = RequestMethod.GET)
-	public List<String> read(@PathVariable ("bno") Integer bno) throws Exception 
-	{	//bno잘 찍힘
-		logger.info("getAttach ..... bno={}", bno);
-		return service.getAttach(bno);
-	}
-	
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET(Board board, Model model) throws Exception {
 		logger.info("register get");
@@ -48,6 +40,7 @@ public class BoardController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerPOST(Board board, RedirectAttributes rttr) throws Exception {
 		logger.info("register post {}", board.toString());
+		//bno가 없다	커넥션 풀이 안되는듯 ?
 		service.regist(board);
 //		model.addAttribute("result", "success");
 //		return "/board/success";
@@ -57,7 +50,7 @@ public class BoardController {
 	}
 	
 		@RequestMapping(value = "/read", method = RequestMethod.GET)
-		public String read(@RequestParam("bno")int bno, 
+		public String read(@RequestParam("bno") int bno, 
 						@ModelAttribute("criteria") Criteria criteria,
 						HttpServletResponse response,
 						Model model) throws Exception 
@@ -75,7 +68,15 @@ public class BoardController {
 			return "/board/read";
 		}
 		
-		@RequestMapping(value = "/update", method = RequestMethod.GET)
+		@ResponseBody	//ajax라서 사용 rest방식이라 @PathVariable 사용 
+		@RequestMapping(value = "/getAttach/{bno}", method = RequestMethod.GET)
+		public List<String> read(@PathVariable ("bno") Integer bno) throws Exception 
+		{	//bno잘 찍힘
+			logger.info("getAttach ..... bno={}", bno);
+			return service.getAttach(bno);
+		}
+		
+		@RequestMapping(value = "/update", method = RequestMethod.GET)	 
 		public void updateGet(@RequestParam("bno")int bno,
 				@ModelAttribute("criteria")Criteria criteria, Model model) throws Exception {
 			logger.info("UpdateGet");
@@ -108,7 +109,6 @@ public class BoardController {
 		@RequestMapping(value = "/listPage", method = RequestMethod.GET)
 		public void listPage(@ModelAttribute("Criteria")Criteria criteria, Model model) throws Exception {
 			logger.info(criteria.toString());
-			
 			model.addAttribute("list", service.listCriteria(criteria));
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCriteria(criteria);

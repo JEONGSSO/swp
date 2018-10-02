@@ -15,13 +15,27 @@ import com.js.swp.domain.Criteria;
 	{
 		@Inject
 		private SqlSession session;
+		
 		private static String namespace="com.js.swp.mapper.BoardMapper";
 //		private static final String UPDATE_CNT = namespace + ".updateCnt";
 		
 		@Override
-		public void create (Board b) throws Exception
+		public void create (Board board) throws Exception
 		{
-			session.insert(namespace+".create", b);
+			session.insert(namespace+".create", board);
+		}
+		
+		@Override
+		public void createWithAttach(Board board) throws Exception
+		{
+			String[] files = board.getFiles();
+			if(files == null) return;	//파일이 널일때 종료
+			
+			Integer lastid = session.selectOne(namespace + ".getLastId");
+			System.out.println("QQQQQQQQQQQQQQQQQ>>" + lastid);
+			
+			for(String file : files)	//10-01
+				session.insert(namespace+".addAttach", file);			
 		}
 		
 		public Board read (Integer bno) throws Exception
@@ -30,9 +44,9 @@ import com.js.swp.domain.Criteria;
 		}
 		
 		@Override
-		public void update (Board b) throws Exception
+		public void update (Board board) throws Exception
 		{
-			session.update(namespace+".update", b);
+			session.update(namespace+".update", board);
 		}
 		
 		public void delete (Integer bno) throws Exception
@@ -90,10 +104,10 @@ import com.js.swp.domain.Criteria;
 		
 //0928@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		@Override
-		public void addAttach(String file)
+		public void addAttach(String fullName)
 		{
 //			System.out.println("daoimpl>>>>" + file);	// 풀네임 잘 넘어옴
-			session.insert(namespace+".addAttach", file);
+			session.insert(namespace+".addAttach", fullName);
 		}
 		
 //1001@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -102,5 +116,36 @@ import com.js.swp.domain.Criteria;
 		{
 			return session.selectList(namespace+".getAttach", bno);
 		}
+
+		@Override
+		public Integer getLastId() {
+			return session.selectOne(namespace + ".getLastId");
+		}
+		
+//1002 파일 삭제@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		@Override
+		public void removeAttach(String fileName)
+		{
+			session.insert(namespace+".delAttach", fileName);
+		}
+		
+		@Override
+		public void appendAttach(String fullNames, Integer bno)
+		{
+			Map<String, Object> paramMap = new HashMap<>();
+			paramMap.put("bno", bno);
+			paramMap.put("fullName", fullNames);
+			session.insert(namespace+".appendAttach", paramMap);
+		}
+
+		@Override
+		public void deleteAllAttaches(Integer bno)
+		{
+			session.delete(namespace+".deleteAllAttaches", bno);
+			
+		}
+
+
+		
 		
 }

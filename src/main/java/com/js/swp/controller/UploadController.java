@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 
 import javax.annotation.Resource;
+import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.js.swp.service.BoardService;
 import com.js.swp.util.FileUtils;
 
 @Controller
@@ -30,20 +32,26 @@ public class UploadController
 	@Resource(name = "uploadPath")	//어플리케이션에서 필요한 자원을 자동으로 연결할 때 사용.
 	private String uploadPath;
 	
+	@Inject
+	private BoardService service;
+	
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 	
 	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
 	@RequestMapping(value = "/uploadAjaxes", method = RequestMethod.POST) //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거 10-01 배열은 텍스트로 받는거 안된다.
-	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, String type) throws Exception
-	{		//10-01 멀티파일
+	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, Integer bno) throws Exception
+	{		//10-01 멀티파일 
 		int len = files == null ? 0 : files.length;	// 파일이 널 이면 0을 주고 아니면 파일길이를 준다.
 		
-		logger.info("upload AJAXes >>> file.length={}", len);
+		logger.info("upload AJAXes >>> file.length={}, bno={}", len, bno);	//또 bno못찾네!
 		try
 		{
 			String[] uplodaedFiles = new String[len];	 // 업로드파일스에 배열만큼 담는다.
 			for (int i = 0; i < len; i++)
 				uplodaedFiles[i] = FileUtils.uploadFile(files[i], uploadPath); // 루프돌려 만듬
+			
+			if(bno > 0)	//DB한방에 처리하는 것 1002
+				service.appendAttach(uplodaedFiles, bno); //서비스에서 루프돌리기로
 			
 			return new ResponseEntity<>(uplodaedFiles, HttpStatus.CREATED);	//성공 201
 		} 
@@ -56,11 +64,14 @@ public class UploadController
 	
 	@ResponseBody
 	@RequestMapping(value = "/deleteFile", method = RequestMethod.DELETE)	//0927
-	public ResponseEntity<String> deleteFile(String fileName) throws Exception
+	public ResponseEntity<String> deleteFile(String fileName, Integer bno) throws Exception
 	{
-		logger.info("deleteFile >>> filename={}",fileName);
+		logger.info("deleteFile.....fileName={}, bno={}", fileName, bno);
 		try
 		{
+			if(bno > 0)	//글쓰기, 수정에서  1002 파일삯제
+				service.removeAttach(fileName);
+			
 			boolean isImage = FileUtils.getMediaType(FileUtils.getFileExtension(fileName)) != null;	 //이미지라면 섬네일이 올랑땜ㄴ에
 			File file = new File(uploadPath + fileName);
 			file.delete();
@@ -73,6 +84,7 @@ public class UploadController
 				File real = new File(uploadPath + realName);	
 				real.delete();	//원본 삭제
 			}
+			
 			return new ResponseEntity<>("deleted" , HttpStatus.OK);
 		} 
 		

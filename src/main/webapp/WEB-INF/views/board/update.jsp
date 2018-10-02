@@ -17,11 +17,35 @@
 							placeholder="내용">${board.content}</textarea>							
 		</div>
 		
+	<div class="form-group">
+		<div class="fileDrop text-right">
+			<label>여기다 떨구세요</label>
+			<div id="percent">0%</div>
+			<div id="status">ready</div>
+		</div>
+	</div>
+		
+		<ul class="mailbox-attachments clearfix uploadedList">
+			<%@include file="uploadedFiles.jsp"%>
+		</ul>
+		
 		<div class="box-footer">
 			<button type="submit" class="btn btn-primary">수정</button>	<!--sumbit은 form의 action을 탄다-->
 			<a  href="/board/read${criteria.makeQuery()}&bno=${board.bno}" class="btn btn-default">취소</a>
 		</div>
 	</form>
+	
+	<form id="form_attach" action="/uploadAjaxes" method="POST" enctype="multipart/form-data">
+		<input type="hidden" name="type" value="ajax" />
+		<input type="file" name="files" id="ajax_file" style="display: none;" />
+		<%-- <input type='submit' value = "ajax로 제출"/> --%>
+	</form>
+
 </div>
+
+<script>	// 1002 파일목록
+	showAttaches(${board.bno});
+</script>
+
 					
 <%@include file="../include/footer.jsp" %>

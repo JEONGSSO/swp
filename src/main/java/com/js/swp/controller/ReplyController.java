@@ -6,8 +6,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +24,6 @@ import com.js.swp.service.ReplyService;
 @RequestMapping("/replies") // /* 안써도 된다 replies라고 쓰는것들 다 프론트컨트롤러가 나한테 주는거
 public class ReplyController
 {
-	private static final Logger logger = LoggerFactory.getLogger(ReplyController.class);		//로그 남긴다.
-
 	@Inject
 	private ReplyService service;	//서비스의 객체화 구현체를 만들어준다 
 

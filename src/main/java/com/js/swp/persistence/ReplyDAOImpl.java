@@ -7,18 +7,13 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.ReplyVO;
-import com.js.swp.service.ReplyServiceImpl;
 
 @Repository
 public class ReplyDAOImpl implements ReplyDAO{
-	
-	private static final Logger logger = LoggerFactory.getLogger(ReplyDAOImpl.class);
 	
 	@Inject
 	SqlSession session;
@@ -31,6 +26,7 @@ public class ReplyDAOImpl implements ReplyDAO{
 	private static final String GETTOTALCOUNT = NS + ".getTotalCount";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
 	private static final String READRNO = NS + ".readRno";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
 	private static final String GET_BNO = NS + ".getBno";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
+	private static final String DELETE_ALL = NS + ".deleteAll";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
 	
 	@Override
 	public void create(ReplyVO reply) throws Exception {
@@ -75,6 +71,12 @@ public class ReplyDAOImpl implements ReplyDAO{
 	public int getBno(Integer rno) throws Exception
 	{
 		return session.selectOne(GET_BNO, rno);
+	}
+
+	@Override
+	public void deleteAll(Integer bno) throws Exception
+	{
+		session.delete(DELETE_ALL, bno);
 	}
 
 }

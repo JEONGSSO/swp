@@ -19,7 +19,7 @@ import com.js.swp.domain.Board;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 
-public class BoardServiceTest extends BoardServiceImpl {
+public class BoardServiceTest  {//extends BoardServiceImpl
 
 	@Inject
 	private BoardService service;

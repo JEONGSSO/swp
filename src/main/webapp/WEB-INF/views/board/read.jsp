@@ -45,12 +45,13 @@
 			<textarea class="form-control" name="content" rows="3" id="content"
 				readonly="readonly">${board.content}</textarea>
 		</div>
+		
+				<!-- 1001 파일업로드  -------------------------------------------->
+			<ul class="mailbox-attachments clearfix uploadedList">
+				<%@include file="uploadedFiles.jsp"%>
+			</ul>
+	
 	</div>
-
-	<!-- 1001 파일업로드  -------------------------------------------->
-	<ul class="mailbox-attachments clearfix uploadedList">
-		<%@include file="uploadedFiles.jsp"%>
-	</ul>
 
 	<!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
 	<div class="box-footer">
@@ -62,6 +63,7 @@
 			등록</button>
 	</div>
 </section><!-- 섹션 끝  -------------------------------------------->
+
 	<!-- 댓글 목록--------------------------------------------------------------------------09 12-->
 	<script id="replies" class="well" type="text/x-handlebars-template"> 
 	<ul class = "list-group">
@@ -134,8 +136,6 @@
 </script>
 
 <script src="/resources/reply.js"></script>
-<script src="/resources/upload.js"></script>
-
 <script>
 $(document).ready(	function()
    {
@@ -146,23 +146,11 @@ $(document).ready(	function()
    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}";
    		});
    		
-   		sendAjax("/board/getAttach/${board.bno}", (isSuccess, res) => 
-   		{
-   	        if (isSuccess) 
-   	        {
-   	        	let upfiles =[];	// array of jsonData
-   	        	res.forEach( rj =>	
-	            {
-	            	let jsonData = getFileInfo(rj);
-	            	upfiles.push(jsonData);
-	            });
-   	        	renderHbs('template', { upFiles : upfiles }, 'div');
-   	    } 	else 	//upfiles 대소문자 문제가능성 있음
-   	    	{
-   	            console.debug("Error on registerReply>>", res);
-   	        }
-   	});
   });
+</script>
+
+<script>	// 1002 파일목록
+	showAttaches(${board.bno});
 </script>
 
 <%@include file="../include/footer.jsp"%>

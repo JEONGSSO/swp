@@ -50,10 +50,4 @@
 	<%-- <input type='submit' value = "ajax로 제출"/> --%>
 </form>
 
-<script src="/resources/upload.js"></script>
-
-<script>
-	gIsEditing = true;
-</script>
-
 <%@include file="../include/footer.jsp"%>

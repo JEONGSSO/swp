@@ -123,6 +123,7 @@ function sendAjax(url, fn, method, jsonData) {
     }
 
     $.ajax(options).always((responseText, statusText, ajaxResult) => {
+    	console.log("aaa>>>>>>>>>", responseText, statusText, ajaxResult);
         let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
         fn(isSuccess, responseText);
         if (!isSuccess) {
@@ -186,10 +187,6 @@ const readReply = rno => new Promise( (resolves, rejects) => 	//0914 수업 아�
 			rejects(Error(res));
 	});
 });
-
-function readRno(){	//TODO
-
-}
 
 //    return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈	트림은 공백제거
 

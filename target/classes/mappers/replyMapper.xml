@@ -50,4 +50,8 @@
 		where rno = #{rno}
 	</select>
 	
+	<delete id="deleteAll">
+        delete from Reply where bno = #{bno}
+    </delete>
+	
 </mapper>

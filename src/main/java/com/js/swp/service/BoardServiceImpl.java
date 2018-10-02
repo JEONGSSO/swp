@@ -11,21 +11,27 @@ import org.springframework.transaction.annotation.Transactional;
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
 import com.js.swp.persistence.BoardDAO;
+import com.js.swp.persistence.ReplyDAO;
 
 @Service
 public class BoardServiceImpl implements BoardService
 {
 	
-	// dao를 받기 위해 인젝트 사용
 	@Inject
 	private BoardDAO dao;
+	
+	private ReplyDAO replyDao;
 	
 	@Transactional
 	@Override
 	public void regist(Board board) throws Exception 	//0928
-	{
-		dao.create(board);
+	{	//		dao.createWithAttach(board);	임시로 써본거
 		
+		dao.create(board);	
+		
+		Integer lastid = dao.getLastId();
+		System.out.println("QQQQQQQQQQQQQQQQQ>>" + lastid);
+		//여기서도 bno 널
 		String[] files = board.getFiles();
 		if(files == null) return;	//파일이 널일때 종료
 		
@@ -50,7 +56,9 @@ public class BoardServiceImpl implements BoardService
 	@Override
 	public void remove(Integer bno) throws Exception
 	{
-		dao.delete(bno);
+		dao.deleteAllAttaches(bno);
+		replyDao.deleteAll(bno);
+		dao.delete(bno);	//보드는 가장 마지막에
 	}
 	
 	@Override
@@ -75,6 +83,20 @@ public class BoardServiceImpl implements BoardService
 	public List<String> getAttach(Integer bno)
 	{
 		return dao.getAttach(bno);
+	}
+
+	@Override
+	public void removeAttach(String fileName)
+	{
+		dao.removeAttach(fileName);
+	}
+	
+	@Transactional
+	@Override
+	public void appendAttach(String[] fullNames, Integer bno)
+	{
+		for (String fullName : fullNames)
+			dao.appendAttach(fullName, bno);
 	}
 	
 }
