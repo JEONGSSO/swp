@@ -27,7 +27,6 @@
 <!-- 섹션 시작 ----------------------------------------------- -->
 <section class="content">
 	<div class="box-body">
-
 		<div class="form-group">
 			<label for="writer1">작성자</label> <span style="float: right"><label
 				for="writer1">조회수</label>${ board.viewcnt }</span> <input
@@ -50,7 +49,6 @@
 			<ul class="mailbox-attachments clearfix uploadedList">
 				<%@include file="uploadedFiles.jsp"%>
 			</ul>
-	
 	</div>
 
 	<!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
@@ -139,13 +137,11 @@
 <script>
 $(document).ready(	function()
    {
-   		replylistPage(1, ${board.bno});
    		$("#button-remove-read").on('click', function()
    		{
    			if(confirm("삭제하시겠습니까?"))	
    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}";
    		});
-   		
   });
 </script>
 

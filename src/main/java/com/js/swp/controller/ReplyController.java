@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.PageMaker;
@@ -33,7 +32,7 @@ public class ReplyController
 																								//@RequestBody는 json의 바디에  클라이언트에서 준 vo를 reply에 담는다?
 																								//ResponseEntity 주고받는 봉투를 구현한것, 
 																								//잭슨은 json을 만들어주는 것
-//		logger.debug("ReplyRegister>>{}", reply);	//디버그
+		System.out.println("ReplyRegister>>{}"+ reply);	//디버그
 		try
 		{
 			service.register(reply);	//위에서 담은 reply를 서비스에 레지스터 실행
@@ -42,7 +41,7 @@ public class ReplyController
 																					//
 		} catch (Exception e)
 		{
-			e.printStackTrace();	//예외를 출력해주고
+//			e.printStackTrace();	//예외를 출력해주고
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);	//BAD_REQUEST == 400을 반환한다.
 		}
 	}

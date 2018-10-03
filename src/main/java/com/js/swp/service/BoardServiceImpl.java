@@ -29,8 +29,8 @@ public class BoardServiceImpl implements BoardService
 		
 		dao.create(board);	
 		
-		Integer lastid = dao.getLastId();
-		System.out.println("QQQQQQQQQQQQQQQQQ>>" + lastid);
+//		Integer lastid = dao.getLastId();
+//		System.out.println("QQQQQQQQQQQQQQQQQ>>" + lastid);
 		//여기서도 bno 널
 		String[] files = board.getFiles();
 		if(files == null) return;	//파일이 널일때 종료
@@ -53,12 +53,13 @@ public class BoardServiceImpl implements BoardService
 		dao.update(board);
 	}
 	
+	@Transactional
 	@Override
 	public void remove(Integer bno) throws Exception
 	{
 		dao.deleteAllAttaches(bno);
 		replyDao.deleteAll(bno);
-		dao.delete(bno);	//보드는 가장 마지막에
+		dao.delete(bno);	//보드는 첨부,댓글 삭제 후 가장 마지막에
 	}
 	
 	@Override
@@ -94,7 +95,7 @@ public class BoardServiceImpl implements BoardService
 	@Transactional
 	@Override
 	public void appendAttach(String[] fullNames, Integer bno)
-	{
+	{	//1003 파일 n개가 저장되는 공간에 @Transactional걸어 다 올라가야만 성공하게끔
 		for (String fullName : fullNames)
 			dao.appendAttach(fullName, bno);
 	}

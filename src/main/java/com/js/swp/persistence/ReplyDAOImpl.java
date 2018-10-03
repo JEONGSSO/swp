@@ -26,7 +26,7 @@ public class ReplyDAOImpl implements ReplyDAO{
 	private static final String GETTOTALCOUNT = NS + ".getTotalCount";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
 	private static final String READRNO = NS + ".readRno";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
 	private static final String GET_BNO = NS + ".getBno";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
-	private static final String DELETE_ALL = NS + ".deleteAll";	//매퍼에 ID가 getTotalCount인 쿼리를 담는다 
+	private static final String DELETE_ALL = NS + ".deleteAll";	
 	
 	@Override
 	public void create(ReplyVO reply) throws Exception {

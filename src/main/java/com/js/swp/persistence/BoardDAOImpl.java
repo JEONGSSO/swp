@@ -126,7 +126,7 @@ import com.js.swp.domain.Criteria;
 		@Override
 		public void removeAttach(String fileName)
 		{
-			session.insert(namespace+".delAttach", fileName);
+			session.delete(namespace+".delAttach", fileName);
 		}
 		
 		@Override
@@ -142,7 +142,6 @@ import com.js.swp.domain.Criteria;
 		public void deleteAllAttaches(Integer bno)
 		{
 			session.delete(namespace+".deleteAllAttaches", bno);
-			
 		}
 
 

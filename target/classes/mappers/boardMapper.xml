@@ -133,7 +133,7 @@
 	</delete>
 	
 	<delete id="deleteAllAttaches">
-		delete from Attach where bno = #{bno}
+		delete from attach where bno = #{bno}
 	</delete>
 	
 	<insert id="appendAttach">

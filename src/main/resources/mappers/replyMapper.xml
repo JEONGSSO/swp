@@ -51,7 +51,7 @@
 	</select>
 	
 	<delete id="deleteAll">
-        delete from Reply where bno = #{bno}
+        delete from reply where bno = #{bno}
     </delete>
 	
 </mapper>

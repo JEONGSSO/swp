@@ -1,9 +1,9 @@
 	const $fileDrop = $('div.fileDrop');
 
 	let  gUri = window.location.pathname,
-		 gIsRegister = gUri.indexOf('/register') !== -1,
+		 gIsRegister = gUri.indexOf('/register') !== -1, //없으면 -1인가보다.
 		 gIsUpdate = gUri.indexOf('/update') !== -1,
-		 gIsEditing = gIsRegister || gIsUpdate;
+		 gIsEditing = gIsRegister || gIsUpdate;	// 쓰기, 수정에서만 삭제버튼이 보인다.
 	
 	$fileDrop.on('dragover dragenter', (evt) => 	//드래그오버, 드래그엔터 : 드래그가 진입했을때
 	{
@@ -20,7 +20,7 @@
 	{
 		evt.preventDefault();	//원래의 브라우저의 이벤트 기능 막는다.
 			let files = evt.originalEvent.dataTransfer.files;
-			console.log("drop >> ", evt.originalEvent.dataTransfer.files);
+			console.log("upload.js drop >>>> ", evt.originalEvent.dataTransfer.files);
 			$fileDrop.css("border", "none");
 			//$fileDrop.html(files[0].name);		//첫번째 파일이름으로 바꾸기
 			$("#ajax_file").prop("files", evt.originalEvent.dataTransfer.files);	// prop 드롭된 값을 주는것 파일이라는 값으로 뒤에evt를 줌
@@ -36,7 +36,7 @@
 		beforeSend : function()
 		{
 			let f =$('#ajax_file').val();
-			//console.info("beforeSend>>>", f);
+			console.info("upload.js ajaxForm beforeSend>>>", f);
 			if(!f) return false;
 			$status.empty();
 			$percent.html('0%');
@@ -47,11 +47,11 @@
 		},
 		complete : function(xhr)  //0927 xhr 서버에서 보내주는 값 이상 해결: ajax를 컨트롤러에 넣어줌.
 		{	//10-01 멀티파일
-			console.debug("xhr>>>>>>", xhr)
+			console.info("upload js xhr>>>>>>", xhr);	//xhr널찍힘
 			let resJson = xhr.responseJSON;		//array
 			if( xhr.status !== 201 )	//업로드가 실패했으면 컨트롤러 CREATE는 200번 아니라 201번
 				{
-					alert("업로드 에러,  (" +  resJson[0] + ")")	 //1002뜹니다
+					alert("업로드 에러,  (" +  resJson[0] + ")");	 //1002뜹니다
 					return;
 				}
 			
@@ -64,22 +64,20 @@
 			$status.html(resJson.length +  ' Uploaded');
 			renderHbs('template', { upFiles : gUpFiles }, 'div');
 			//tmpid, gUpFiles, div(안넣어도 기본값) 넣어준다.
-			
-			$('#board-files').val(gUpFiles);
 		}
 	});
-	
-	function deleteFile (fullName)
+	//uploadedFiles에서 호출
+	function deleteFile(fullName, bno)	//1003 
 	{
-		let fileInfo = getFileInfo(fullName);
+		let fileInfo = getFileInfo(fullName),	//파일 정보 가져오기
+			 url = "/deleteFile?fileName=" + fullName;	//url만들기
+		console.info("bno>>>>>>>>> ", bno)
 		
-		if(!confirm("삭제된 파일은 복구되지 않습니다."));
+		if(!confirm("삭제된 파일은 복구되지 않습니다."))
 			return;
 			
-		let url = "/deleteFile?fileName=" + fullName;
-		
-		if(bno)
-			url += "&bno=" + bno;
+		if(bno)	//bno가 있으면 bno를 달고간다.
+			url += "&bno=" + bno;	//파라메터가 여러개있을때 &(and? n? percent)?
 		
 		sendAjax(url, (isSuccess, res) => 
 		{
