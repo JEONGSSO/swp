@@ -8,8 +8,8 @@
 <mapper namespace="UserMapper">
 
 	<!-- 행 수정 -->
-	<select id="login">
-		select * from user where uid = {#uid} and upw = password(#{upw});
+	<select id="login" resultType="user">
+		select * from user where userid = {#userid} and userpw = password(#{userpw});
 	</select>
 	
 </mapper>

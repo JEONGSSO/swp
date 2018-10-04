@@ -7,8 +7,8 @@ import lombok.Data;
 //@Builder
 public class User
 {
-	private String uid;
-	private String upw;
+	private String userid;
+	private String userpw;
 	private String uname;
 	private Integer point;
 }

@@ -33,18 +33,17 @@ public class UserController
 	{
 		try
 		{
-			User user = service.login(dto);
-			if(user != null) //로그인 실패
-				model.addAttribute("user", user);	//어트리뷰트에 담기 get으로 가져올수있음
+			User user = service.login(dto);	//user를 받는다.
+			if(user != null) //user 안비어있으면 로그인 성공
+				//어트리뷰트에 담기 LoginInterceptor에서 get으로 가질 수 있음.
+				model.addAttribute("user", user);	
 			else
-				model.addAttribute("loginResult", "Login Fail!!");
+				model.addAttribute("loginResult", "아이디 또는 비밀번호가 일치하지 않습니다.");
 		} 
 		
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		logger.info("login GET...");
-		
 	}
 }

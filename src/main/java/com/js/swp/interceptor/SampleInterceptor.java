@@ -30,7 +30,7 @@ public class SampleInterceptor extends HandlerInterceptorAdapter // 컨트롤러
 		
 		System.out.println("afterrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 		@SuppressWarnings("rawtypes")
-		List<Board> list = (List)modelAndView.getModel().get("list");
+		List<Board> list = (List)modelAndView.getModel().get("list");	//setatt, get att 가져오면 오브젝트
 		System.out.println("list.size" + list.size());
 	}
 	

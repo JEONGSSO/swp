@@ -39,13 +39,18 @@
 	<!-- 0919  value = 경로 //두개쓴이유는 하나가 무시될 수 있기때문에 쓸수도있다-->
 	<context:component-scan base-package="com.js.swp" />
 	
-	<beans:bean id="sampleInterceptor" 
-            class="com.js.swp.interceptor.SampleInterceptor"></beans:bean>
+	<beans:bean id="SampleInterceptor" class="com.js.swp.interceptor.SampleInterceptor"/>
+	<beans:bean id="LoginInterceptor" class="com.js.swp.interceptor.LoginInterceptor"/>
 
 	<interceptors>
-	   <interceptor>
+	   <interceptor> <!-- 1004 인터셉트 -->
 	       <mapping path="/board/listPage" />
-	       <beans:ref bean="sampleInterceptor" />
+	       <beans:ref bean="SampleInterceptor" />
+	   </interceptor>
+	   
+	   <interceptor>
+	       <mapping path="/loginPost" />
+	       <beans:ref bean="LoginInterceptor" />
 	   </interceptor>
 	</interceptors>
 	
