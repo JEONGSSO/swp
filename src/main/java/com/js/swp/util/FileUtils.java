@@ -3,7 +3,7 @@ package com.js.swp.util;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,7 +88,7 @@ public class FileUtils
 		int d = cal.get(Calendar.DATE);
 		
 //		경로에 폴더 생성하게 한다.
-		return makeDir(uploadRootPath, "" + y, StringUtils.len2(m), StringUtils.len2(d));
+		return makeDir(uploadRootPath, "" + y, FileUtils.len2(m), FileUtils.len2(d));
 	}
 
 	public static String makeDir(String uploadRootPath, String... paths)
@@ -104,5 +104,10 @@ public class FileUtils
 				tmpFile.mkdir();
 		}
 		return uploadRootPath;
+	}
+
+	public static String len2(int n)
+	{
+		return new DecimalFormat("00").format(n).toString();
 	}
 }

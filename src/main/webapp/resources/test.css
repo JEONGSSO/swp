@@ -37,14 +37,19 @@ li{
     margin-bottom: 10px;
 }
 
-.pagination{
-    list-style: none;
-    display: inline;
+.pageination {
+	list-style: none;
 }
 
-.pagination li{
-    display: inline;
-    float : center;
+.pagination li {
+     display: inline;
+     margin: 0 10px;
+}
+
+.pagination li a.active {
+	font-weight: 700;
+    border: 1px solid #413cb8;
+    padding: 4px 8px;
 }
 
 /* ----------------------------------------------- space */

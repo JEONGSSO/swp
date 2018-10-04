@@ -57,8 +57,7 @@
 		<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"
 			class="btn btn-warning">수정</a> <a
 			href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
-		<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글
-			등록</button>
+		<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글등록</button>
 	</div>
 </section><!-- 섹션 끝  -------------------------------------------->
 

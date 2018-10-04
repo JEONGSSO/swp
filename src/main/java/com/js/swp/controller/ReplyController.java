@@ -32,7 +32,7 @@ public class ReplyController
 																								//@RequestBody는 json의 바디에  클라이언트에서 준 vo를 reply에 담는다?
 																								//ResponseEntity 주고받는 봉투를 구현한것, 
 																								//잭슨은 json을 만들어주는 것
-		System.out.println("ReplyRegister>>{}"+ reply);	//디버그
+//		System.out.println("ReplyRegister>>{}"+ reply);	//디버그
 		try
 		{
 			service.register(reply);	//위에서 담은 reply를 서비스에 레지스터 실행
@@ -46,10 +46,7 @@ public class ReplyController
 		}
 	}
 
-	@RequestMapping(value = "/{rno}", method = 			//수정
-	{
-			RequestMethod.PUT, RequestMethod.PATCH		//PUT, PATCH 수정
-	})
+	@RequestMapping(value = "/{rno}", method ={ RequestMethod.PUT, RequestMethod.PATCH }	)		//PUT, PATCH 수정
 	public ResponseEntity<String> update(@PathVariable("rno") Integer rno,		//@PathVariable 변수는 RNO 타입은 INTEGER;
 			@RequestBody ReplyVO reply)	//@RequestBody 잭슨이 JSON값을 REPLY에 담는다?
 	{

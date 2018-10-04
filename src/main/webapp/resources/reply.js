@@ -1,12 +1,13 @@
 let gbno = 0,
-	gIsEdit = false;
+	gIsEdit = false,
 	gRno = 0,
-	gPage = null;
+	gPage = null,
 	gReplytext = null;		//0913 수정버튼 삭제할때 만듦
 
 const	REGIST_URL = "/replies/";
 
 function replylistPage(page, bno) {		//0911 수업
+	 console.info("save>>>>>>={}",bno);
 	gbno = bno || gbno;	//bno 없으면 gbno
     gPage = page || gPage || 1;
     listUrl = "/replies/all/" + gbno + "/" + gPage;
@@ -75,12 +76,15 @@ function save() {	//0912
     let jsonData = getValidData($('#replyer'), $('#replytext'));	//수정 등록 경계를 허물어서 바꿈
     let url = gIsEdit ? REGIST_URL + gRno : REGIST_URL,		//등록인지 수정인지 gIsEdit이 true면  앞 : false면 뒤
     	method = gIsEdit ? 'PATCH' : 'POST';
-//    gReplytext = $(replytext).val();
-//    console.log("지리플텍스트 >>>" + gReplytext);
-    if(!gIsEdit){ jsonData.bno = gbno;}
-
+    	
+    if(!gIsEdit) 
+    	jsonData.bno = gbno;	//수정이 아니면 jsondata bno에 gbno넘김
+    
+//    console.info("save>>>>>>={}", jsonData.bno); 0넘
+    
     sendAjax(url, (isSuccess, res) => { //url, is
-        if (isSuccess) {
+        if (isSuccess) 
+        {
         	let resultMsg = gIsEdit ? gRno + "번 댓글이 수정되었습니다."
         			: "댓글이 등록되었습니다.";
             alert(resultMsg);
@@ -88,8 +92,6 @@ function save() {	//0912
            let result = gIsEdit ? gPage : 1;	//결과는 gIsEdit 수정 이면 ~~ 아니면 1
             replylistPage(result);//0912 수정 후 페이지 유지.
             closeMod();
-    } 	else {
-            console.debug("Error on registerReply>>", res);
         }
     }, method, jsonData);
 }
@@ -119,7 +121,7 @@ function sendAjax(url, fn, method, jsonData) {
     //jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
     if (jsonData) {
         options.data = JSON.stringify(jsonData);
-        console.log(options);
+        console.log("reply.js >>>>>>>>>>>",options);	//jsonData찍힘
     }
 
     $.ajax(options).always((responseText, statusText, ajaxResult) => {
@@ -127,7 +129,7 @@ function sendAjax(url, fn, method, jsonData) {
         let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
         fn(isSuccess, responseText);
         if (!isSuccess) {
-            alert("오류가 발생하였습니다. (errorMessage:" + responseText + ")");
+            alert("오류가 발생하였습니다. (errorMessage:" + responseText + "  "+ statusText +  ")");
         }
     })
 }
@@ -192,6 +194,3 @@ const readReply = rno => new Promise( (resolves, rejects) => 	//0914 수업 아�
 
 //Archive
 //수정할때 수정버튼이 수정했을때만 나오게 지우면 사라지게 0908 완료
-
-//Todo
-// 몇몇 댓글들 안들어가진다.

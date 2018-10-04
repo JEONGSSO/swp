@@ -3,7 +3,7 @@
 
 <script src="/resources/upload.js"></script>	
 
-<script id="template" type="text/x-handlebars-template">	//deleteFile bno 강제로 주기 showOriginal 원본파일 링크
+<script id="template" type="text/x-handlebars-template">	{{!--deleteFile bno 강제로 주기 showOriginal 원본파일 링크--}}
 				{{#each upFiles}}
 					<li id="{{fileId}}">
 					  <input type="hidden" name="files" value="{{fullName}}" />

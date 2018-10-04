@@ -59,7 +59,7 @@ public class UploadController
 	
 	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
 	@RequestMapping(value = "/uploadAjaxes", method = RequestMethod.POST) //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거 10-01 배열은 텍스트로 받는거 안된다.
-	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, Integer bno) throws Exception
+	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, Integer bno) throws Exception	//@RequestParam 스트링 요청온 값중에 bno값이 있어야한다.
 	{		//10-01 멀티파일 //ResponseEntity JSON 데이터와 HTTP 상태 메세지, 반환 타입은 String[]
 		int len = files == null ? 0 : files.length;	// 파일이 널 이면 0을 주고 아니면 파일길이를 준다.
 		

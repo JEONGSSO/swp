@@ -31,7 +31,6 @@ public class BoardServiceImpl implements BoardService
 		
 //		Integer lastid = dao.getLastId();
 //		System.out.println("QQQQQQQQQQQQQQQQQ>>" + lastid);
-		//여기서도 bno 널
 		String[] files = board.getFiles();
 		if(files == null) return;	//파일이 널일때 종료
 		

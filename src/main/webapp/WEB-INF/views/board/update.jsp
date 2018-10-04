@@ -47,5 +47,4 @@
 	showAttaches(${board.bno});
 </script>
 
-					
 <%@include file="../include/footer.jsp" %>

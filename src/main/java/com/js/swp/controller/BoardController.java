@@ -25,7 +25,6 @@ import com.js.swp.service.BoardService;
 
 @Controller
 @RequestMapping("/board/*")
-
 public class BoardController {
 	
 	@Resource(name = "uploadPath")	//어플리케이션에서 필요한 자원을 자동으로 연결할 때 사용.
@@ -92,7 +91,7 @@ public class BoardController {
 			rttr.addAttribute("perPageNum", criteria.getPerPageNum());
 			rttr.addAttribute("searchType", criteria.getSearchType());
 			rttr.addAttribute("keyword", criteria.getKeyword());
-//			rttr.addAttribute("bno", board.getBno()); //1003이것때문에 bno못찾음
+//			rttr.addAttribute("bno", board.getBno()); //1003
 			return "redirect:/board/read?bno="+ board.getBno();	//지금 수정한 bno로 이동한다. 메시지 var "msg" 는 read.jsp에다가 써야한다
 		}
 		
@@ -109,12 +108,15 @@ public class BoardController {
 
 		@RequestMapping(value = "/listPage", method = RequestMethod.GET)
 		public void listPage(Criteria criteria, Model model) throws Exception {
-			logger.info(criteria.toString());
+			logger.info("bctrl listPage>>>>>>>>>>>>={}",criteria.toString());
+			
 			model.addAttribute("list", service.listCriteria(criteria));
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCriteria(criteria);
-			int totalCount = service.listCountCriteria(criteria);
-			logger.info(">>>>>bctrl totalCount=" + totalCount);
+			pageMaker.setTotalCount(131);
+			
+			pageMaker.setTotalCount(service.listCountCriteria(criteria));
+			
 			model.addAttribute("pageMaker" , pageMaker);
 		}
 }	
