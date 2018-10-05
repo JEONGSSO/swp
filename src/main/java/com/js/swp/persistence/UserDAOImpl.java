@@ -14,8 +14,8 @@ public class UserDAOImpl implements UserDAO
 	@Inject
 	private SqlSession session;
 
-	private static final String NS = "com.js.swp.mapper.UserMapper";
-	private static final String LOGIN  = NS + ".login";
+	private static final String NS = "UserMapper";	//ok 1005 이거 경로를 그냥 매퍼이름 적으면 된다
+	private static final String LOGIN  = NS + ".login"; //ok
 	
 	@Override
 	public User login(LoginDTO dto) throws Exception

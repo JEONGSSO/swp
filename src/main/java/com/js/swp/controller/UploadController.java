@@ -70,7 +70,7 @@ public class UploadController
 			for (int i = 0; i < len; i++)
 				uplodaedFiles[i] = FileUtils.uploadFile(files[i], uploadPath); // 루프돌려 만듬
 			
-			if(bno > 0)	//DB한방에 처리하는 것 1002
+			if(bno != null)	//DB한방에 처리하는 것 1002
 				service.appendAttach(uplodaedFiles, bno); //서비스에서 루프돌리기로 여러개를 하나의 트랜잭션으로 묶기위하여 배열
 			
 			return new ResponseEntity<>(uplodaedFiles, HttpStatus.CREATED);	//성공 201

@@ -9,7 +9,7 @@
 
 	<!-- 행 수정 -->
 	<select id="login" resultType="user">
-		select * from user where userid = {#userid} and userpw = password(#{userpw});
+		select * from user where userid = #{userid} and userpw = password(#{userpw});
 	</select>
 	
 </mapper>
