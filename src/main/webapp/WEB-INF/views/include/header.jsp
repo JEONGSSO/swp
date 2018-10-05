@@ -38,7 +38,7 @@
     <script src="/resources/hbs.js"></script>
     <script src="/resources/ajax.js"></script>
     
-  <body class="skin-blue sidebar-mini">
+  <body class="skin-blue sidebar-mini sidebar-collapse" >
     <div class="wrapper">
       
       <header class="main-header">
@@ -252,14 +252,14 @@
               <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <img src="/resources/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                  <span class="hidden-xs">Alexander Pierce</span>
+                  <span class="hidden-xs">${ loginUser.uname }</span>	<!--1005  로그인 유저 이름 박기 -->
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <img src="/resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                     <p>
-                      Alexander Pierce - Web Developer
+                      ${ loginUser.uname }	<!--1005  로그인 유저 이름 박기 -->
                       <small>Member since Nov. 2012</small>
                     </p>
                   </li>
@@ -322,6 +322,10 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
+            <li class="treeview">
+              <a href="/login">
+                <i class="fa fa-user"></i> <span>로그인</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>

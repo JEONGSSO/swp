@@ -7,11 +7,12 @@
 	<div class="box-body">
 		<div class="form-group">
 
-			<div class="form-group">
-				<label for="writer1">작성자</label> <input class="form-control"
-					type="text" id="writer1" name="writer" placeholder="Enter Writer" />
-			</div>
-
+	<div class="form-group">
+				<label for="writer1"></label>
+				<input class="hidden" value=" ${ loginUser.userid }"
+					type="text" id="writer1" name="writer" />
+	</div>
+		
 			<label for="title1">제목</label> <input class="form-control"
 				name="title" type="text" id="title1" placeholder="제목" />
 		</div>

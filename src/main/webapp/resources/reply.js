@@ -80,7 +80,7 @@ function save() {	//0912
     if(!gIsEdit) 
     	jsonData.bno = gbno;	//수정이 아니면 jsondata bno에 gbno넘김
     
-//    console.info("save>>>>>>={}", jsonData.bno); 0넘
+//    console.info("save>>>>>>={}", jsonData.bno); 0넘어온다
     
     sendAjax(url, (isSuccess, res) => { //url, is
         if (isSuccess) 

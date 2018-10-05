@@ -96,7 +96,7 @@ public class BoardController {
 		}
 		
 		@RequestMapping(value = "/remove", method = RequestMethod.GET)
-		public String remove(@RequestParam("bno")int bno, Criteria criteria, RedirectAttributes rttr) throws Exception {
+		public String remove(@RequestParam("bno") Integer  bno, Criteria criteria, RedirectAttributes rttr) throws Exception {
 			service.remove(bno);		//@RequestParam을 사용해 bno를 받아온다
 			rttr.addFlashAttribute("msg", "remove-ok");	//msg에 remove-ok를 심음	
 			rttr.addAttribute("page", criteria.getPage());

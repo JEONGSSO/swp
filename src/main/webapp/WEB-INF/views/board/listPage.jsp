@@ -3,7 +3,6 @@
     
     <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-    <%@ page session="false" %>
     <%@ include file="../include/header.jsp" %>
        
  <c:set var="resultMsg" value =""/>
@@ -83,7 +82,6 @@
 			<c:if test="${ pageMaker.next && pageMaker.endPage > 0}" >
 				<li><a href="listPage${pageMaker.makeQuery(pageMaker.endPage +1)}">&raquo;</a></li>
 			</c:if>
-			
 				<a href="/board/register" class="btn btn-primary"  id ="writer">글쓰기</a>
 	</ul>
 </div>  

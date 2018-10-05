@@ -25,17 +25,17 @@ public class BoardServiceImpl implements BoardService
 	@Transactional
 	@Override
 	public void regist(Board board) throws Exception 	//0928
-	{	//		dao.createWithAttach(board);	임시로 써본거
-		
+	{	
 		dao.create(board);	
-		
-//		Integer lastid = dao.getLastId();
-//		System.out.println("QQQQQQQQQQQQQQQQQ>>" + lastid);
+
 		String[] files = board.getFiles();
 		if(files == null) return;	//파일이 널일때 종료
 		
 		for(String file : files)	//10-01
 			dao.addAttach(file);
+//		dao.createWithAttach(board);	//임시로 써본거
+//		Integer lastid = dao.getLastId();
+//		System.out.println("QQQQQQQQQQQQQQQQQ>>" + lastid);
 	}
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
@@ -56,8 +56,8 @@ public class BoardServiceImpl implements BoardService
 	@Override
 	public void remove(Integer bno) throws Exception
 	{
-		dao.deleteAllAttaches(bno);
-		replyDao.deleteAll(bno);
+//		dao.deleteAllAttaches(bno);
+//		replyDao.deleteAll(bno);	//1005 일단 이거오류
 		dao.delete(bno);	//보드는 첨부,댓글 삭제 후 가장 마지막에
 	}
 	

@@ -3,14 +3,14 @@
 	
 <%@ include file="include/header.jsp"%>
 
-	<form role="form" action="/loginPost" method="post">
+	<form role="form" action="/loginPost" method="post"><!-- QQQ -->
 		<div class="box-body">
 			<div class="form-group">
-			<input type="text" id="uid" name="uid"
+			<input type="text" id="userid" name="userid" value="user6" 
 					class="form-control" placeholder="아이디" />
 			</div>
 			<div class="form-group">
-				<input type="password" name="upw" id="upw"
+				<input type="password" name="userpw" id="userpw"	value="1234"
 							 class="form-control" placeholder="비밀번호"/>
 			</div>
 			

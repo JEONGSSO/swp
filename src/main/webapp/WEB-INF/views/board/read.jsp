@@ -8,11 +8,9 @@
 <%@ include file="../include/header.jsp"%>
 
 <script>
-	var result = '${msg}';	
+	let result = '${msg}';	
 	if (result === 'ok') 
-	{
 		alert("수정 완료");
-	}
 </script>
 
 <form role="form" method="post">
@@ -28,8 +26,9 @@
 <section class="content">
 	<div class="box-body">
 		<div class="form-group">
-			<label for="writer1">작성자</label> <span style="float: right"><label
-				for="writer1">조회수</label>${ board.viewcnt }</span> <input
+			<label for="writer1">작성자</label> <span style="float: right">
+			<label for="writer1">조회수</label>${ board.viewcnt }</span>
+			<input
 				class="form-control" type="text" name="writer" id="writer"
 				value="${board.writer}" readonly="readonly" />
 		</div>
@@ -53,10 +52,12 @@
 
 	<!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
 	<div class="box-footer">
+	<c:if test="${loginUser.userid == board.writer}">	<!-- TODO 작성자랑 아이디랑 같으면 나오게 -->
 		<button id="button-remove-read" class="btn btn-danger">삭제</button>
 		<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"
-			class="btn btn-warning">수정</a> <a
-			href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
+			class="btn btn-warning">수정</a>
+	</c:if>
+		<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
 		<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글등록</button>
 	</div>
 </section><!-- 섹션 끝  -------------------------------------------->

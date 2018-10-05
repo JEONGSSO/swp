@@ -26,7 +26,7 @@ public class ReplyController
 	@Inject
 	private ReplyService service;	//서비스의 객체화 구현체를 만들어준다 
 
-	@RequestMapping(value = "", method = RequestMethod.POST) // POST 등록
+	@RequestMapping(value = "", method = RequestMethod.POST) // POST 등록 1005 bno 0 넘어온다 일단 외래키 빼놨음
 	public ResponseEntity<String> register(@RequestBody ReplyVO reply)	// 스트링을 리턴할거야	json하려면 obj가와야한다.
 	{ 																								//json은 받아와서 vo를 만들거야, 잭슨이 받아온다(?)
 																								//@RequestBody는 json의 바디에  클라이언트에서 준 vo를 reply에 담는다?

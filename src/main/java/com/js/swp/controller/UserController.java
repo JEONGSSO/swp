@@ -33,6 +33,7 @@ public class UserController
 	{
 		try
 		{
+			logger.info("loginPost>>>>>>>>>>>>={}", dto);
 			User user = service.login(dto);	//user를 받는다.
 			if(user != null) //user 안비어있으면 로그인 성공
 				//어트리뷰트에 담기 LoginInterceptor에서 get으로 가질 수 있음.

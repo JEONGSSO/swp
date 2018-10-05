@@ -18,8 +18,6 @@ import com.js.swp.persistence.ReplyDAO;
 @Service
 public class ReplyServiceImpl implements ReplyService{
 	
-	private static final Logger logger = LoggerFactory.getLogger(ReplyServiceImpl.class);
-	
 	@Inject
 	ReplyDAO replyDAO;
 	
