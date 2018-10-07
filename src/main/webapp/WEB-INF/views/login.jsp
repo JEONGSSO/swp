@@ -16,7 +16,7 @@
 			
 			<div class="form-group">
 				<label for="useCookie">
-					<input type="checkbox" id="usecookie" name="usecookie" /> 로그인 기억
+					<input type="checkbox" id="useCookie" name="useCookie" /> 로그인 기억
 				</label>
 			</div>
 		</div>

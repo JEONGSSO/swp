@@ -39,7 +39,7 @@ public interface BoardDAO {
 
 	void removeAttach(String fileName);
 
-	void appendAttach(String fullNames, Integer bno);
+	void appendAttach(String fullName, Integer bno);
 
 	void deleteAllAttaches(Integer bno);
 }

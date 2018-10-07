@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.WebUtils;
 
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.PageMaker;
 import com.js.swp.domain.ReplyVO;
+import com.js.swp.domain.User;
+import com.js.swp.interceptor.SessionKey;
 import com.js.swp.service.ReplyService;
 
 @RestController
@@ -27,14 +33,20 @@ public class ReplyController
 	private ReplyService service;	//서비스의 객체화 구현체를 만들어준다 
 
 	@RequestMapping(value = "", method = RequestMethod.POST) // POST 등록 1005 bno 0 넘어온다 일단 외래키 빼놨음
-	public ResponseEntity<String> register(@RequestBody ReplyVO reply)	// 스트링을 리턴할거야	json하려면 obj가와야한다.
-	{ 																								//json은 받아와서 vo를 만들거야, 잭슨이 받아온다(?)
-																								//@RequestBody는 json의 바디에  클라이언트에서 준 vo를 reply에 담는다?
-																								//ResponseEntity 주고받는 봉투를 구현한것, 
-																								//잭슨은 json을 만들어주는 것
+	public ResponseEntity<String> register(@RequestBody ReplyVO reply, HttpSession session, HttpServletRequest request)	// 스트링을 리턴할거야	json하려면 obj가와야한다.
+	{ 																								
+//		User loginUser = (User)session.getAttribute(SessionKey.LOGIN);
 //		System.out.println("ReplyRegister>>{}"+ reply);	//디버그
 		try
 		{
+//			Cookie loginCookie = WebUtils.getCookie(request, "loginCookie");	//1007
+//			if(loginUser == null && loginCookie ==null)	//어뷰저 막기
+//				return new ResponseEntity<>("Not LoggedIn", HttpStatus.UNAUTHORIZED);
+//			else if(loginCookie != null)
+//			{
+//				loginUser = new User();
+//				loginUser.setUserid("user6");
+//			}
 			service.register(reply);	//위에서 담은 reply를 서비스에 레지스터 실행
 			return new ResponseEntity<>("ReplyRegisterOK", HttpStatus.OK);		//ok == 200;
 //			return new ResponseEntity<String>(T body, status)		// ResponseEntity에 T는 어떤타입이든 와도 된다. object임	
@@ -76,9 +88,9 @@ public class ReplyController
 		}				
 	}
 
-	@RequestMapping(value = "/all/{bno}/{page}", method = RequestMethod.GET)		//리스트는 읽기 GET
+	@RequestMapping(value = "/{bno}/{page}", method = RequestMethod.GET)		//리스트는 읽기 GET
 	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno,	//@PathVariable uri에있는 값을 가져온다?
-			@PathVariable("page") Integer page)	//@PathVariable은 @RequestMapping에 bno, page를 담는다
+			@PathVariable("page") Integer page, HttpSession session)	//@PathVariable은 @RequestMapping에 bno, page를 담는다
 	{
 //		logger.debug("ReplyList>>{}", bno);
 		try
@@ -94,6 +106,10 @@ public class ReplyController
 			pagemaker.setTotalCount(replyCount);	//전체 갯수
 
 			map.put("pageMaker", pagemaker);
+			
+			User loginUser = (User)session.getAttribute(SessionKey.LOGIN);	//오브젝트 타입을 유저 타입으로 넣어준다.
+			if(loginUser != null)	//로그인 되었을때만 
+			map.put("loginUid", loginUser.getUserid()); //클라이언트로 내려간다 ResponseEntity에 담겨서
 
 			return new ResponseEntity<>(map, HttpStatus.OK);
 		} 

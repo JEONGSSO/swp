@@ -4,18 +4,20 @@ let gbno = 0,
 	gPage = null,
 	gReplytext = null;		//0913 수정버튼 삭제할때 만듦
 
-const	REGIST_URL = "/replies/";
+const REGIST_URL = "/replies/";
 
 function replylistPage(page, bno) {		//0911 수업
-	 console.info("save>>>>>>={}",bno);
 	gbno = bno || gbno;	//bno 없으면 gbno
-    gPage = page || gPage || 1;
-    listUrl = "/replies/all/" + gbno + "/" + gPage;
+	page = page || gPage || 1;
+	gPage = page;
+    let listUrl = "/replies/" + gbno + "/" + page;
 
 	  sendAjax(listUrl, (isSuccess, res) => {	//res = responsetext 페이지메이커랑 뭐랑있음.
         if (isSuccess) {
+        	 console.debug(">>>", res)
              res.pageData = makePageData(res.pageMaker);
-        	 res.currentPage = gPage;	//pageData 삭제하고 액티브 나오게 했다.
+        	 res.currentPage = page;	//pageData 삭제하고 액티브 나오게 했다.
+        	 res.loginUid = res.loginUid;	//pageData 삭제하고 액티브 나오게 했다.
 //        	 console.debug("디버그",res.pageData);
         	 console.debug(">>>", res)
              renderHbs("replies", res, 'div'); //호출 replies , res 제이슨 데이타, 태그는 div
@@ -47,16 +49,21 @@ function makePageData(pageMaker){	//0911 수업
     return pageData;
 }	//0911 수업
 
-function editReply(rno, replyer, replytext){	//수정인지 등록인지 계산하는 함수
+function editReply(loginUid, rno, replyer, replytext){	//수정인지 등록인지 계산하는 함수
 //	console.debug("editReply " + rno, replyer, replytext)
 	event.preventDefault();	//# 눌렀을 때 작동 안되게
 	gIsEdit = !!rno; //rno가 없거나 공백이거나 스페이스바거나 두루뭉술 gisEdit 만들
 	gRno = rno;
 	gReplytext = replytext;
+	
+	if(loginUid && replyer && loginUid !== replyer){	//1007 추가
+		alert("본인이 작성한 글이아닙니다.")	
+		return;
+	}
 
 	renderHbs('myModal', {
 		gIsEdit : gIsEdit,
-		replyer : replyer,
+		replyer : replyer || loginUid,
 		replytext : replytext
 	}, 'div');	//(tmpid, jsonData, tag)를 각각 넣어준다.
 
@@ -125,7 +132,7 @@ function sendAjax(url, fn, method, jsonData) {
     }
 
     $.ajax(options).always((responseText, statusText, ajaxResult) => {
-    	console.log("aaa>>>>>>>>>", responseText, statusText, ajaxResult);
+    	console.log("reply.js always>>>>>>>>>>", responseText, statusText, ajaxResult);
         let isSuccess = statusText === 'success'; //ajax 호출 성공 여부
         fn(isSuccess, responseText);
         if (!isSuccess) {

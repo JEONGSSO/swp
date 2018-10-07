@@ -1,5 +1,4 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page session="false"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -26,8 +25,8 @@
 <section class="content">
 	<div class="box-body">
 		<div class="form-group">
-			<label for="writer1">작성자</label> <span style="float: right">
-			<label for="writer1">조회수</label>${ board.viewcnt }</span>
+			<label for="writer">작성자</label> <span style="float: right">
+			<label for="writer">조회수</label>${ board.viewcnt }</span>
 			<input
 				class="form-control" type="text" name="writer" id="writer"
 				value="${board.writer}" readonly="readonly" />
@@ -52,13 +51,15 @@
 
 	<!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
 	<div class="box-footer">
-	<c:if test="${loginUser.userid == board.writer}">	<!-- TODO 작성자랑 아이디랑 같으면 나오게 -->
+	<c:if test="${ loginUser.userid == board.writer }">	<!-- TODO 작성자랑 아이디랑 같으면 나오게 -->
 		<button id="button-remove-read" class="btn btn-danger">삭제</button>
 		<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"
 			class="btn btn-warning">수정</a>
 	</c:if>
 		<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
-		<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글등록</button>
+		<c:if test="${ loginUser.userid != null}"> <!-- QQQ -->
+			<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글등록</button>
+		</c:if>
 	</div>
 </section><!-- 섹션 끝  -------------------------------------------->
 
@@ -66,7 +67,7 @@
 	<script id="replies" class="well" type="text/x-handlebars-template"> 
 	<ul class = "list-group">
 		{{#each list}} {{!--리스트만큼 반복.--}}
-			<a href = "#" class = "list-group-item" onclick="editReply({{rno}}, '{{replyer}}', '{{replytext}}')">	{{!--댓글 클릭 하면 수정으로 todo 요거 몇몇댓글--}}
+			<a href = "#" class = "list-group-item" onclick="editReply('{{../loginUid}}', {{rno}}, '{{replyer}}', '{{replytext}}')">	{{!--댓글 클릭 하면 수정으로 todo 요거 몇몇댓글--}}
 				{{replytext}}	
 				<small class="text-muted"><i class="fa fa-user">{{replyer}}</i></small>
 				<small class="text-muted pull right">{{fromNow regdate}}</small>	{{!--moment fromNow 현재시간--}}
@@ -116,7 +117,8 @@
       </div>
       <div class="modal-body">
 	      	<div>
-	      	      작성자 : <input type="text" onkeyup="toggleEditBtn()" value="{{replyer}}" name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" />
+	      	      작성자 : <input type="text" onkeyup="toggleEditBtn()" value="{{replyer}}"
+									name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" readonly/>
 	     	 </div>
 	       <div>
 		            내용 : <textarea name="replytext" id="replytext" onkeyup="toggleEditBtn()" cols="30" rows="3" class="form-control">{{replytext}}</textarea>

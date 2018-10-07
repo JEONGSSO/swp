@@ -130,11 +130,11 @@ import com.js.swp.domain.Criteria;
 		}
 		
 		@Override
-		public void appendAttach(String fullNames, Integer bno)
+		public void appendAttach(String fullName, Integer bno)
 		{
 			Map<String, Object> paramMap = new HashMap<>();
 			paramMap.put("bno", bno);
-			paramMap.put("fullName", fullNames);
+			paramMap.put("fullName", fullName);
 			session.insert(namespace+".appendAttach", paramMap);
 		}
 

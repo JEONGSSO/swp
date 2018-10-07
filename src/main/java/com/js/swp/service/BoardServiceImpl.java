@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
 import com.js.swp.persistence.BoardDAO;
-import com.js.swp.persistence.ReplyDAO;
 
 @Service
 public class BoardServiceImpl implements BoardService
@@ -20,7 +19,7 @@ public class BoardServiceImpl implements BoardService
 	@Inject
 	private BoardDAO dao;
 	
-	private ReplyDAO replyDao;
+//	private ReplyDAO replyDao;
 	
 	@Transactional
 	@Override
@@ -56,7 +55,7 @@ public class BoardServiceImpl implements BoardService
 	@Override
 	public void remove(Integer bno) throws Exception
 	{
-//		dao.deleteAllAttaches(bno);
+		dao.deleteAllAttaches(bno);
 //		replyDao.deleteAll(bno);	//1005 일단 이거오류
 		dao.delete(bno);	//보드는 첨부,댓글 삭제 후 가장 마지막에
 	}

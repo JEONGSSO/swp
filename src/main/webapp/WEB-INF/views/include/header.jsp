@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   
 <!DOCTYPE html>
 <html>
   <head>
@@ -43,11 +42,11 @@
       
       <header class="main-header">
         <!-- Logo -->
-        <a href="/resources/index2.html" class="logo">
+        <a href="/board/listPage" class="logo">	<!-- 1007 메인 추가 -->
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Zerock</b> PROJECT</span>
+          <span class="logo-lg"  >Board</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -250,16 +249,22 @@
               </li>
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="/resources/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                  <span class="hidden-xs">${ loginUser.uname }</span>	<!--1005  로그인 유저 이름 박기 -->
+              <% if (session.getAttribute("loginUser") != null) {%>
+                  			 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <%} else{ %>
+                  			<a href="/login">로그인</a>
+                  	<%} %>
+                	${ loginUser.userid }
+                  <span class="hidden-xs">
+                  </span>	<!--1005  로그인 유저 이름 박기 -->
                 </a>
                 <ul class="dropdown-menu">
                   <!-- User image -->
                   <li class="user-header">
                     <img src="/resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    ${ loginUser.userid }
                     <p>
-                      ${ loginUser.uname }	<!--1005  로그인 유저 이름 박기 -->
+                      ${ loginUser.userid }	<!--1005  로그인 유저 이름 박기 -->
                       <small>Member since Nov. 2012</small>
                     </p>
                   </li>
@@ -281,7 +286,7 @@
                       <a href="#" class="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div class="pull-right">
-                      <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                      <a href="/logout" class="btn btn-default btn-flat">로그아웃</a><!-- 1007 로그아웃 -->
                     </div>
                   </li>
                 </ul>
@@ -304,7 +309,7 @@
               <img src="/resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-              <p>Alexander Pierce</p>
+              <p>${ loginUser.userid }</p>
 
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>

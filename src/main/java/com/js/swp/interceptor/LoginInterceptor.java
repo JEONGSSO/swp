@@ -6,17 +6,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter implements  SessionKey // 컨트롤러 연결고리
 {
+	private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception
 	{
 
-		System.out.println("LoginInter preeee>>>");
+		logger.info("loginInter pre>>>>>>>>>>>");
 		
 		HttpSession session = request.getSession();
 		
@@ -37,22 +41,22 @@ public class LoginInterceptor extends HandlerInterceptorAdapter implements  Sess
 		Object user = modelAndView.getModelMap().get("user");
 		if(user != null)	//로그인 성공하면
 		{
-			session.setAttribute(LOGIN, user);	//세션에 박힘
+			session.setAttribute(LOGIN, user);	//세션에 LOGIN이라는 이름으로 user객체를 박(?)는다
+			if(StringUtils.isNotEmpty(request.getParameter("useCookie"))) //로그인 기억 체크하면 
+			{
+				Cookie loginCookie = new Cookie(LOGIN_COOKIE, session.getId());	//쿠키에 담는 것
+				loginCookie.setPath("/"); // localhost:8080/
+				loginCookie.setMaxAge(EXPIRE);	// 일주일 지속
+				
+				response.addCookie(loginCookie);		//스프링쪽에 쿠키를 담아 응답이 오면 같이 나감
+			}
+		}	
+		String attenoted = (String)session.getAttribute(ATTEMPTED);	//ATTEMPTED 가져오기
 		
-		}
-		
-		if(StringUtils.isNoneEmpty(request.getParameter("useCookie")))
+		if(StringUtils.isNotEmpty(attenoted))	//attenoted값이 있으면
 		{
-			Cookie loginCookie = new Cookie(LOGIN_COOKIE, session.getId());	//쿠키에 담는 것
-			loginCookie.setPath("/");
-			loginCookie.setMaxAge(7 * 24 * 60 * 60);	//하루동안 지속?
-			response.addCookie(loginCookie);
-		}
-		String attenoted = (String)session.getAttribute(ATTEMPED);
-		if(StringUtils.isNotEmpty(attenoted))
-		{
-			response.sendRedirect(attenoted);
-			session.removeAttribute(ATTEMPED);
+			response.sendRedirect(attenoted);	//원하는 곳으로 보내준다.
+			session.removeAttribute(ATTEMPTED);	//글쓰기로만 갈거 아니니까 비워준다.
 		}
 		else
 			response.sendRedirect("board/listPage");	//로그인 성공하면 리스트 페이지로

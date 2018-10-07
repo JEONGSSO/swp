@@ -38,26 +38,6 @@ public class UploadController
 	private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
 	
 	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
-	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
-	public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
-	{
-		logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
-				file.getOriginalFilename(),
-				file.getSize(),
-				file.getContentType());
-		try
-		{
-			String savedFileName = FileUtils.uploadFile(file, uploadPath); // 업파일해서 다(?) 만들어줌
-			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
-		} 
-		
-		catch (Exception e)
-		{
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
 	@RequestMapping(value = "/uploadAjaxes", method = RequestMethod.POST) //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거 10-01 배열은 텍스트로 받는거 안된다.
 	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, Integer bno) throws Exception	//@RequestParam 스트링 요청온 값중에 bno값이 있어야한다.
 	{		//10-01 멀티파일 //ResponseEntity JSON 데이터와 HTTP 상태 메세지, 반환 타입은 String[]
@@ -181,5 +161,23 @@ public class UploadController
 		logger.info("upload GET >>>>>>>>>>");
 	}
 	
-	
+	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
+	@RequestMapping(value = "/uploadAjax", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8") //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거
+	public ResponseEntity<String> uploadFormAjax(MultipartFile file, String type) throws Exception
+	{
+		logger.info("upload AJAX >>> originName={}, size={}, contentType={}",
+				file.getOriginalFilename(),
+				file.getSize(),
+				file.getContentType());
+		try
+		{
+			String savedFileName = FileUtils.uploadFile(file, uploadPath); // 업파일해서 다(?) 만들어줌
+			return new ResponseEntity<>(savedFileName, HttpStatus.CREATED);
+		} 
+		
+		catch (Exception e)
+		{
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
 }

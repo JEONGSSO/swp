@@ -1,5 +1,7 @@
 package com.js.swp.service;
 
+import java.util.Date;
+
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
@@ -18,5 +20,15 @@ public class UserServiceImpl implements UserService
 	public User login(LoginDTO dto) throws Exception
 	{	//User 결과값을 담는놈(반환타입) 오브젝트 LoginDTO 클라이언트에서 올라온 id,pw 전달하는 놈
 		return dao.login(dto);
+	}
+
+	@Override
+	public void keepLogin(String userid, String sessionid, Date expire) {
+		dao.keepLogin(userid, sessionid, expire);
+	}
+
+	@Override
+	public User checkLoginBefore(String loginCookie) {
+		return dao.checkLoginBefore(loginCookie);
 	}
 }

@@ -32,25 +32,38 @@
 	</beans:bean>
 	
 	<beans:bean id="uploadPath" class="java.lang.String">
-	    <beans:constructor-arg value="C://Users//Administrator//Documents//workspace-sts-3.9.5.RELEASE//upload">
+	    <!-- <beans:constructor-arg value="C://Users//Administrator//Documents//workspace-sts-3.9.5.RELEASE//upload">
+	    </beans:constructor-arg>	  -->
+	    <beans:constructor-arg value="C://Users//Sso//Documents//workspace-sts-3.9.6.RELEASE//upload">
 	    </beans:constructor-arg>	 
 	    <!-- <beans:constructor-arg value="/home/js/Documents/workspace-sts-3.9.5.RELEASE/upload"></beans:constructor-arg>-->
+	
 	</beans:bean>
 	<!-- 0919  value = 경로 //두개쓴이유는 하나가 무시될 수 있기때문에 쓸수도있다-->
 	<context:component-scan base-package="com.js.swp" />
 	
-	<beans:bean id="SampleInterceptor" class="com.js.swp.interceptor.SampleInterceptor"/>
+	<!--<beans:bean id="SampleInterceptor" class="com.js.swp.interceptor.SampleInterceptor"/>-->
 	<beans:bean id="LoginInterceptor" class="com.js.swp.interceptor.LoginInterceptor"/>
+	<beans:bean id="AuthInterceptor" class="com.js.swp.interceptor.AuthInterceptor"/>
 
-	<interceptors>
-	   <interceptor> <!-- 1004 인터셉트 -->
+
+	 <!-- <interceptor> 1004 인터셉터
 	       <mapping path="/board/listPage" />
 	       <beans:ref bean="SampleInterceptor" />
 	   </interceptor>
-	   
+  -->  
+  	<interceptors>
 	   <interceptor>
 	       <mapping path="/loginPost" />
 	       <beans:ref bean="LoginInterceptor" />
+	   </interceptor>
+	
+	   <interceptor>
+	       <mapping path="/board/register" />
+	       <mapping path="/board/update" />
+	       <mapping path="/board/remove" />
+	       <mapping path="/replies/" />
+	       <beans:ref bean="AuthInterceptor" />
 	   </interceptor>
 	</interceptors>
 	

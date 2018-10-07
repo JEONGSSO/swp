@@ -8,9 +8,9 @@
 		<div class="form-group">
 
 	<div class="form-group">
-				<label for="writer1"></label>
-				<input class="hidden" value=" ${ loginUser.userid }"
-					type="text" id="writer1" name="writer" />
+				<label for="writer"></label>
+				<input class="hidden" value="${ loginUser.userid }"
+					type="text" id="writer" name="writer" />
 	</div>
 		
 			<label for="title1">제목</label> <input class="form-control"

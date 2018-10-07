@@ -8,8 +8,19 @@
 <mapper namespace="UserMapper">	<!-- 수정  -->
 
 	<!-- 행 수정 -->
-	<select id="login" resultType="com.js.swp.domain.User">	<!-- 암호화 했을때만 password -->
+	<select id="login" resultType="com.js.swp.domain.User">	<!-- db에서 암호화 했을때만 password -->
 		select * from user where userid = #{userid} and userpw = password(#{userpw});
+	</select>
+	
+	<update id="keepLogin">
+		update user
+		set sessionkey = #{sessionkey}, sessionlimit = #{sessionlimit}
+		where userid =#{userid}
+	</update>
+	
+	<select id="checkLoginBefore" resultType="com.js.swp.domain.User">
+		select * from user
+		where sessionkey = #{loginCookie} and sessionlimit > now();
 	</select>
 	
 </mapper>
