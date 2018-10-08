@@ -8,37 +8,37 @@
 <mapper namespace="replyMapper">
 	<!-- 데이터 삽입 -->
 	<insert id="create">
-		insert into reply (bno, replyer, replytext)
+		insert into Reply (bno, replyer, replytext)
 		values( #{bno}, #{replyer}, #{replytext})		<!--  #은 아이디  . 은 클래스-->
 	</insert>
 	
 	<!-- 행 수정 -->
 	<update id="update">
-		update reply
+		update Reply
 		set replytext = #{replytext}
 		where rno = #{rno}
 	</update>
+	
 	<!-- 행 삭제 -->
 	<delete id="delete">
-		delete from reply where rno = #{rno}
+		delete from Reply where rno = #{rno}
 	</delete>
+	
 	<select id="listPage" resultType="ReplyVO">
-		select *
-		from reply
-		where bno = #{bno}
-		order by rno desc
+		select * from Reply
+		where bno = #{bno} order by rno desc
 		limit #{cri.pageStart}, #{cri.perPageNum}
 	</select>
+	
 	<select id="getTotalCount" resultType="int">
 		select count(bno)
-		from reply
+		from Reply
 		where bno = #{bno}
 		
 	</select>
 	<!-- 0914@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@	 -->
 	<select id="readRno" resultType="ReplyVO">
-		select *
-		from reply
+		select * from Reply
 		where rno = #{rno}
 	</select>
 
@@ -46,12 +46,12 @@
 	<!-- 0918@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 	<select id="getBno" resultType="int">
 		select bno
-		from reply
+		from Reply
 		where rno = #{rno}
 	</select>
 	
 	<delete id="deleteAll">
-        delete from reply where bno = #{bno}
+        delete from Reply where bno = #{bno}
     </delete>
 	
 </mapper>

@@ -31,9 +31,9 @@ public class UserDAOImpl implements UserDAO
 	}
 
 	@Override
-	public void keepLogin(String userid, String sessionid, Date expire) {
+	public void keepLogin(String uid, String sessionid, Date expire) {
 		Map<String, Object> paramMap = new HashMap<>();
-		paramMap.put("userid", userid);
+		paramMap.put("uid", uid);
 		paramMap.put("sessionkey", sessionid);
 		paramMap.put("sessionlimit", expire);
 		session.update(KEEP_LOGIN, paramMap);

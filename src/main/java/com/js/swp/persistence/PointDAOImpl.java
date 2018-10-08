@@ -20,7 +20,7 @@ public class PointDAOImpl implements PointDAO
 	public void updatePoint(String uid, Integer point) throws Exception
 	{
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("userid", uid);	//가져와서 담는다 userid
+		paramMap.put("uid", uid);	//가져와서 담는다 userid
 		paramMap.put("upoint", point);
 		
 		session.update(NS +  ".updatePoint", paramMap);

@@ -6,11 +6,11 @@
 	<form role="form" action="/loginPost" method="post"><!-- QQQ -->
 		<div class="box-body">
 			<div class="form-group">
-			<input type="text" id="userid" name="userid" value="user6" 
+			<input type="text" id="uid" name="uid" value="user1" 
 					class="form-control" placeholder="아이디" />
 			</div>
 			<div class="form-group">
-				<input type="password" name="userpw" id="userpw"	value="1234"
+				<input type="password" name="upw" id="upw"	value="1234"
 							 class="form-control" placeholder="비밀번호"/>
 			</div>
 			

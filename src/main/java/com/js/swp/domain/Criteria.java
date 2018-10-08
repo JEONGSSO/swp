@@ -14,6 +14,7 @@ public class Criteria {
 		this.searchType = null;
 		this.keyword = null;
 	}
+	
 	public void setPage(int page) {
 		if(page <=0) {
 			this.page = 1;

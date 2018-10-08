@@ -9,21 +9,21 @@
 
 	<!-- 데이터 삽입 -->
 	<insert id="create">
-		insert into tb1_message 	(targetid,		 sender, 		message)
+		insert into Message 	(targetid,		 sender, 		message)
 							VALUES  (#{targetid }, 	#{sender} ,		#{message});
 	</insert>
 	
 	<select id="readMessage" resultType="MessageVo">
 		select *
-		from tb1_message
-		where mno = #{mno}
+		from Message
+		where mid = #{mid}
 	</select>
 	
 	<!-- 행 수정 -->
 	<update id="updateState">
-		update tb1_message
+		update Message
 		set opendate = now()
-		where mno = #{mno}
+		where mid = #{mid}
 	</update>
 	
 </mapper>

@@ -9,9 +9,9 @@
 
 	<!-- 행 수정 -->
 	<update id="updatePoint">
-		update user
+		update User
 		set upoint = upoint + #{upoint}
-		where userid = #{userid}
+		where uid = #{uid}
 	</update>
 	
 </mapper>

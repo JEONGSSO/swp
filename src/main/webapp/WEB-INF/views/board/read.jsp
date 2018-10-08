@@ -12,10 +12,6 @@
 		alert("수정 완료");
 </script>
 
-<form role="form" method="post">
-	<input type='hidden' name='bno' value="${board.bno}">
-</form>
-
 <c:if test="${ true eq isTest }">
 	<%@ include file="../qunit.jsp"%>
 	<script src="../resources/test/replytest.js"></script>
@@ -51,13 +47,13 @@
 
 	<!-- 글 수정 삭제 버튼-----------------------------------------------------------  -->
 	<div class="box-footer">
-	<c:if test="${ loginUser.userid == board.writer }">	<!-- TODO 작성자랑 아이디랑 같으면 나오게 -->
+	<c:if test="${ loginUser.uid == board.writer }">	<!-- TODO 작성자랑 아이디랑 같으면 나오게 -->
 		<button id="button-remove-read" class="btn btn-danger">삭제</button>
 		<a href="/board/update${criteria.makeQuery()}&bno=${board.bno}"
 			class="btn btn-warning">수정</a>
 	</c:if>
 		<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
-		<c:if test="${ loginUser.userid != null}"> <!-- QQQ -->
+		<c:if test="${ loginUser.uid != null}"> <!-- QQQ 아이디 없으면 댓글등록창없게 -->
 			<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글등록</button>
 		</c:if>
 	</div>
@@ -88,7 +84,7 @@
 			{{pageData.currentPage}}
 			{{#each pageData.pages as |page|}}	{{!-- as는 원소의 이름을 page로 받겠다. --}}
 					<li class="{{#if (eq ../currentPage page)}}active{{/if}}">	{{!-- 만약에 if eq는 함수, ..currentPage page?? 뭐하는건지?  --}}
-						<a href="javascript:;" onclick="replylistPage({{page}})"	{{!-- 링크를 자바스크립트로 걸고? 클릭하면 데이터 받아서 replylist실행  --}}
+						<a href="javascript:;" onclick="replylistPage({{page}},{{bno}})"	{{!-- 링크를 자바스크립트로 걸고? 클릭하면 데이터 받아서 replylist실행  --}}
 							class=data-page="{{page}}">
 							{{page}}
 						</a>
@@ -118,7 +114,7 @@
       <div class="modal-body">
 	      	<div>
 	      	      작성자 : <input type="text" onkeyup="toggleEditBtn()" value="{{replyer}}"
-									name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" readonly/>
+									name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" />
 	     	 </div>
 	       <div>
 		            내용 : <textarea name="replytext" id="replytext" onkeyup="toggleEditBtn()" cols="30" rows="3" class="form-control">{{replytext}}</textarea>
@@ -144,8 +140,10 @@ $(document).ready(	function()
    			if(confirm("삭제하시겠습니까?"))	
    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}";
    		});
-  });
+   		replylistPage(1, '${board.bno}');	//QQQ ''치는 이유 안쳤는데 없으면 에러나서
+   });
 </script>
+
 
 <script>	// 1002 파일목록
 	showAttaches(${board.bno});

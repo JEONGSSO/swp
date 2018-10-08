@@ -36,7 +36,7 @@ public class UserController
 		logger.info("login GET...");
 	}
 	
-	@RequestMapping(value = "/loginPost", method = RequestMethod.POST) //GET으로하면 url에 아디 비번 보임
+	@RequestMapping(value = "/loginPost", method = RequestMethod.POST)
 	public void loginPost(LoginDTO dto, Model model, HttpSession session) throws Exception
 	{
 		try
@@ -47,7 +47,7 @@ public class UserController
 			if(user != null)	//user 안비어있으면 로그인 성공
 			{	
 				Date expire = new Date(System.currentTimeMillis() + SessionKey.EXPIRE * 1000); //기본단위가 m/s 그래서 1초면 * 1000
-				service.keepLogin(user.getUserid(), session.getId(), expire);
+				service.keepLogin(user.getUid(), session.getId(), expire);
 				model.addAttribute("user", user);	//모델에다 user박기전에 db에 먼저쓴다.
 				//어트리뷰트에 담기 LoginInterceptor에서 get으로 가질 수 있음.
 			}
@@ -80,7 +80,7 @@ public class UserController
 			response.addCookie(loginCookie);		//스프링쪽에 쿠키를 담아놓음
 			
 			User user = (User)session.getAttribute(SessionKey.LOGIN);
-			service.keepLogin(user.getUserid(), session.getId(), new Date());
+			service.keepLogin(user.getUid(), session.getId(), new Date());
 		}
 		return "/login";
 	}

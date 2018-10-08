@@ -254,7 +254,7 @@
                 <%} else{ %>
                   			<a href="/login">로그인</a>
                   	<%} %>
-                	${ loginUser.userid }
+                	${ loginUser.uid }
                   <span class="hidden-xs">
                   </span>	<!--1005  로그인 유저 이름 박기 -->
                 </a>
@@ -262,9 +262,9 @@
                   <!-- User image -->
                   <li class="user-header">
                     <img src="/resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
-                    ${ loginUser.userid }
+                    ${ loginUser.uid }
                     <p>
-                      ${ loginUser.userid }	<!--1005  로그인 유저 이름 박기 -->
+                      ${ loginUser.uid }	<!--1005  로그인 유저 이름 박기 -->
                       <small>Member since Nov. 2012</small>
                     </p>
                   </li>
@@ -309,7 +309,7 @@
               <img src="/resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
             </div>
             <div class="pull-left info">
-              <p>${ loginUser.userid }</p>
+              <p>${ loginUser.uid }</p>
 
               <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>

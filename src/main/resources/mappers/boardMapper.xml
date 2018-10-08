@@ -6,50 +6,104 @@
 <mapper namespace="com.js.swp.mapper.BoardMapper">
 
 	<insert id="create">
-		insert into tb1_board(title, content, writer)
-		values(#{title}, #{content}, #{writer})
+		insert into Board(	title, content, writer )
+					values(  #{title}, #{content}, #{writer} )
 	</insert>
 
 	<select id="read" resultType="com.js.swp.domain.Board">
-		select bno, title, content, writer, regdate, viewcnt, replycnt
-		from tb1_board
+		select *
+		from Board
 		where bno = #{bno}
 	</select>
 
 	<update id="update">
-		update tb1_board set title =#{title},
-		content = #{content}
+		update Board set title =#{title},
+							   content = #{content}
 		where bno = #{bno}
 	</update>
 	
 	<delete id="delete">
-		delete from tb1_board where bno = #{bno}
+		delete from Board where bno = #{bno}
 	</delete>
 	
 		<select id="getMaxbno" resultType = "Integer">
-		select max(bno) from tb1_board
+		select max(bno) from Board
 	</select>
 
 	<select id="listAll" resultType="com.js.swp.domain.Board">
 		<![CDATA[
 		select
 			bno, title, content, writer, regdate, viewcnt, replycnt
-		from tb1_board
+		from Board
 		where bno > 0
 		order by bno desc, regdate desc
 		]]>
 	</select>
 
 	<select id="listPage" resultType="com.js.swp.domain.Board">
-			select
-				bno, title, content, writer, regdate, viewcnt, replycnt
-			from tb1_board
+			select * from Board
 			where bno > 0
-				order by bno desc, regdate desc
-				limit #{page}, 10
+				order by bno desc, regdate desc limit #{page}, 10
 	</select>
 	
-	<sql id="search">
+	<select id="listCriteria" resultType="com.js.swp.domain.Board">
+		select * from Board
+			where bno > 0
+		<include refid="search"></include>
+		order by bno desc, regdate desc
+			limit #{pageStart}, #{perPageNum}
+	</select>
+	
+	<select id="countPaging" resultType="integer">
+		select count(bno) cnt from Board
+			where bno > 0
+			<include refid="search"/>
+	</select>
+	
+		<!-- 0918  -->
+	<update id="plusViewcnt">
+		update Board
+		set viewcnt = viewcnt + 1
+		where bno = #{bno}
+	</update>
+	
+	<update id="updateReplycnt">
+		update Board
+		set replycnt = replycnt + #{amt}
+		where bno = #{bno}
+	</update>
+	
+	<!-- 0928 첨부파일  -->
+	<insert id="addAttach">
+		insert into Attach( bno, fullName )
+				   values( last_insert_id(), #{fullName} )
+	</insert>
+	
+	<!-- 1001 첨부파일  -->
+	<select id="getAttach" resultType="String">
+		select fullName from Attach
+		where bno = #{bno}
+	</select>
+	
+	<!-- 1002 DB오류났을때 getLastId 임시로-->
+	<select id="getLastId" resultType="Integer">
+		select last_insert_id()
+	</select>
+	
+	<delete id="delAttach">
+		delete from Attach where fullName = #{fullname}
+	</delete>
+	
+	<delete id="deleteAllAttaches">
+		delete from Attach where bno = #{bno}
+	</delete>
+	
+	<insert id="appendAttach">
+		insert into Attach( bno, fullName )
+				   values( #{bno}, #{fullname} )
+	</insert>
+	
+		<sql id="search">
 				<if test = "searchType != null">
 						<if test = "searchType == 't'.toString()">
 							and title like CONCAT('%', #{keyword}, '%')
@@ -76,69 +130,5 @@
 						</if>
 				</if>
 		</sql>
-	
-	<select id="listCriteria" resultType="com.js.swp.domain.Board">
-		select
-			bno, title, content, writer, regdate, viewcnt, replycnt
-		from tb1_board
-			where bno > 0
-		<include refid="search"></include>
-		order by bno desc, regdate desc
-			limit #{pageStart}, #{perPageNum}
-	</select>
-	
-	<select id="countPaging" resultType="int">
-		<![CDATA[
-		select
-			count(bno)
-		from tb1_board
-			tb1_board
-		where
-			bno > 0
-		]]>
-	</select>
-	
-		<!-- 0918  -->
-	<update id="plusViewcnt">
-		update tb1_board
-		set viewcnt = viewcnt + 1
-		where bno = #{bno}
-	</update>
-	
-	<update id="updateReplycnt">
-		update tb1_board
-		set replycnt = replycnt + #{amt}
-		where bno = #{bno}
-	</update>
-	
-	<!-- 0928 첨부파일  -->
-	<insert id="addAttach">
-		insert into attach( bno, fullName )
-				   values( last_insert_id(), #{fullName} )
-	</insert>
-	
-	<!-- 1001 첨부파일  -->
-	<select id="getAttach" resultType="String">
-		select fullName from attach
-		where bno = #{bno}
-	</select>
-	
-	<!-- 1002 DB오류났을때 getLastId 임시로-->
-	<select id="getLastId" resultType="Integer">
-		select last_insert_id()
-	</select>
-	
-	<delete id="delAttach">
-		delete from attach where fullName = #{fullName}
-	</delete>
-	
-	<delete id="deleteAllAttaches">
-		delete from attach where bno = #{bno}
-	</delete>
-	
-	<insert id="appendAttach">
-		insert into attach( bno, fullName )
-				   values( #{bno}, #{fullName} )
-	</insert>
 	
 </mapper>

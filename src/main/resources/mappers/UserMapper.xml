@@ -9,17 +9,17 @@
 
 	<!-- 행 수정 -->
 	<select id="login" resultType="com.js.swp.domain.User">	<!-- db에서 암호화 했을때만 password -->
-		select * from user where userid = #{userid} and userpw = password(#{userpw});
+		select * from User where uid = #{uid} and upw = password(#{upw});
 	</select>
 	
 	<update id="keepLogin">
-		update user
+		update User
 		set sessionkey = #{sessionkey}, sessionlimit = #{sessionlimit}
-		where userid =#{userid}
+		where uid =#{uid}
 	</update>
 	
 	<select id="checkLoginBefore" resultType="com.js.swp.domain.User">
-		select * from user
+		select * from User
 		where sessionkey = #{loginCookie} and sessionlimit > now();
 	</select>
 	

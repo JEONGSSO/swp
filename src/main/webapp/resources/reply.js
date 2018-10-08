@@ -7,19 +7,19 @@ let gbno = 0,
 const REGIST_URL = "/replies/";
 
 function replylistPage(page, bno) {		//0911 수업
+	event.preventDefault();
 	gbno = bno || gbno;	//bno 없으면 gbno
 	page = page || gPage || 1;
 	gPage = page;
-    let listUrl = "/replies/" + gbno + "/" + page;
+    let listUrl = "/replies/all/" + gbno + "/" + page;
 
 	  sendAjax(listUrl, (isSuccess, res) => {	//res = responsetext 페이지메이커랑 뭐랑있음.
         if (isSuccess) {
-        	 console.debug(">>>", res)
+        	 console.info("replyListPage>>>>>>>>>>>>", res)
              res.pageData = makePageData(res.pageMaker);
         	 res.currentPage = page;	//pageData 삭제하고 액티브 나오게 했다.
-        	 res.loginUid = res.loginUid;	//pageData 삭제하고 액티브 나오게 했다.
-//        	 console.debug("디버그",res.pageData);
-        	 console.debug(">>>", res)
+        	 res.loginUid = res.loginUid;	
+        	 console.info(">>>", res)
              renderHbs("replies", res, 'div'); //호출 replies , res 제이슨 데이타, 태그는 div
     	 }
 	});
@@ -65,6 +65,7 @@ function editReply(loginUid, rno, replyer, replytext){	//수정인지 등록인�
 		gIsEdit : gIsEdit,
 		replyer : replyer || loginUid,
 		replytext : replytext
+		
 	}, 'div');	//(tmpid, jsonData, tag)를 각각 넣어준다.
 
 	$('#myModal').modal();	//모달 쇼 디폴트 쇼
@@ -80,7 +81,8 @@ function closeMod() { //댓글 창 지우는 것
 	}
 
 function save() {	//0912
-    let jsonData = getValidData($('#replyer'), $('#replytext'));	//수정 등록 경계를 허물어서 바꿈
+    let jsonData = getValidData($('#replyer'), $('#replytext'));//수정 등록 경계를 허물어서 바꿈
+    if(!jsonData) return;
     let url = gIsEdit ? REGIST_URL + gRno : REGIST_URL,		//등록인지 수정인지 gIsEdit이 true면  앞 : false면 뒤
     	method = gIsEdit ? 'PATCH' : 'POST';
     	
@@ -121,9 +123,9 @@ function toggleEditBtn() {	//0913 수정
 
 function sendAjax(url, fn, method, jsonData) {
     let options = {
-        method: method || 'GET', //메소드 get post put 등
-        url: url,
-        contentType: "application/json" //타입은 제이슨으로 받겠다.
+				        method: method || 'GET', //메소드 get post put 등
+				        url: url,
+				        contentType: "application/json" //타입은 제이슨으로 받겠다.
     };
     //jsonData가 있을 때만 data : JSON.stringify(jsonData) 추가
     if (jsonData) {
@@ -182,7 +184,7 @@ function getValidData($replyer, $replytext) {	//Register때만 실행
     };
 }
 
-const readReply = rno => new Promise( (resolves, rejects) => 	//0914 수업 아예 타지 않음.
+/*const readReply = rno => new Promise( (resolves, rejects) => 	//0914 수업 아예 타지 않음.
 {
 	sendAjax("/replies/" + rno, (isSuccess, res) =>  //예측 값
 	{
@@ -196,7 +198,7 @@ const readReply = rno => new Promise( (resolves, rejects) => 	//0914 수업 아�
 			rejects(Error(res));
 	});
 });
-
+*/
 //    return str.replace(/[\n\r\t]/g, '').trim(); //정규식 /g를 안 붙이면 \n 만나는 첫번째 것만 바꿈	트림은 공백제거
 
 //Archive

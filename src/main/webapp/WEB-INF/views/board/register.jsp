@@ -9,7 +9,7 @@
 
 	<div class="form-group">
 				<label for="writer"></label>
-				<input class="hidden" value="${ loginUser.userid }"
+				<input class="hidden" value="${ loginUser.uid }"
 					type="text" id="writer" name="writer" />
 	</div>
 		

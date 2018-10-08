@@ -9,9 +9,8 @@ public interface UserService
 {
 	User login(LoginDTO dto) throws Exception;
 
-	void keepLogin(String userid, String sessionid, Date expire);
+	void keepLogin(String uid, String sessionid, Date expire);
 
 	User checkLoginBefore(String loginCookie);
-
 
 }

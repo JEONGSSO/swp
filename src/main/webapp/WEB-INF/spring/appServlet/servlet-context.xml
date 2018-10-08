@@ -32,10 +32,10 @@
 	</beans:bean>
 	
 	<beans:bean id="uploadPath" class="java.lang.String">
-	    <!-- <beans:constructor-arg value="C://Users//Administrator//Documents//workspace-sts-3.9.5.RELEASE//upload">
-	    </beans:constructor-arg>	  -->
-	    <beans:constructor-arg value="C://Users//Sso//Documents//workspace-sts-3.9.6.RELEASE//upload">
+	    <beans:constructor-arg value="C://Users//Administrator//Documents//workspace-sts-3.9.5.RELEASE//upload">
 	    </beans:constructor-arg>	 
+	 <!--    <beans:constructor-arg value="C://Users//Sso//Documents//workspace-sts-3.9.6.RELEASE//upload">
+	    </beans:constructor-arg>	 --> 
 	    <!-- <beans:constructor-arg value="/home/js/Documents/workspace-sts-3.9.5.RELEASE/upload"></beans:constructor-arg>-->
 	
 	</beans:bean>
