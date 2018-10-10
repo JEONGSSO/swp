@@ -44,7 +44,7 @@
 
 	 
 	<!-- 0918@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-	<select id="getBno" resultType="int">
+	<select id="getBno" resultType="Integer">
 		select bno
 		from Reply
 		where rno = #{rno}

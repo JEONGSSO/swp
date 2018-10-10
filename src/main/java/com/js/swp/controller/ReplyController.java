@@ -59,7 +59,7 @@ public class ReplyController
 		}
 	}
 
-	@PutMapping(value = "/{rno}")		//PUT, PATCH 수정
+	@RequestMapping(value = "/{rno}", method = {RequestMethod.PUT, RequestMethod.PATCH}) //PUT, PATCH 수정
 	public ResponseEntity<String> update(@PathVariable("rno") Integer rno,		//@PathVariable 변수는 RNO 타입은 INTEGER;
 			@RequestBody ReplyVO reply)	//@RequestBody 잭슨이 JSON값을 REPLY에 담는다?
 	{
@@ -75,7 +75,7 @@ public class ReplyController
 		}
 	}
 
-	@DeleteMapping(value = "/{rno}")
+	@RequestMapping(value = "/{rno}", method = RequestMethod.DELETE)
 	public ResponseEntity<String> delete(@PathVariable("rno") Integer rno)
 	{
 		try
@@ -92,7 +92,6 @@ public class ReplyController
 	public ResponseEntity<Map<String, Object>> listPage(@PathVariable("bno") Integer bno,	//@PathVariable uri에있는 값을 가져온다?
 			@PathVariable("page") Integer page, HttpSession session)	//@PathVariable은 @RequestMapping에 bno, page를 담는다
 	{
-		System.out.println("ReplyListPage bno, page>> {}, {}"+ bno+"  " +page);
 		Map<String, Object> map = new HashMap<>();	//해쉬맵 하나 선언 맵의 키 list pageMaker	list: [리스트vo] 
 		try
 		{

@@ -3,7 +3,8 @@
 	let  gUri = window.location.pathname,
 		 gIsRegister = gUri.indexOf('/register') !== -1, //없으면 -1인가보다.
 		 gIsUpdate = gUri.indexOf('/update') !== -1,
-		 gIsEditing = gIsRegister || gIsUpdate;	// 쓰기, 수정에서만 삭제버튼이 보인다.
+		 gIsEditing = gIsRegister || gIsUpdate,	// 쓰기, 수정에서만 삭제버튼이 보인다.
+		 gIsDirect = false;
 	
 	$fileDrop.on('dragover dragenter', (evt) => 	//드래그오버, 드래그엔터 : 드래그가 진입했을때
 	{
@@ -58,7 +59,6 @@
 			console.info('Complete>>>>', resJson);
 			resJson.forEach ( rj =>
 			{
-				let jsonData = getFileInfo(rj);
 				gUpFiles.push(jsonData);	//배열에 파일 하나씩 푸쉬
 			});
 			$status.html(resJson.length +  ' Uploaded');
@@ -112,11 +112,25 @@
 
 	function getFileInfo(fullName)	//0928이 풀네임에서 정보뽑음
 	{
-		let fileName, imgsrc, getLink, fileLink;
+		let fileName, imgsrc, getLink, fileLink
+		let jsonData = getFileInfo(rj),
+		//form id가 form_attach인놈 밑에 input아이디가 isdircet인놈 $isdirect $붙으면 DOM DOM은 배열
+				$isdirect = $("#form_attach input#isdirect")	,
+		// $isdirect가 있고 길이(셀렉트된 자료)가 있으면 $isdirect의 val(값)을 넣어주고 값이있으면 true
+				isdirect = $isdirect && $isdirect.length && $isdirect.val() == "true";
+		
+		isdirect = isdirect ? true : gIsDirect;
+		
+		const uphost = window.location.protocol + "//" + window.location.hostname;
+		
 		if (checkImageType(fullName))
 		{
 			console.info("uplode.js getFileInfo IMAGE>>>");
-			imgsrc = "/displayFile?fileName=" + fullName;
+			if(isdirect)
+				imgsrc = uphost + "/uploads" + fullName;
+			else
+				imgsrc = "/displayFile?fileName=" + fullName;
+			
 			fileLink = fullName.substr(14); // /2018/09/28/s_ 유니크 아이디랑 원본파일이름 붙음
 			let front = fullName.substr(0,12), // /2018/09/28/ 년월일까지
 					end = fullName.substr(14);
@@ -128,7 +142,11 @@
 			imgsrc = "/resources/dist/img/file_icon3.jpg";	//아이콘 주소
 			fileLink = fullName.substr(12);	//원본 파일명
 			getLink = "/displayFile?fileName=" + fullName;	//원본파일 경로
-		}	
+		}
+		
+		if (isdirect)
+			getLink += "&isdirect=true";
+		
 		//실제 파일명
 		fileName = fileLink.substr(fileLink.indexOf('_') + 1);
 		let fileId = fileLink.substr(0, fileLink.indexOf('_'));	//1001 

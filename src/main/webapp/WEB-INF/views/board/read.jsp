@@ -54,7 +54,7 @@
 	</c:if>
 		<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-primary">목록</a>
 		<c:if test="${ loginUser.uid != null}"> <!-- QQQ 아이디 없으면 댓글등록창없게 -->
-			<button onclick="editReply()" id="btnModReply" class="btn btn-Info">댓글등록</button>
+			<button onclick="editReply('${loginUser.uid}')" id="btnModReply" class="btn btn-Info">댓글등록</button>
 		</c:if>
 	</div>
 </section><!-- 섹션 끝  -------------------------------------------->
@@ -63,7 +63,7 @@
 	<script id="replies" class="well" type="text/x-handlebars-template"> 
 	<ul class = "list-group">
 		{{#each list}} {{!--리스트만큼 반복.--}}
-			<a href = "#" class = "list-group-item" onclick="editReply('{{../loginUid}}', {{rno}}, '{{replyer}}', '{{replytext}}')">	{{!--댓글 클릭 하면 수정으로 todo 요거 몇몇댓글--}}
+			<a href = "#" class = "list-group-item" onclick="editReply('{{../loginUid}}', {{rno}}, '{{replyer}}', '{{replytext}}')">
 				{{replytext}}	
 				<small class="text-muted"><i class="fa fa-user">{{replyer}}</i></small>
 				<small class="text-muted pull right">{{fromNow regdate}}</small>	{{!--moment fromNow 현재시간--}}
@@ -113,8 +113,8 @@
       </div>
       <div class="modal-body">
 	      	<div>
-	      	      작성자 : <input type="text" onkeyup="toggleEditBtn()" value="{{replyer}}"
-									name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "form-control" />
+	      	     <input type="text" onkeyup="toggleEditBtn()" value="{{replyer}}"
+									name="replyer" {{#if gIsEdit}}readonly{{/if}} id="replyer" class = "hidden" readonly />
 	     	 </div>
 	       <div>
 		            내용 : <textarea name="replytext" id="replytext" onkeyup="toggleEditBtn()" cols="30" rows="3" class="form-control">{{replytext}}</textarea>
@@ -141,6 +141,7 @@ $(document).ready(	function()
    					self.location.href = "/board/remove${criteria.makeQuery()}&bno=${board.bno}";
    		});
    		replylistPage(1, '${board.bno}');	//QQQ ''치는 이유 안쳤는데 없으면 에러나서
+   		gIsDirect = true;	//1010 
    });
 </script>
 

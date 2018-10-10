@@ -41,7 +41,6 @@ public class ReplyServiceImpl implements ReplyService{
 	@Override
 	public void remove(Integer rno) throws Exception {
 		replyDAO.delete(rno);
-//		logger.debug(">>>>>>>>>>>>" + rno);	//찍힘
 		boardDAO.updateReplycnt(replyDAO.getBno(rno), -1);
 	}
 

@@ -32,6 +32,9 @@ public class UploadController
 	@Resource(name = "uploadPath")	//어플리케이션에서 필요한 자원을 자동으로 연결할 때 사용.
 	private String uploadPath;
 	
+	@Resource(name = "uploadDirectPath")
+	private String uploadDirectPath;	//1010 아파치 파일 업로드
+	
 	@Inject
 	private BoardService service;
 	
@@ -39,16 +42,18 @@ public class UploadController
 	
 	@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.
 	@RequestMapping(value = "/uploadAjaxes", method = RequestMethod.POST) //멀티파트로 올라오는 파일의 내용을 텍스트로 받는거 10-01 배열은 텍스트로 받는거 안된다.
-	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, Integer bno) throws Exception	//@RequestParam 스트링 요청온 값중에 bno값이 있어야한다.
+	public ResponseEntity<String[]> uploadFormAjaxes(MultipartFile[] files, Integer bno, boolean isdirect) throws Exception	//@RequestParam 스트링 요청온 값중에 bno값이 있어야한다.
 	{		//10-01 멀티파일 //ResponseEntity JSON 데이터와 HTTP 상태 메세지, 반환 타입은 String[]
 		int len = files == null ? 0 : files.length;	// 파일이 널 이면 0을 주고 아니면 파일길이를 준다.
 		
-		logger.info("upload AJAXes >>> file.length={}, bno={}", len, bno);	// 글 작성시 bno못찾네!
+		logger.info("upload AJAXes >>> isdirect={}, file.length={}, bno={}",isdirect, len, bno);	// 글 작성시 bno못찾네! 해결 : //root <tx:annotation-driven /> 추가 해결
+		
 		try
 		{
 			String[] uplodaedFiles = new String[len];	 // 업로드파일스에 배열만큼 담는다.
+			String updir = isdirect ? uploadDirectPath : uploadPath; // 1010 아파치 파일 업로드
 			for (int i = 0; i < len; i++)
-				uplodaedFiles[i] = FileUtils.uploadFile(files[i], uploadPath); // 루프돌려 만듬
+				uplodaedFiles[i] = FileUtils.uploadFile(files[i], updir); // 루프돌려 만듬
 			
 			if(bno != null)	//DB한방에 처리하는 것 1002
 				service.appendAttach(uplodaedFiles, bno); //서비스에서 루프돌리기로 여러개를 하나의 트랜잭션으로 묶기위하여 배열
@@ -74,7 +79,12 @@ public class UploadController
 				service.removeAttach(fileName); //bno가 있으면 그 bno의 첨부파일 삭제
 			
 			boolean isImage = FileUtils.getMediaType(FileUtils.getFileExtension(fileName)) != null;	 //이미지라면 섬네일이 올랑땜ㄴ에
+			
 			File file = new File(uploadPath + fileName);
+			
+			if (!file.exists())// 1010서버에서 위에 file이 없으면 이쪽을 타도록.
+				file = new File(uploadDirectPath + fileName);
+			
 			file.delete();
 			
 			//image면 원본 이미지도 삭제
@@ -97,9 +107,9 @@ public class UploadController
 	
 	@ResponseBody
 	@RequestMapping(value = "/displayFile")	//이미지 나타내게
-	public ResponseEntity<byte[]> displayFile(String fileName) throws Exception
+	public ResponseEntity<byte[]> displayFile(String fileName, boolean isdirect) throws Exception
 	{
-		logger.info("display File filename ={}", fileName);
+		logger.info("display File filename ={}, isdirect={}", fileName, isdirect);
 		
 		InputStream in = null;	//읽기 위한것 out은 쓰기위한것 반드시 닫아줘야함
 		
@@ -109,8 +119,12 @@ public class UploadController
 			MediaType mType = FileUtils.getMediaType(formatName);	//타입 비교
 			HttpHeaders headers = new HttpHeaders();	//?? 객체생성함
 			
-			File file = new File(uploadPath + fileName);
+			String updir = isdirect ? uploadDirectPath : uploadPath; // 1010 isdirect가 아니라면 uploadpath가 아니라고
+			
+			File file = new File(updir + fileName);
+			
 			logger.info("exists={}", file.exists());	//파일의 유무 판단?
+			
 			if (!file.exists())		//파일이 없으면 낫파운드
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 			

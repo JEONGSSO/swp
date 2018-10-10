@@ -30,7 +30,7 @@
 			value="jdbc:mysql://115.71.233.22:3306/testdb?useSSL=false">
 		</property>
 		<property name="username" value="testuser"></property>
-		<property name="password" value="1234!@#"></property>
+		<property name="password" value="testuser123!"></property>
 	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

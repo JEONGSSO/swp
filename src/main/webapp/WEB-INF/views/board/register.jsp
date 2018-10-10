@@ -26,7 +26,7 @@
 		<!-- 0928 drag & drop  -->
 	<div class="form-group">
 		<div class="fileDrop text-right">
-			<label>여기다 떨구세요</label>
+			<label>여기다 올리세요</label>
 			<div id="percent">0%</div>
 			<div id="status">ready</div>
 		</div>
@@ -39,7 +39,6 @@
 		</ul>
 		
 	<div class="box-footer">
-	
 		<button type="submit" class="btn btn-primary">작성</button>
 		<a href="/board/listPage${criteria.makeQuery()}" class="btn btn-default">취소</a>
 	</div>
@@ -47,7 +46,7 @@
 </form>
 
 <form id="form_attach" action="/uploadAjaxes" method="POST" enctype="multipart/form-data">
-	<input type="hidden" name="type" value="ajax" />
+	<input type="hidden" name="isdirect"  id="isdirect" value="true" />
 	<input type="file" name="files" id="ajax_file" style="display: none;" />
 	<%-- <input type='submit' value = "ajax로 제출"/> --%>
 </form>

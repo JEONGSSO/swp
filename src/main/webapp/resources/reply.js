@@ -55,8 +55,10 @@ function editReply(loginUid, rno, replyer, replytext){	//수정인지 등록인�
 	gIsEdit = !!rno; //rno가 없거나 공백이거나 스페이스바거나 두루뭉술 gisEdit 만들
 	gRno = rno;
 	gReplytext = replytext;
+	console.info("editreply>?>>>>>>>>>",loginUid);
 	
-	if(loginUid && replyer && loginUid !== replyer){	//1007 추가
+	if(loginUid && replyer && loginUid !== replyer)
+	{	//1007 추가
 		alert("본인이 작성한 글이아닙니다.")	
 		return;
 	}

@@ -6,8 +6,8 @@
 <mapper namespace="com.js.swp.mapper.BoardMapper">
 
 	<insert id="create">
-		insert into Board(	title, content, writer )
-					values(  #{title}, #{content}, #{writer} )
+		insert into Board(	title, writer, content )
+					values(  #{title}, #{writer}, #{content} )
 	</insert>
 
 	<select id="read" resultType="com.js.swp.domain.Board">
@@ -17,7 +17,7 @@
 	</select>
 
 	<update id="update">
-		update Board set title =#{title},
+		update Board set title = #{title},
 							   content = #{content}
 		where bno = #{bno}
 	</update>
