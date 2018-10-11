@@ -16,7 +16,7 @@
 			
 			<div class="form-group">
 				<label for="useCookie">
-					<input type="checkbox" id="useCookie" name="useCookie" /> 로그인 기억
+					<input type="checkbox" id="useCookie" name="useCookie" /> 로그인 유지
 				</label>
 			</div>
 		</div>
@@ -26,5 +26,10 @@
 		</div>
 		
 	</form>
+	
+	<div class = "text-center">
+		<a href="${ naver_url }"> <img width="150"  src="../../resources/dist/img/naver.jpg"  alt="naver_login"/></a>
+		<a href="${ google_url }"> <img width="222" src="../../resources/dist/img/google.jpg"  alt="google_login"/></a>
+	</div>
 
 <%@ include file="include/footer.jsp"%>

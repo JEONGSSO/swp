@@ -71,5 +71,54 @@
 	   </interceptor>
 	</interceptors>
 	
+	<!-- Oauth2 naver login 1011-->
+<beans:bean id="naverClientID" class="java.lang.String">
+	<beans:constructor-arg value="efW_XGXKfvakpZbkjYCQ" />
+</beans:bean>
+
+<beans:bean id="naverClientSecret" class="java.lang.String">
+	<beans:constructor-arg value="kfXfpDR0N6" />
+</beans:bean>
+	
+<beans:bean id="naverRedirectUrl" class="java.lang.String">
+	<beans:constructor-arg value="http://localhost:8080/auth/naver/callback" />	
+</beans:bean>
+
+<beans:bean id="naverSns" class="com.js.swp.auth.SnsValue">
+	<beans:constructor-arg value="naver" />
+	<beans:constructor-arg ref="naverClientID" />
+	<beans:constructor-arg ref="naverClientSecret" />
+	<beans:constructor-arg ref="naverRedirectUrl" />
+</beans:bean>
+
+	<!-- Oauth2 google login 1011 -->
+<beans:bean id="googleClientID" class="java.lang.String">
+        <beans:constructor-arg value="1079548214025-k5dj3ic5ng9smj21vhtp4pj5m7pe7com.apps.googleusercontent.com" />
+</beans:bean>
+<beans:bean id="googleClientSecret" class="java.lang.String">
+        <beans:constructor-arg value="gxl70zcxeW-OFOHs0VZLWv-m" />
+</beans:bean>
+<beans:bean id="googleRedirectUrl" class="java.lang.String">
+        <beans:constructor-arg value="http://localhost:8080/auth/google/callback" />
+</beans:bean>
+    
+<beans:bean id="googleSns" class="com.js.swp.auth.SnsValue">
+        <beans:constructor-arg value="google" />
+        <beans:constructor-arg ref="googleClientID" />
+        <beans:constructor-arg ref="googleClientSecret" />
+        <beans:constructor-arg ref="googleRedirectUrl" />
+</beans:bean>
+
+<beans:bean id="googleConnectionFactory"       
+                                 class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	<beans:constructor-arg ref="googleClientID" />
+	<beans:constructor-arg ref="googleClientSecret" />
+</beans:bean>
+    
+<beans:bean id="googleOAuth2Parameters" class="org.springframework.social.oauth2.OAuth2Parameters">
+        <beans:property name="scope" value="https://www.googleapis.com/auth/userinfo.email" />
+        <!-- <beans:property name="scope" value="https://www.googleapis.com/auth/plus.login" /> 구글플러스 더 개인정보가 많은 곳 -->
+        <beans:property name="redirectUri" ref="googleRedirectUrl" /> <!-- 참조 googleRedirectUrl 어차피 같아서 참조로 사용 -->
+</beans:bean>	
 
 </beans:beans>
