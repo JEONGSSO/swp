@@ -8,7 +8,7 @@
 <mapper namespace="UserMapper">	<!-- 수정  -->
 
 	<!-- 행 수정 -->
-	<select id="login" resultType="com.js.swp.domain.User">	<!-- db에서 암호화 했을때만 password -->
+	<select id="login" resultType="com.js.swp.domain.User">	<!-- db에서 비번 암호화 insert 했을때만 password -->
 		select * from User where uid = #{uid} and upw = password(#{upw});
 	</select>
 	
@@ -22,5 +22,13 @@
 		select * from User
 		where sessionkey = #{loginCookie} and sessionlimit > now();
 	</select>
+	
+	<select id="getBySnsNaver" resultType="com.js.swp.domain.User">
+        select * from User where naverid = #{naverid}
+    </select>
+    
+    <select id="getBySnsGoogle" resultType="com.js.swp.domain.User">
+        select * from User where googleid = #{googleid}
+    </select>
 	
 </mapper>

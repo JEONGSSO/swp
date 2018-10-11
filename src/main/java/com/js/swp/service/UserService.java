@@ -13,4 +13,5 @@ public interface UserService
 
 	User checkLoginBefore(String loginCookie);
 
+	User getBySns(User snsUser);
 }

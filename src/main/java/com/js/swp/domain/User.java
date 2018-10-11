@@ -11,4 +11,9 @@ public class User
 	private String upw;
 	private String uname;
 	private Integer point;
+	
+	private String email;
+	private String googleid;
+	private String naverid;
+	private String nickname;
 }

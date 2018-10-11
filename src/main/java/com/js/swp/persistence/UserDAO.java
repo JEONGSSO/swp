@@ -12,4 +12,6 @@ public interface UserDAO
 	void keepLogin(String uid, String sessionid, Date expire);
 
 	User checkLoginBefore(String loginCookie);
+	
+	User getBySns(User snsUser);
 }

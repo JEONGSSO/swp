@@ -14,7 +14,7 @@ public class NaverAPI20 extends DefaultApi20 implements SnsUrls
 		private static final NaverAPI20 INSTANCE = new NaverAPI20();
 	}
 	
-	public static NaverAPI20 instnace()
+	public static NaverAPI20 instance()
 	{
 		return InstanceHolder.INSTANCE;
 	}

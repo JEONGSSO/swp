@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.social.oauth2.OAuth2Operations;
 import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +36,7 @@ import com.js.swp.interceptor.SessionKey;
 import com.js.swp.service.UserService;
 
 @Controller
-public class UserControllerss	//WWWW 9번부터 시작
+public class UserController	
 {
 	@Inject
 	private UserService service;
@@ -51,19 +53,34 @@ public class UserControllerss	//WWWW 9번부터 시작
 	@Inject
 	private OAuth2Parameters googleOAuth2Parameters;
 	
-	@RequestMapping(value = "/auth/google/callback", 	//1011 로그인 추가
+	@RequestMapping(value = "/auth/{snsService}/callback", 	//1011 로그인 추가
 			method = { RequestMethod.GET, RequestMethod.POST})
-	public String snsLoginCallback(Model model, @RequestParam String code) throws Exception {
+	public String snsLoginCallback(@PathVariable String snsService, Model model, @RequestParam String code, HttpSession session) throws Exception {
+		
+		logger.info("snsLoginCallback : service={}", snsService);
+		SnsValue sns = null;
+		if(StringUtils.equals("naver", snsService))	//@PathVariable 값이 무엇인지
+			sns = naverSns;
+		else
+			sns = googleSns;
+		
 		// 1. code를 이용해서 access_token 받기
 		// 2. access_token을 이용해서 사용자 profile 정보 가져오기
-		SNSLogin snsLogin = new SNSLogin(googleSns);
-		String profile = snsLogin.getUserProfile(code); // 1,2번 동시
-		System.out.println("Profile>>" + profile);
-		model.addAttribute("result", profile);
+		SNSLogin snsLogin = new SNSLogin(sns);
+		
+		User snsUser = snsLogin.getUserProfile(code);// 1,2번 동시
+		System.out.println("Profile>>" + snsUser);
 		
 		// 3. DB 해당 유저가 존재하는 체크 (googleid, naverid 컬럼 추가)
+		User user = service.getBySns(snsUser);
 		
+		if (user == null) {
+			model.addAttribute("result", "존재하지 않는 사용자입니다. 가입해 주세요.");
+		}
 		// 4. 존재시 강제로그인, 미존재시 가입페이지로!!
+		else {
+			model.addAttribute("result", user.getUname() + "님 로그인이 완료되었습니다.");
+		}
 		
 		return "loginResult";
 	}

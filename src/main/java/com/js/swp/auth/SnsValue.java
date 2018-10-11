@@ -17,20 +17,24 @@ public class SnsValue implements SnsUrls	//1011 로그인
 	private DefaultApi20 api20Instance;
 	private String profileUrl;
 	
+	private boolean isNaver;
+	private boolean isGoogle;
+	
 	public SnsValue(String service, String clientid, String clientserctet, String rediecturl)
 	{
 		this.service = service;
 		this.clientId = clientid;
 		this.clientSerctet = clientserctet;
 		this.rediectUrl = rediecturl;
+	
+		this.isNaver = StringUtils.equalsIgnoreCase("naver", this.service);
+		this.isGoogle = StringUtils.equalsIgnoreCase("google", this.service);
 		
-		if(StringUtils.equalsAnyIgnoreCase(service, "naver"))
-		{
-			this.api20Instance = NaverAPI20.instnace();
+		if (isNaver) {
+			this.api20Instance = NaverAPI20.instance();
 			this.profileUrl = NAVER_PROFILE_URL;
-		}
-		
-		else if (StringUtils.equalsIgnoreCase(service, "google")) {
+			
+		} else if (isGoogle) {
 			this.api20Instance = GoogleApi20.instance();
 			this.profileUrl = GOOGLE_PROFILE_URL;
 		}

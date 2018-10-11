@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService
 	public User checkLoginBefore(String loginCookie) {
 		return dao.checkLoginBefore(loginCookie);
 	}
+
+	@Override
+	public User getBySns(User snsUser) {
+		return dao.getBySns(snsUser);
+	}
 }
