@@ -21,7 +21,7 @@ public class SnsValue implements SnsUrls	//1011 로그인
 	private boolean isGoogle;
 	
 	public SnsValue(String service, String clientid, String clientserctet, String rediecturl)
-	{
+	{	//servlet.xml Constructor 생성 
 		this.service = service;
 		this.clientId = clientid;
 		this.clientSerctet = clientserctet;

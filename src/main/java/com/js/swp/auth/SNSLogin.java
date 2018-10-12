@@ -21,10 +21,10 @@ public class SNSLogin
 	
 	public SNSLogin(SnsValue sns)
 	{
-		this.oauthService = new ServiceBuilder(sns.getClientId())
+		this.oauthService = new ServiceBuilder(sns.getClientId())	//빌더 패턴
 									.apiSecret(sns.getClientSerctet())
 									.callback(sns.getRediectUrl())
-									.scope("profile")
+									.scope("profile")	//어떤정보를 가져올건지?
 									.build(sns.getApi20Instance());
 		this.sns = sns;
 	}
