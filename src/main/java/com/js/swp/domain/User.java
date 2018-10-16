@@ -1,5 +1,7 @@
 package com.js.swp.domain;
 
+import java.util.Date;
+
 //import lombok.Builder;
 import lombok.Data;
 
@@ -16,4 +18,7 @@ public class User
 	private String googleid;
 	private String naverid;
 	private String nickname;
+	
+	private String loginip;
+	private Date lastLogin;
 }

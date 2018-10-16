@@ -471,10 +471,9 @@
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-          <h1>
-            General Form Elements
-            <small>Preview</small>
-          </h1>
+          <h5>
+				마지막 로그인 시간 : ${ loginTime } --- ${ UNAME } <small> ${ loginIp }</small>
+          </h5>
           <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="#">Forms</a></li>

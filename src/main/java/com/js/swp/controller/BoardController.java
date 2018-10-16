@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.js.mapper.SampleMapper;
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
 import com.js.swp.domain.PageMaker;
+import com.js.swp.domain.User;
+import com.js.swp.interceptor.SessionKey;
 import com.js.swp.service.BoardService;
 
 @Controller
@@ -34,6 +38,9 @@ public class BoardController {
 
 	@Inject
 	private BoardService service;
+	
+	@Inject
+	private SampleMapper sampleMapper;
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public void registerGET(Board board, Model model) throws Exception {
@@ -107,7 +114,7 @@ public class BoardController {
 		}
 
 		@RequestMapping(value = "/listPage", method = RequestMethod.GET)
-		public void listPage(Criteria criteria, Model model) throws Exception {
+		public void listPage(Criteria criteria, Model model, HttpSession session) throws Exception {
 			logger.info("bctrl listPage>>>>>>>>>>>>={}",criteria.toString());
 			
 			model.addAttribute("list", service.listCriteria(criteria));
@@ -118,6 +125,19 @@ public class BoardController {
 			pageMaker.setTotalCount(service.listCountCriteria(criteria));
 			
 			model.addAttribute("pageMaker" , pageMaker);
+			
+			String now = sampleMapper.getTime();
+			model.addAttribute("NOW", now);
+			
+			User loginUser = (User)session.getAttribute(SessionKey.LOGIN);
+			if (null != loginUser) {
+				String uname = service.getUname(loginUser.getUid());
+				model.addAttribute("UNAME", uname);
+				
+				User loginInfoUser = service.getLoginInfo(loginUser.getUid());
+				model.addAttribute("loginIp", loginInfoUser.getLoginip());
+				model.addAttribute("loginTime", loginInfoUser.getLastLogin());
+			}
 		}
 }	
 		/*@ResponseBody	//뷰 출력되지 않고 http body에 직접쓰여짐	 POST하는 이유는 큰 파일 옮기기에 적합하다.

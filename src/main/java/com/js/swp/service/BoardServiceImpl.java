@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.js.mapper.SampleMapper;
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
+import com.js.swp.domain.User;
 import com.js.swp.persistence.BoardDAO;
 
 @Service
@@ -18,6 +20,9 @@ public class BoardServiceImpl implements BoardService
 	
 	@Inject
 	private BoardDAO dao;
+	
+	@Inject
+	private  SampleMapper sampleMapper;
 	
 //	private ReplyDAO replyDao;
 	
@@ -96,6 +101,18 @@ public class BoardServiceImpl implements BoardService
 	{	//1003 파일 n개가 저장되는 공간에 @Transactional걸어 다 올라가야만 성공하게끔
 		for (String fullName : fullNames)
 			dao.appendAttach(fullName, bno);
+	}
+
+	@Override
+	public String getUname(String uid)
+	{
+		return sampleMapper.getUname(uid);
+	}
+
+	@Override
+	public User getLoginInfo(String uid) throws Exception
+	{
+		return sampleMapper.getLoginInfo(uid);
 	}
 	
 }

@@ -6,7 +6,7 @@
 	<form role="form" action="/loginPost" method="post"><!-- QQQ -->
 		<div class="box-body">
 			<div class="form-group">
-			<input type="text" id="uid" name="uid" value="user1" 
+			<input type="text" id="uid" name="uid" value="js" 
 					class="form-control" placeholder="아이디" />
 			</div>
 			<div class="form-group">

@@ -49,6 +49,9 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
 	</bean>
 	
+	<!-- Mybatis 매퍼 인터페이스 1015 -->
+	<mybatis-spring:scan base-package="com.js.mapper" />
+	
 	<tx:annotation-driven />
 	
 </beans>

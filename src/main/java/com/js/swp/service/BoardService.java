@@ -3,6 +3,7 @@ package com.js.swp.service;
 import java.util.List;
 import com.js.swp.domain.Board;
 import com.js.swp.domain.Criteria;
+import com.js.swp.domain.User;
 
 public interface BoardService {
 	
@@ -25,6 +26,10 @@ public interface BoardService {
 	void removeAttach(String fileName);
 
 	void appendAttach(String[] uplodaedFiles, Integer bno);
+
+	String getUname(String uid);
+
+	User getLoginInfo(String uid) throws Exception;
 
 
 }
