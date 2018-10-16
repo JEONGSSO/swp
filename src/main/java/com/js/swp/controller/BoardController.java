@@ -126,13 +126,14 @@ public class BoardController {
 			
 			model.addAttribute("pageMaker" , pageMaker);
 			
-			String now = sampleMapper.getTime();
-			model.addAttribute("NOW", now);
+			String now = sampleMapper.getTime();	 // 샘플매퍼에서 시간을 가져온다.
+			model.addAttribute("NOW", now);		//NOW라는 이름에 now를 넣는다.
 			
+// User는 세션에 있고, User객체에 LOGIN을 세션에 넣어줘 담는다. 오브젝트 타입이라 형변환
 			User loginUser = (User)session.getAttribute(SessionKey.LOGIN);
 			if (null != loginUser) {
 				String uname = service.getUname(loginUser.getUid());
-				model.addAttribute("UNAME", uname);
+				model.addAttribute("UNAME", uname);	//listPage에서 부를 수 있다.
 				
 				User loginInfoUser = service.getLoginInfo(loginUser.getUid());
 				model.addAttribute("loginIp", loginInfoUser.getLoginip());
