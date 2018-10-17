@@ -11,7 +11,7 @@ public class SampleProvider {
 			
 		} else if (params.get("searchCol").equals("uname")) {
 			return SELECT + "where uname like concat('%', #{searchStr}, '%')";
-			//concat '%', #{searchStr}, '%'을 합쳐준다
+			//concat '%', #{searchStr}, '%'을 합쳐준다 -> %#{searchStr}%
 		} else {
 			return SELECT;
 		}

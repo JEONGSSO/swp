@@ -42,10 +42,11 @@ public class SampleMapperTest {
 		System.out.println("users>>>>>>" + users);
 		
 		searchCol = "uname";
-		searchStr = "수";
+		searchStr = "김";
 		
 		users = sampleMapper.searchUser(searchCol, searchStr);	//0넘어온다
-//		System.out.println("users.size>>>>>>" + users.size());
+		System.out.println("users.size>>>>>>" + users.size());
 		assertTrue(users.size() > 1);	//사이즈는 1보다 커야하낟.
+		System.out.println("UUUser>>" + users);
 	}
 }

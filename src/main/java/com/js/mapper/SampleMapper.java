@@ -28,4 +28,5 @@ public interface SampleMapper{	//1015
 											@Param("searchStr") String searchStr);
 	
 	
+	
 }
